@@ -1,0 +1,40 @@
+{
+  "name": "dreamorm",
+  "version": "0.0.1",
+  "description": "best node.js orm all over the world",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "mysql2": "^2.3.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start:dev": "nodemon src/index.ts",
+    "start:prod": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Loksli17/dreamORM.git"
+  },
+  "keywords": [
+    "orm",
+    "node.js",
+    "dreamorm",
+    "mysql",
+    "orm",
+    "postgre",
+    "orm",
+    "mongoDb",
+    "orm"
+  ],
+  "author": "Loksli17 + San-sanchick",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Loksli17/dreamORM/issues"
+  },
+  "homepage": "https://github.com/Loksli17/dreamORM#readme"
+}
