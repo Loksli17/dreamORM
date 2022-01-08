@@ -90,12 +90,12 @@ export default class Query {
 
 
     //? void or new database record?
-    public save(): void {
+    public static save(): void {
 
     }
 
     //? void or new database record?
-    public update(): void {
+    public static update(): void {
 
     }
 }
