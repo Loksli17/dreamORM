@@ -1,5 +1,5 @@
-import Query from "./Query/Query";
-
+import Query      from "./Query/Query";
+import Connection from './Connection';
 
 /** 
  * ! plan for basic features
@@ -11,7 +11,9 @@ import Query from "./Query/Query";
  */
 
 export default class DreamOrm {
-    public query: Query = new Query();
+    
+    public connection: Connection = new Connection();
+    public query     : Query      = new Query();
 }
 
 console.log('dreamORM in porgress');

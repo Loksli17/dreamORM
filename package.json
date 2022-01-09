@@ -24,13 +24,10 @@
     "url": "git+https://github.com/Loksli17/dreamORM.git"
   },
   "keywords": [
-    "orm",
     "node.js",
     "dreamorm",
     "mysql",
-    "orm",
     "postgre",
-    "orm",
     "mongoDb",
     "orm"
   ],

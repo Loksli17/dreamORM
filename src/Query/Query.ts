@@ -8,6 +8,16 @@ export default class Query {
     }
 
 
+    public createTable(): any {
+
+    }
+
+
+    public createDatebase(): any {
+
+    }
+
+
     public subQuery(): Query {
         return new Query();
     }
