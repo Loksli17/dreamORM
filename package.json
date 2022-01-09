@@ -7,8 +7,10 @@
     "test": "test"
   },
   "dependencies": {
+    "@prisma/client": "^3.7.0",
     "mysql2": "^2.3.3",
-    "pg": "^8.7.1"
+    "pg": "^8.7.1",
+    "prisma": "^3.7.0"
   },
   "devDependencies": {
     "@types/pg": "^8.6.3"

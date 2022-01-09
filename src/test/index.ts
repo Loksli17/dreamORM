@@ -1,4 +1,4 @@
-import DreamOrm from "../src/main";
+import DreamOrm from "../main";
 
 
 const main = () => {

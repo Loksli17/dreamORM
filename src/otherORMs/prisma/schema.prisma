@@ -1,0 +1,27 @@
+// connection
+datasource db {
+    provider = "mysql"
+    // can use a .env variable
+    // url      = env("DATABASE_URL")
+    url      = "DATABASE_URL=mysql://root:1234@localhost:3306/testdb"
+}
+
+// ???
+generator client {
+    provider = "prisma-client-js"
+}
+
+
+model Post {
+    id       Int     @id @default(autoincrement())
+    title    String  @db.VarChar(45)
+    content  String  @db.VarChar(100)
+    author   User?   @relation(fields: [authorId], references: [id])
+    authorId Int?
+}
+
+model User {
+    id       Int     @id @default(autoincrement())
+    name     String  @db.VarChar(45)
+    posts    Post[]
+}
