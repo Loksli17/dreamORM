@@ -7,7 +7,7 @@ import AdapterConnection, { AdapterConnectionFactory } from './adapter/AdapterCo
  * * we should create opportunity "make many connetions to other databases" 
  */
 
-interface BasicConnectionAttributes {
+export interface BasicConnectionAttributes {
     dbName   : string;
     password?: string;
     user?    : string;

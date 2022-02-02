@@ -17,7 +17,7 @@ const test = async () => {
     console.log(promisePool);
 
     promisePool.execute('select * from user').then((value: any) => {
-        console.log(value);
+        // console.log(value);
     });
 
     const connection: Connection = await mysql2.createConnection({
@@ -31,7 +31,7 @@ const test = async () => {
     const promiseConnection = connection.promise();
 
     promiseConnection.execute('select * from article').then((value: any) => {
-        console.log(value);
+        // console.log(value);
     });
 
     const cluster = mysql2.createPoolCluster();
