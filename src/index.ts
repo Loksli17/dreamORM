@@ -20,5 +20,7 @@ let connection: Connection = new Connection({
 
 // connection.query('select * from user limit 3');
 
+// connection.query().table().
+
 
 console.log('dreamORM in porgress');

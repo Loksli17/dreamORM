@@ -1,9 +1,20 @@
-import Entity from "../Entity";
+import Entity              from "../Entity";
+import QueryBuilderAdapter from "./adapter/QueryBuilderAdapter";
 
-export default class Query {
+
+export default class QueryBuilder {
+
+    private queryBuilderAdapter: QueryBuilderAdapter;
+    // private pool       : mysql.Pool;
+
+
+    public constructor(adapterName: string) {
+        // this.pool = pool;
+    }
+    
 
     //! start from this method
-    public execute(query: string): any {
+    public execute(QueryBuilder: string): any {
         
     }
 
@@ -18,51 +29,51 @@ export default class Query {
     }
 
 
-    public subQuery(): Query {
-        return new Query();
-    }
+    // public subQueryBuilder(): QueryBuilder {
+    //     return new QueryBuilder(this.pool);
+    // }
 
 
-    public select(): Query {
+    public select(): QueryBuilder {
         return this;
     }
 
-    public where(): Query {
-        return this;
-    }
-
-
-    public having(): Query {
+    public where(): QueryBuilder {
         return this;
     }
 
 
-    public orderBy(): Query {
+    public having(): QueryBuilder {
         return this;
     }
 
 
-    public limit(): Query {
+    public orderBy(): QueryBuilder {
         return this;
     }
 
 
-    public offset(): Query {
+    public limit(): QueryBuilder {
         return this;
     }
 
 
-    public take(): Query {
+    public offset(): QueryBuilder {
+        return this;
+    }
+
+
+    public take(): QueryBuilder {
         return this.limit();
     }
 
     
-    public skip(): Query {
+    public skip(): QueryBuilder {
         return this.offset();
     }
 
     //todo think about another name?
-    public include(): Query {
+    public include(): QueryBuilder {
         return this;
     }
 
@@ -72,7 +83,7 @@ export default class Query {
         return new Entity();
     } 
 
-    public textQuery(): string {
+    public textQueryBuilder(): string {
         return `select * from 'azaza'`;
     }
 

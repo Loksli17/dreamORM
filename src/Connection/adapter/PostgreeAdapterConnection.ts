@@ -1,3 +1,4 @@
+import QueryBuilder from "../../Query/Query";
 import AdapterConnection from "./AdapterConnection";
 
 /**
@@ -13,8 +14,9 @@ export default class PostgreeAdapterConnection implements AdapterConnection{
         console.log('create');
     }
 
-    public query(...args: any[]): void {
-        console.log(args[0]);
+    public query(): QueryBuilder {
+        console.log('query');
+        return new QueryBuilder();
     }
 }
 

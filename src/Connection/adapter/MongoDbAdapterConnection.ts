@@ -1,3 +1,4 @@
+import QueryBuilder from "../../Query/Query";
 import AdapterConnection from "./AdapterConnection";
 
 
@@ -7,9 +8,9 @@ export default class MongoDbAdapterConnection implements AdapterConnection {
         console.log('create');
     }
 
-    //! sqlString just fun for a now!!!!
-    public query(): void {
+    public query(): QueryBuilder {
         console.log('query');
+        return new QueryBuilder();
     }
 }
 

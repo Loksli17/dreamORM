@@ -1,8 +1,9 @@
 // import mysql2, { Pool, PoolCluster, Connection, PoolClusterOptions } from 'mysql2';
 
-import * as mysql from 'mysql2/promise';
+import * as mysql                    from 'mysql2/promise';
+import QueryBuilder                  from '../../Query/Query';
 import { BasicConnectionAttributes } from '../Connection';
-import AdapterConnection from './AdapterConnection';
+import AdapterConnection             from './AdapterConnection';
 
 
 
@@ -27,11 +28,8 @@ export default class MysqlAdapterConnection implements AdapterConnection {
         this.connectionTypesAssciations[this.connectionType](params); //? proxy pattern?
     }
 
-    public query(...args: any[]): void {
-
-        this.pool_.execute(args[0] as string).then((value: any) => {
-            console.log(value);
-        });
+    public query(): QueryBuilder {
+        return new QueryBuilder();
     }
 
 
@@ -66,7 +64,7 @@ export default class MysqlAdapterConnection implements AdapterConnection {
         return connection;
     }
 
-    
+    //! method in progress
     private createPoolCluster(params: BasicConnectionAttributes): mysql.PoolCluster {
         return mysql.createPoolCluster();
     }

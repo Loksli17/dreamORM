@@ -1,3 +1,4 @@
+import QueryBuilder from '../Query/Query';
 import AdapterConnection, { AdapterConnectionFactory } from './adapter/AdapterConnection';
 
 
@@ -55,9 +56,10 @@ export default class Connection implements BasicConnectionAttributes {
 
 
     //! it is fun for a now
-    public query(sqlString: string): void  {
-        if(this.adapterConnection == undefined) return;
-        this.adapterConnection.query!(sqlString);
+    public query(sqlString: string): QueryBuilder  {
+        return this.adapterConnection.query!();
+        // if(this.adapterConnection == undefined) return;
+        // this.adapterConnection.query!(sqlString);
     }
 
 

@@ -1,8 +1,10 @@
-import { Pool } from 'pg';
+import { Pool }            from 'pg';
+import QueryBuilderAdapter from './QueryBuilderAdapter';
 
 
-export default class PostgreesqlAdapter {
+export default class PostgreesqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
+    
     public pool: Pool;
 
     constructor(pool: Pool) {
