@@ -13,12 +13,11 @@ export interface BasicConnectionAttributes {
     user?    : string;
     port?    : number;
     host?    : string;
+    type?    : 'connection' | 'pool' | 'cluster';
 }
 
 export interface ConnectionOptions extends BasicConnectionAttributes {
-
     adapter: 'mysql' | 'postgre' | 'mongoDb';
-    type?  : 'connection' | 'pool' | 'cluster';
 }
 
 
@@ -26,7 +25,7 @@ export interface ConnectionOptions extends BasicConnectionAttributes {
 //? class for connection item? and Big class for connection module (think about patterns) 
 export default class Connection implements BasicConnectionAttributes {
 
-    private dbName_  : string;
+    private dbName_  : string; 
     private password_: string = "";
     private user_    : string = "root";
     private port_    : number = 3306;
@@ -56,7 +55,7 @@ export default class Connection implements BasicConnectionAttributes {
 
 
     //! it is fun for a now
-    public query(sqlString: string): void{
+    public query(sqlString: string): void {
         if(this.adapterConnection == undefined) return;
         this.adapterConnection.query!(sqlString);
     }

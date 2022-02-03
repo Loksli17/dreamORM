@@ -5,16 +5,29 @@ import { BasicConnectionAttributes } from '../Connection';
 import AdapterConnection from './AdapterConnection';
 
 
+
 export default class MysqlAdapterConnection implements AdapterConnection {
 
     private pool_!      : mysql.Pool;
-    private connection_!: mysql.Connection;
+    private connection_!: Promise<mysql.Connection>;
     private cluster_!   : mysql.PoolCluster;
+
+    private connectionType: 'connection' | 'pool' | 'cluster' = 'pool';
 
 
     public create(params: BasicConnectionAttributes): void {
+
+        if(params.type) this.connectionType = params.type;
         
-        this.pool_ = this.createPool(params);
+        switch(this.connectionType){
+            case 'pool':
+                this.pool_ = this.createPool(params);
+                break;
+            case 'connection':
+                this.connection_ = this.createConnection(params);
+                break;
+        }
+        
     }
 
     public query(...args: any[]): void {
@@ -36,5 +49,19 @@ export default class MysqlAdapterConnection implements AdapterConnection {
         });
 
         return pool;
+    }
+
+
+    private createConnection(params: BasicConnectionAttributes): Promise<mysql.Connection> {
+
+        const connection: Promise<mysql.Connection> = mysql.createConnection({
+            database: params.dbName,
+            user    : params.user,
+            password: params.password,
+            port    : params.port,
+            host    : params.host,
+        });
+
+        return connection;
     }
 }
