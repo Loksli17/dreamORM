@@ -1,4 +1,4 @@
-import Query      from "./Query/Query";
+import Query      from "./Query/QueryBuilder";
 import Connection from './Connection/Connection';
 
 /**

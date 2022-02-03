@@ -5,7 +5,7 @@
  * * i (loksli17) think that we should use Decorator case it has tools for custom our class without constructor
  */
 
-import Query from "./Query/Query"
+import Query from "./Query/QueryBuilder"
 
 export default class Entity {
 

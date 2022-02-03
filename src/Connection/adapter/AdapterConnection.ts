@@ -3,7 +3,7 @@ import PostgreeAdapterConnection from './PostgreeAdapterConnection';
 import MongoDbAdapterConnection  from './MongoDbAdapterConnection';
 
 import { BasicConnectionAttributes } from '../Connection';
-import QueryBuilder from '../../Query/Query';
+import QueryBuilder from '../../Query/QueryBuilder';
 
 
 export default interface AdapterConnection {

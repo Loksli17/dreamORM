@@ -1,7 +1,7 @@
 // import mysql2, { Pool, PoolCluster, Connection, PoolClusterOptions } from 'mysql2';
 
 import * as mysql                    from 'mysql2/promise';
-import QueryBuilder                  from '../../Query/Query';
+import QueryBuilder                  from '../../Query/QueryBuilder';
 import { BasicConnectionAttributes } from '../Connection';
 import AdapterConnection             from './AdapterConnection';
 
@@ -29,7 +29,7 @@ export default class MysqlAdapterConnection implements AdapterConnection {
     }
 
     public query(): QueryBuilder {
-        return new QueryBuilder();
+        return new QueryBuilder('mysql');
     }
 
 

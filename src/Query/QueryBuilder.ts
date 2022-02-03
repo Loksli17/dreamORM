@@ -1,15 +1,15 @@
 import Entity              from "../Entity";
-import QueryBuilderAdapter from "./adapter/QueryBuilderAdapter";
+import QueryBuilderAdapter, { QueryBuilderAdapterFactory } from "./adapter/QueryBuilderAdapter";
 
 
 export default class QueryBuilder {
 
+
     private queryBuilderAdapter: QueryBuilderAdapter;
-    // private pool       : mysql.Pool;
 
 
-    public constructor(adapterName: string) {
-        // this.pool = pool;
+    public constructor(adapterName: 'mysql') {
+        this.queryBuilderAdapter = QueryBuilderAdapterFactory.create(adapterName);
     }
     
 

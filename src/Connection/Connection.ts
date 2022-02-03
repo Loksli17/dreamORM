@@ -1,4 +1,4 @@
-import QueryBuilder from '../Query/Query';
+import QueryBuilder from '../Query/QueryBuilder';
 import AdapterConnection, { AdapterConnectionFactory } from './adapter/AdapterConnection';
 
 

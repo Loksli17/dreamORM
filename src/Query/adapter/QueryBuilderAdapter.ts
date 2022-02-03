@@ -17,4 +17,7 @@ export abstract class QueryBuilderAdapterFactory {
 
 export default interface QueryBuilderAdapter {
 
+    createDb(): void;
+
+    table(name: string): QueryBuilderAdapter; // !work name
 }

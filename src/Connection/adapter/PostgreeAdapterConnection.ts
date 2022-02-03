@@ -1,4 +1,4 @@
-import QueryBuilder from "../../Query/Query";
+import QueryBuilder from "../../Query/QueryBuilder";
 import AdapterConnection from "./AdapterConnection";
 
 /**
@@ -16,7 +16,7 @@ export default class PostgreeAdapterConnection implements AdapterConnection{
 
     public query(): QueryBuilder {
         console.log('query');
-        return new QueryBuilder();
+        return new QueryBuilder('mysql'); //! fun for a now 
     }
 }
 

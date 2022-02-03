@@ -11,6 +11,10 @@ export default class PostgreesqlQueryBuilderAdapter implements QueryBuilderAdapt
         this.pool = pool;
     }
 
+    public table(): QueryBuilderAdapter {
+        return this;
+    }
+
     /**
      * 
     CREATE DATABASE test
@@ -23,7 +27,7 @@ export default class PostgreesqlQueryBuilderAdapter implements QueryBuilderAdapt
     CONNECTION LIMIT = -1;
      */
 
-    public createDatabase() {
+    public createDb() {
         // pg.
     }
 
