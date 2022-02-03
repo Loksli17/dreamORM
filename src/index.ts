@@ -7,7 +7,6 @@ import Connection, { ConnectionOptions } from './Connection/Connection';
  * ? 2. reflex about Entities (think how Entities should be look like)
  * * 3. Alexander can start working on translation and Andrei can start working on Entities and Validation
  * ? 4. difficult queries
- * * 5. We can create simple filters for Entities and Associations
  */
 
 
