@@ -8,7 +8,7 @@ import AdapterConnection from "./AdapterConnection";
  *       
  */
 
-export default class PostgreeAdapterConnection implements AdapterConnection{
+export default class PostgreeAdapterConnection implements AdapterConnection {
     
     public create(): void {
         console.log('create');

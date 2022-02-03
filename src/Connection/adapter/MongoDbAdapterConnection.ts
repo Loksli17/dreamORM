@@ -10,7 +10,7 @@ export default class MongoDbAdapterConnection implements AdapterConnection {
 
     public query(): QueryBuilder {
         console.log('query');
-        return new QueryBuilder();
+        return new QueryBuilder('mysql'); // ! fun for now
     }
 }
 

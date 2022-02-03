@@ -5,7 +5,7 @@
  * * i (loksli17) think that we should use Decorator case it has tools for custom our class without constructor
  */
 
-import Query from "./Query/QueryBuilder"
+import QueryBuilder from "./Query/QueryBuilder"
 
 export default class Entity {
 
@@ -17,7 +17,7 @@ const decoratorOption = () => {
     const entity = (): Function => {
         return <T extends { new (...args: any[]): {} }> (constructor: T) => {
             return class extends constructor {
-                public query: Query = new Query();
+                // public query: QueryBuilder = new QueryBuilder();
             }
         }
     }
@@ -38,7 +38,7 @@ const decoratorOption = () => {
 
 const extendsOption = () => {
     class Entity {
-        public query: Query = new Query();
+        // public query: QueryBuilder = new QueryBuilder();
     }
 
     class ExtendsEntity extends Entity {
@@ -46,7 +46,7 @@ const extendsOption = () => {
     }
 
     const extendsEntity = new ExtendsEntity();
-    extendsEntity.query.execute(`select * from 'gachi'`); 
+    // extendsEntity.query.execute(`select * from 'gachi'`); 
 }
 
 
@@ -63,7 +63,7 @@ const combineOption = () => {
     }
     
     class Entity {
-        public query: Query = new Query();
+        // public query: Query = new Query();
     }
 
     entity()
@@ -72,5 +72,5 @@ const combineOption = () => {
     }
 
     const extendsEntity = new ExtendsEntity();
-    extendsEntity.query.execute(`select * from 'gachi'`); 
+    // extendsEntity.query.execute(`select * from 'gachi'`); 
 }
