@@ -56,7 +56,7 @@ export default class Connection implements BasicConnectionAttributes {
 
 
     //! it is fun for a now
-    public query(sqlString: string): QueryBuilder  {
+    public query(): QueryBuilder  {
         return this.adapterConnection.query!();
         // if(this.adapterConnection == undefined) return;
         // this.adapterConnection.query!(sqlString);

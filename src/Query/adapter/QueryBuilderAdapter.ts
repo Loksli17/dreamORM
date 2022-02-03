@@ -19,5 +19,7 @@ export default interface QueryBuilderAdapter {
 
     createDb(): void;
 
-    table(name: string): QueryBuilderAdapter; // !work name
+    table(name: string): void; // !work name
+
+    getFieldNames(): Array<string> // !work name
 }

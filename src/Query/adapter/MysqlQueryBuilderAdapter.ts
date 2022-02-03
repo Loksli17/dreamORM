@@ -4,8 +4,16 @@ import QueryBuilderAdapter from './QueryBuilderAdapter';
 
 export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
-    public table(name: string): QueryBuilderAdapter {
-        return this;
+    private queryData: Record<string, any> = {}; 
+
+
+    public table(name: string): void {
+        this.queryData.tableName = name;
+    }
+
+
+    public getFieldNames(): Array<string> {
+        return [];
     }
 
     /**

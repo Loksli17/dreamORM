@@ -11,6 +11,11 @@ export default class QueryBuilder {
     public constructor(adapterName: 'mysql') {
         this.queryBuilderAdapter = QueryBuilderAdapterFactory.create(adapterName);
     }
+
+    public table(name: string): QueryBuilder {
+        this.queryBuilderAdapter.table(name);
+        return this;
+    }
     
 
     //! start from this method

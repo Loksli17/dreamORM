@@ -11,8 +11,12 @@ export default class PostgreesqlQueryBuilderAdapter implements QueryBuilderAdapt
         this.pool = pool;
     }
 
-    public table(): QueryBuilderAdapter {
-        return this;
+    public table(name: string): void {
+        console.log(name);
+    }
+
+    public getFieldNames(): Array<string> {
+        return [];
     }
 
     /**

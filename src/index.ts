@@ -16,11 +16,12 @@ let connection: Connection = new Connection({
     dbName  : 'vueLearn',
     password: '1234',
     adapter : 'mysql',
+    type    : 'pool',
 });
 
-// connection.query('select * from user limit 3');
 
-// connection.query().table().
+
+connection.query()
 
 
 console.log('dreamORM in porgress');
