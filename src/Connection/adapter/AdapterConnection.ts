@@ -6,7 +6,10 @@ import { BasicConnectionAttributes } from '../Connection';
 
 
 export default interface AdapterConnection {
+
     create(params: BasicConnectionAttributes): void;
+
+    query?: (sqlString: string) => void; //! fun for a now
 }
 
 

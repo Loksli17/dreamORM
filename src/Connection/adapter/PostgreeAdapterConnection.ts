@@ -10,7 +10,11 @@ import AdapterConnection from "./AdapterConnection";
 export default class PostgreeAdapterConnection implements AdapterConnection{
     
     public create(): void {
-        
+        console.log('create');
+    }
+
+    public query(...args: any[]): void {
+        console.log(args[0]);
     }
 }
 

@@ -19,5 +19,7 @@ let connection: Connection = new Connection({
     adapter : 'mysql',
 });
 
+connection.query('select * from user limit 3');
+
 
 console.log('dreamORM in porgress');

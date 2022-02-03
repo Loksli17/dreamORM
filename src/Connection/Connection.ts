@@ -18,7 +18,7 @@ export interface BasicConnectionAttributes {
 export interface ConnectionOptions extends BasicConnectionAttributes {
 
     adapter: 'mysql' | 'postgre' | 'mongoDb';
-    type?   : 'single' | 'pool';
+    type?   : 'connection' | 'pool' | 'cluster';
 }
 
 
@@ -44,6 +44,23 @@ export default class Connection implements BasicConnectionAttributes{
         if(params.host)     this.host_     = params.host;
 
         this.adapterConnection = AdapterConnectionFactory.create(params.adapter);
+
+        this.adapterConnection.create({
+            dbName  : this.dbName_,
+            password: this.password_,
+            user    : this.user_,
+            port    : this.port_,
+            host    : this.host_,
+        });
+    }
+
+
+    //! it is fun for a now
+    public query(sqlString: string): void{
+
+        if(this.adapterConnection == undefined) return;
+
+        this.adapterConnection.query!(sqlString);
     }
 
 
