@@ -24,7 +24,7 @@ export default class MysqlAdapterConnection implements AdapterConnection {
 
     public create(params: BasicConnectionAttributes): void {
         if(params.type) this.connectionType = params.type;
-        this.connectionTypesAssciations[this.connectionType](params);
+        this.connectionTypesAssciations[this.connectionType](params); //? proxy pattern?
     }
 
     public query(...args: any[]): void {
@@ -35,7 +35,7 @@ export default class MysqlAdapterConnection implements AdapterConnection {
     }
 
 
-    private createPool(params: BasicConnectionAttributes): mysql.Pool{
+    private createPool(params: BasicConnectionAttributes): mysql.Pool {
 
         const pool: mysql.Pool = mysql.createPool({
             database: params.dbName,
@@ -44,6 +44,8 @@ export default class MysqlAdapterConnection implements AdapterConnection {
             port    : params.port,
             host    : params.host,
         });
+
+        this.pool_ = pool; //! fun for a now
 
         return pool;
     }
@@ -58,6 +60,8 @@ export default class MysqlAdapterConnection implements AdapterConnection {
             port    : params.port,
             host    : params.host,
         });
+
+        this.connection_ = connection; //! fun for a now
 
         return connection;
     }
