@@ -1,5 +1,6 @@
-import DreamOrm                          from './main';
-import Connection, { ConnectionOptions } from './Connection/Connection';
+import DreamOrm     from './main';
+import Connection   from './Connection/Connection';
+import QueryBuilder from './Query/QueryBuilder';
 
 /** 
  * ! plan for basic features
@@ -19,9 +20,9 @@ let connection: Connection = new Connection({
     type    : 'pool',
 });
 
+let queryBuilder: QueryBuilder = new QueryBuilder(connection);
 
-
-connection.query()
+console.log(queryBuilder.table('user').getFieldNames());
 
 
 console.log('dreamORM in porgress');

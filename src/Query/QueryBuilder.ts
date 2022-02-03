@@ -1,4 +1,5 @@
-import Entity              from "../Entity";
+import Connection                                          from "./../Connection/Connection";
+import Entity                                              from "../Entity";
 import QueryBuilderAdapter, { QueryBuilderAdapterFactory } from "./adapter/QueryBuilderAdapter";
 
 
@@ -6,10 +7,12 @@ export default class QueryBuilder {
 
 
     private queryBuilderAdapter: QueryBuilderAdapter;
+    private connection         : Connection;
 
 
-    public constructor(adapterName: 'mysql') {
-        this.queryBuilderAdapter = QueryBuilderAdapterFactory.create(adapterName);
+    public constructor(connection: Connection) {
+        this.connection = connection;
+        this.queryBuilderAdapter = QueryBuilderAdapterFactory.create(connection.adapter as 'mysql'); //! fun for now
     }
 
     public table(name: string): QueryBuilder {
@@ -103,6 +106,12 @@ export default class QueryBuilder {
 
     public find(): Array<Entity> {
         return [new Entity()];
+    }
+
+
+    public getFieldNames(): Array<string> {
+        this.queryBuilderAdapter.getFieldNames();
+        return [];
     }
 
 

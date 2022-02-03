@@ -1,4 +1,5 @@
 import MysqlQueryBuilderAdapter from "./MysqlQueryBuilderAdapter";
+import Connection               from "../../Connection/Connection";
 
 
 

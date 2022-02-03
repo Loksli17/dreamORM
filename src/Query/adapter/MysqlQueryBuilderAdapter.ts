@@ -1,4 +1,7 @@
 import mysql2              from 'mysql2';
+import AdapterConnection from '../../Connection/adapter/AdapterConnection';
+import MysqlAdapterConnection from '../../Connection/adapter/MysqlAdapterConnection';
+import Connection from '../../Connection/Connection';
 import QueryBuilderAdapter from './QueryBuilderAdapter';
 
 
@@ -11,7 +14,7 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
         this.queryData.tableName = name;
     }
 
-
+    //* end point method
     public getFieldNames(): Array<string> {
         return [];
     }

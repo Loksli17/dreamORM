@@ -13,10 +13,5 @@ export default class PostgreeAdapterConnection implements AdapterConnection {
     public create(): void {
         console.log('create');
     }
-
-    public query(): QueryBuilder {
-        console.log('query');
-        return new QueryBuilder('mysql'); //! fun for a now 
-    }
 }
 

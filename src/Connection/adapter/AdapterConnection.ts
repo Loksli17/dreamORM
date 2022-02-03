@@ -2,13 +2,13 @@ import MysqlAdapterConnection    from './MysqlAdapterConnection';
 import PostgreeAdapterConnection from './PostgreeAdapterConnection';
 import MongoDbAdapterConnection  from './MongoDbAdapterConnection';
 
-import { BasicConnectionAttributes } from '../Connection';
+import { ConnectionAttributes } from '../Connection';
 import QueryBuilder from '../../Query/QueryBuilder';
 
 
 export default interface AdapterConnection {
 
-    create(params: BasicConnectionAttributes): void;
+    create(params: ConnectionAttributes): void;
 
     query?: () => QueryBuilder;
 }

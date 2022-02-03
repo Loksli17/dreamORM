@@ -2,7 +2,7 @@
 
 import * as mysql                    from 'mysql2/promise';
 import QueryBuilder                  from '../../Query/QueryBuilder';
-import { BasicConnectionAttributes } from '../Connection';
+import { ConnectionAttributes } from '../Connection';
 import AdapterConnection             from './AdapterConnection';
 
 
@@ -16,24 +16,20 @@ export default class MysqlAdapterConnection implements AdapterConnection {
     private connectionType: 'connection' | 'pool' | 'cluster' = 'pool';
 
 
-    private connectionTypesAssciations: Record<string, (params: BasicConnectionAttributes) => void> = {
+    private connectionTypesAssciations: Record<string, (params: ConnectionAttributes) => void> = {
         pool      : params => this.createPool(params),
         connection: params => this.createConnection(params),
         cluster   : params => this.createPoolCluster(params),
     }
 
 
-    public create(params: BasicConnectionAttributes): void {
+    public create(params: ConnectionAttributes): void {
         if(params.type) this.connectionType = params.type;
         this.connectionTypesAssciations[this.connectionType](params); //? proxy pattern?
     }
 
-    public query(): QueryBuilder {
-        return new QueryBuilder('mysql');
-    }
 
-
-    private createPool(params: BasicConnectionAttributes): mysql.Pool {
+    private createPool(params: ConnectionAttributes): mysql.Pool {
 
         const pool: mysql.Pool = mysql.createPool({
             database: params.dbName,
@@ -49,7 +45,7 @@ export default class MysqlAdapterConnection implements AdapterConnection {
     }
 
 
-    private createConnection(params: BasicConnectionAttributes): Promise<mysql.Connection> {
+    private createConnection(params: ConnectionAttributes): Promise<mysql.Connection> {
 
         const connection: Promise<mysql.Connection> = mysql.createConnection({
             database: params.dbName,
@@ -65,7 +61,12 @@ export default class MysqlAdapterConnection implements AdapterConnection {
     }
 
     //! method in progress
-    private createPoolCluster(params: BasicConnectionAttributes): mysql.PoolCluster {
+    private createPoolCluster(params: ConnectionAttributes): mysql.PoolCluster {
         return mysql.createPoolCluster();
+    }
+
+
+    public get pool(): mysql.Pool{
+        return this.pool_;
     }
 }
