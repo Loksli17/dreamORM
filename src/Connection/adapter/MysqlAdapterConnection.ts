@@ -15,19 +15,16 @@ export default class MysqlAdapterConnection implements AdapterConnection {
     private connectionType: 'connection' | 'pool' | 'cluster' = 'pool';
 
 
-    public create(params: BasicConnectionAttributes): void {
+    private connectionTypesAssciations: Record<string, (params: BasicConnectionAttributes) => void> = {
+        pool      : params => this.createPool(params),
+        connection: params => this.createConnection(params),
+        cluster   : params => this.createPoolCluster(params),
+    }
 
+
+    public create(params: BasicConnectionAttributes): void {
         if(params.type) this.connectionType = params.type;
-        
-        switch(this.connectionType){
-            case 'pool':
-                this.pool_ = this.createPool(params);
-                break;
-            case 'connection':
-                this.connection_ = this.createConnection(params);
-                break;
-        }
-        
+        this.connectionTypesAssciations[this.connectionType](params);
     }
 
     public query(...args: any[]): void {
@@ -63,5 +60,10 @@ export default class MysqlAdapterConnection implements AdapterConnection {
         });
 
         return connection;
+    }
+
+    
+    private createPoolCluster(params: BasicConnectionAttributes): mysql.PoolCluster {
+        return mysql.createPoolCluster();
     }
 }
