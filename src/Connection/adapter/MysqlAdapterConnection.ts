@@ -1,9 +1,9 @@
 // import mysql2, { Pool, PoolCluster, Connection, PoolClusterOptions } from 'mysql2';
 
-import * as mysql                    from 'mysql2/promise';
-import QueryBuilder                  from '../../Query/QueryBuilder';
+import * as mysql               from 'mysql2/promise';
+import QueryBuilder             from '../../Query/QueryBuilder';
 import { ConnectionAttributes } from '../Connection';
-import AdapterConnection             from './AdapterConnection';
+import AdapterConnection        from './AdapterConnection';
 
 
 
@@ -16,7 +16,7 @@ export default class MysqlAdapterConnection implements AdapterConnection {
     private connectionType: 'connection' | 'pool' | 'cluster' = 'pool';
 
 
-    private connectionTypesAssciations: Record<string, (params: ConnectionAttributes) => void> = {
+    private connectionTypesAssociations: Record<string, (params: ConnectionAttributes) => void> = {
         pool      : params => this.createPool(params),
         connection: params => this.createConnection(params),
         cluster   : params => this.createPoolCluster(params),
@@ -25,7 +25,7 @@ export default class MysqlAdapterConnection implements AdapterConnection {
 
     public create(params: ConnectionAttributes): void {
         if(params.type) this.connectionType = params.type;
-        this.connectionTypesAssciations[this.connectionType](params); //? proxy pattern?
+        this.connectionTypesAssociations[this.connectionType](params); //? proxy pattern?
     }
 
 
@@ -54,6 +54,10 @@ export default class MysqlAdapterConnection implements AdapterConnection {
             port    : params.port,
             host    : params.host,
         });
+        
+        connection.then((connection) => {
+            // connection.query();
+        })
 
         this.connection_ = connection; //! fun for a now
 
@@ -62,7 +66,14 @@ export default class MysqlAdapterConnection implements AdapterConnection {
 
     //! method in progress
     private createPoolCluster(params: ConnectionAttributes): mysql.PoolCluster {
-        return mysql.createPoolCluster();
+
+        let cluster = mysql.createPoolCluster();
+
+        cluster.getConnection((err, connection) => {
+            // connection.query()
+        })
+        
+        return cluster;
     }
 
 

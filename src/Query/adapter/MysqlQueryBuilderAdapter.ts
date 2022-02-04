@@ -7,7 +7,11 @@ import QueryBuilderAdapter from './QueryBuilderAdapter';
 
 export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
-    private queryData: Record<string, any> = {}; 
+    private queryData: Record<string, any> = {};
+
+    private clearQueryData(): void {
+        this.queryData = {};
+    }
 
 
     public table(name: string): void {
@@ -16,8 +20,19 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
     //* end point method
     public getFieldNames(): Array<string> {
+        let qeuryString: string = `show columns from ${this.queryData.table}`;
+        this.clearQueryData();
         return [];
     }
+
+    //* end point method
+    //! add different arguments this method is not simple
+    public getTableNames(): Array<string> {
+        let qeuryString: string = `show tables`;
+        this.clearQueryData();
+        return [];
+    }
+
 
     /**
      * create database dreamorm;
