@@ -109,10 +109,16 @@ export default class QueryBuilder {
     }
 
 
-    public getFieldNames(): Array<string> {
-        this.queryBuilderAdapter.getFieldNames();
-        return [];
+    public async getFieldNames(): Promise<Array<string>> {
+        let result: Array<string> = await this.queryBuilderAdapter.getFieldNames();
+        return result;
     }
+
+
+    public async getTableNames(): Promise<Array<string>> {
+        let result: Array<string> = await this.queryBuilderAdapter.getTableNames();
+        return result;
+    } 
 
 
     public removeOne(): void {

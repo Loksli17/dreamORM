@@ -1,17 +1,18 @@
 import MysqlQueryBuilderAdapter from "./MysqlQueryBuilderAdapter";
 import Connection               from "../../Connection/Connection";
 import QueryExecutor            from "../../Connection/queryExecutor/QueryExecutor";
+import MysqlQueryExecutor       from "../../Connection/queryExecutor/MysqlQueryExecutor";
 
 
 
 export abstract class QueryBuilderAdapterFactory {
 
     private static adapterAssociates: Record<string, any> = {
-        mysql: () => { return new MysqlQueryBuilderAdapter() }
+        mysql: (queryExecutor: QueryExecutor) => { return new MysqlQueryBuilderAdapter(queryExecutor as MysqlQueryExecutor) }
     };
 
     public static create(adapterName: 'mysql', queryExecutor: QueryExecutor): QueryBuilderAdapter {
-        return QueryBuilderAdapterFactory.adapterAssociates[adapterName]();
+        return QueryBuilderAdapterFactory.adapterAssociates[adapterName](queryExecutor);
     }
 }   
 
@@ -23,5 +24,7 @@ export default interface QueryBuilderAdapter {
 
     table(name: string): void; // !work name
 
-    getFieldNames(): Array<string> // !work name
+    getFieldNames(): Promise<Array<string>> // !work name
+
+    getTableNames(): Promise<Array<string>>
 }

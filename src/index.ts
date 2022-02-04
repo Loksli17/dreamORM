@@ -22,7 +22,14 @@ let connection: Connection = new Connection({
 
 let queryBuilder: QueryBuilder = new QueryBuilder(connection);
 
-console.log(queryBuilder.table('user').getFieldNames());
+queryBuilder.getTableNames().then((names: Array<string>) => {
+    console.log(names);
+});
+
+
+// queryBuilder.table('user').getFieldNames().then((value: Array<string>) => {
+//     console.log(value);
+// });
 
 
 console.log('dreamORM in porgress');

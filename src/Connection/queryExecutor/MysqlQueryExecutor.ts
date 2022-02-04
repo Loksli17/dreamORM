@@ -19,14 +19,14 @@ export default class MysqlQueryExecutor implements QueryExecutor {
 
     private queryTypesAssociations: Record<string, (sqlString: string) => any> = {
 
-        pool : (sqlString: string) => {
-            this.pool_.query(sqlString).then((value: any) => {
+        pool : (sqlString: string): Promise<any> => {
+            return this.pool_.query(sqlString).then((value: any) => {
                 return value;
             });
         },
 
-        connection: (sqlString: string) => {
-            this.connection_.then((connection: mysql.Connection) => {
+        connection: (sqlString: string): Promise<any> => {
+            return this.connection_.then((connection: mysql.Connection) => {
                 return connection.query(sqlString);
             }).then((value: any) => {
                 return value;
@@ -45,6 +45,6 @@ export default class MysqlQueryExecutor implements QueryExecutor {
     }
 
     public async query(sqlString: string): Promise<any> {
-        return this.queryTypesAssociations[this.type](sqlString);
+        return await this.queryTypesAssociations[this.type](sqlString);
     }
 }
