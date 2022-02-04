@@ -2,8 +2,9 @@ import mysql2              from 'mysql2';
 import AdapterConnection from '../../Connection/adapter/AdapterConnection';
 import MysqlAdapterConnection from '../../Connection/adapter/MysqlAdapterConnection';
 import Connection from '../../Connection/Connection';
-import MysqlQueryExecutor from '../../Connection/queryExecutor/MysqlQueryExecutor';
+import MysqlQueryExecutor from '../queryExecutor/MysqlQueryExecutor';
 import QueryBuilderAdapter from './QueryBuilderAdapter';
+
 
 
 export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {

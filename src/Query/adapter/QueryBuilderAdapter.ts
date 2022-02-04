@@ -1,7 +1,7 @@
 import MysqlQueryBuilderAdapter from "./MysqlQueryBuilderAdapter";
 import Connection               from "../../Connection/Connection";
-import QueryExecutor            from "../../Connection/queryExecutor/QueryExecutor";
-import MysqlQueryExecutor       from "../../Connection/queryExecutor/MysqlQueryExecutor";
+import QueryExecutor            from "../queryExecutor/QueryExecutor";
+import MysqlQueryExecutor       from "../queryExecutor/MysqlQueryExecutor";
 
 
 

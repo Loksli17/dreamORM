@@ -11,25 +11,23 @@ import QueryBuilder from './Query/QueryBuilder';
  */
 
 
-const dreamORM = new DreamOrm();
+let main = async () => {
 
-let connection: Connection = new Connection({
-    dbName  : 'vueLearn',
-    password: '1234',
-    adapter : 'mysql',
-    type    : 'pool',
-});
+    const dreamORM = new DreamOrm();
 
-let queryBuilder: QueryBuilder = new QueryBuilder(connection);
+    let connection: Connection = new Connection({
+        dbName  : 'vueLearn',
+        password: '1234',
+        adapter : 'mysql',
+        type    : 'pool',
+    });
 
-queryBuilder.getTableNames().then((names: Array<string>) => {
-    console.log(names);
-});
+    let queryBuilder: QueryBuilder = new QueryBuilder(connection);
+
+    console.log(await queryBuilder.getTableNames());
+}
 
 
-// queryBuilder.table('user').getFieldNames().then((value: Array<string>) => {
-//     console.log(value);
-// });
-
+main();
 
 console.log('dreamORM in porgress');

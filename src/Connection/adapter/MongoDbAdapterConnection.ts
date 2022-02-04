@@ -1,6 +1,6 @@
 import QueryBuilder         from "../../Query/QueryBuilder";
-import MongoDbQueryExecutor from "../queryExecutor/MongoDbQueryExecutor";
-import QueryExecutor from "../queryExecutor/QueryExecutor";
+import MongoDbQueryExecutor from "../../Query/queryExecutor/MongoDbQueryExecutor";
+import QueryExecutor from "../../Query/queryExecutor/QueryExecutor";
 import AdapterConnection    from "./AdapterConnection";
 
 

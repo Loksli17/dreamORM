@@ -1,5 +1,5 @@
 import AdapterConnection, { AdapterConnectionFactory } from './adapter/AdapterConnection';
-import QueryExecutor from './queryExecutor/QueryExecutor';
+import QueryExecutor from '../Query/queryExecutor/QueryExecutor';
 
 
 

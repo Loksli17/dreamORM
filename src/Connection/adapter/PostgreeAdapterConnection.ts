@@ -1,6 +1,6 @@
 import QueryBuilder from "../../Query/QueryBuilder";
-import PostgreeQueryExecutor from "../queryExecutor/PostreeQueryExecutor";
-import QueryExecutor from "../queryExecutor/QueryExecutor";
+import PostgreeQueryExecutor from "../../Query/queryExecutor/PostreeQueryExecutor";
+import QueryExecutor from "../../Query/queryExecutor/QueryExecutor";
 import AdapterConnection from "./AdapterConnection";
 
 /**
