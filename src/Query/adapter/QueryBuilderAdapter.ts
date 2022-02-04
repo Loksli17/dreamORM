@@ -1,5 +1,6 @@
 import MysqlQueryBuilderAdapter from "./MysqlQueryBuilderAdapter";
 import Connection               from "../../Connection/Connection";
+import QueryExecutor            from "../../Connection/queryExecutor/QueryExecutor";
 
 
 
@@ -9,7 +10,7 @@ export abstract class QueryBuilderAdapterFactory {
         mysql: () => { return new MysqlQueryBuilderAdapter() }
     };
 
-    public static create(adapterName: 'mysql'): QueryBuilderAdapter {
+    public static create(adapterName: 'mysql', queryExecutor: QueryExecutor): QueryBuilderAdapter {
         return QueryBuilderAdapterFactory.adapterAssociates[adapterName]();
     }
 }   

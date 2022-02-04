@@ -3,10 +3,13 @@ import PostgreeAdapterConnection from './PostgreeAdapterConnection';
 import MongoDbAdapterConnection  from './MongoDbAdapterConnection';
 
 import { ConnectionAttributes } from '../Connection';
-import QueryBuilder from '../../Query/QueryBuilder';
+import QueryBuilder             from '../../Query/QueryBuilder';
+import QueryExecutor            from '../queryExecutor/QueryExecutor';
 
 
 export default interface AdapterConnection {
+
+    queryExecutor: QueryExecutor;
 
     create(params: ConnectionAttributes): void;
 

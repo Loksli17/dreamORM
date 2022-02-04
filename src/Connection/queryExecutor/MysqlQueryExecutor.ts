@@ -1,7 +1,9 @@
-import * as mysql from 'mysql2/promise';
+import * as mysql    from 'mysql2/promise';
+import QueryExecutor from './QueryExecutor';
 
 
-export default class MysqlProxyExecutor {
+
+export default class MysqlQueryExecutor implements QueryExecutor {
 
     private pool_!      : mysql.Pool;
     private connection_!: Promise<mysql.Connection>;

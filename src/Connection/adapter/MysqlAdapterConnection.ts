@@ -3,11 +3,15 @@
 import * as mysql               from 'mysql2/promise';
 import QueryBuilder             from '../../Query/QueryBuilder';
 import { ConnectionAttributes } from '../Connection';
+import MysqlQueryExecutor       from '../queryExecutor/MysqlQueryExecutor';
+import QueryExecutor from '../queryExecutor/QueryExecutor';
 import AdapterConnection        from './AdapterConnection';
 
 
 
 export default class MysqlAdapterConnection implements AdapterConnection {
+
+    private queryExecutor_!: MysqlQueryExecutor;
 
     private pool_!      : mysql.Pool;
     private connection_!: Promise<mysql.Connection>;
@@ -15,18 +19,19 @@ export default class MysqlAdapterConnection implements AdapterConnection {
 
     private connectionType: 'connection' | 'pool' | 'cluster' = 'pool';
 
-
-    private connectionTypesAssociations: Record<string, (params: ConnectionAttributes) => void> = {
+    private connectionTypesAssociations: Record<string, (params: ConnectionAttributes) => mysql.Pool | Promise<mysql.Connection> | mysql.PoolCluster> = {
         pool      : params => this.createPool(params),
         connection: params => this.createConnection(params),
         cluster   : params => this.createPoolCluster(params),
     }
 
-
     public create(params: ConnectionAttributes): void {
         if(params.type) this.connectionType = params.type;
-        this.connectionTypesAssociations[this.connectionType](params); //? proxy pattern?
+        
+        const connector: mysql.Pool | Promise<mysql.Connection> | mysql.PoolCluster = this.connectionTypesAssociations[this.connectionType](params);
+        this.queryExecutor_ = new MysqlQueryExecutor(this.connectionType, connector);
     }
+
 
 
     private createPool(params: ConnectionAttributes): mysql.Pool {
@@ -54,10 +59,6 @@ export default class MysqlAdapterConnection implements AdapterConnection {
             port    : params.port,
             host    : params.host,
         });
-        
-        connection.then((connection) => {
-            // connection.query();
-        })
 
         this.connection_ = connection; //! fun for a now
 
@@ -68,16 +69,12 @@ export default class MysqlAdapterConnection implements AdapterConnection {
     private createPoolCluster(params: ConnectionAttributes): mysql.PoolCluster {
 
         let cluster = mysql.createPoolCluster();
-
-        cluster.getConnection((err, connection) => {
-            // connection.query()
-        })
         
         return cluster;
     }
 
 
-    public get pool(): mysql.Pool{
-        return this.pool_;
+    public get queryExecutor(): QueryExecutor{
+        return this.queryExecutor_;
     }
 }

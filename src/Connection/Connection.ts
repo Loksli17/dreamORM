@@ -1,4 +1,5 @@
 import AdapterConnection, { AdapterConnectionFactory } from './adapter/AdapterConnection';
+import QueryExecutor from './queryExecutor/QueryExecutor';
 
 
 
@@ -53,6 +54,11 @@ export default class Connection implements ConnectionAttributes {
             adapter : this.adapter_,
         });
     }
+
+    public get queryExecutor(): QueryExecutor {
+        return this.adapterConnection.queryExecutor;
+    }
+
 
     public get dbName(): string {
         return this.dbName_;

@@ -12,7 +12,7 @@ export default class QueryBuilder {
 
     public constructor(connection: Connection) {
         this.connection = connection;
-        this.queryBuilderAdapter = QueryBuilderAdapterFactory.create(connection.adapter as 'mysql'); //! fun for now
+        this.queryBuilderAdapter = QueryBuilderAdapterFactory.create(connection.adapter as 'mysql', this.connection.queryExecutor); //! fun for now
     }
 
     public table(name: string): QueryBuilder {
