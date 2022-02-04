@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@prisma/client": "^3.7.0",
+    "mongodb": "^4.3.1",
     "mysql2": "^2.3.3",
     "pg": "^8.7.1",
     "prisma": "^3.7.0"
@@ -19,6 +20,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "start:dev": "nodemon src/index.ts",
+    "start:dev:modules": "nodemon src/moduleTest/index.ts",
     "start:prod": "node dist/index.js"
   },
   "repository": {

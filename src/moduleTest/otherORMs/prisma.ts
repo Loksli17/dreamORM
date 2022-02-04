@@ -1,24 +1,24 @@
 import { PrismaClient } from "@prisma/client";
 
 // ! To generate a new client use 
-// ! npx prisma generate --schema=./src/otherORMs/prisma/schema.prisma
+// ! npx prisma generate --schema=./src/moduleTest/otherORMs/prisma/schema.prisma
 
 const prisma = new PrismaClient();
 
 async function prismaMain() {
     await prisma.$connect();
 
-    await prisma.user.create({
-        data: {
-            name: "Bob",
-            posts: {
-                create: {
-                    title: "Cool title",
-                    content: "Not so cool"
-                }
-            }
-        }
-    });
+    // await prisma.user.create({
+    //     data: {
+    //         name: "Bob",
+    //         posts: {
+    //             create: {
+    //                 title: "Cool title",
+    //                 content: "Not so cool"
+    //             }
+    //         }
+    //     }
+    // });
 
     const allUsers = await prisma.user.findMany({
         include: {
