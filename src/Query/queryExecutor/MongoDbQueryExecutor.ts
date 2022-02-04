@@ -1,9 +1,18 @@
-import QueryExecutor from "./QueryExecutor";
+import { MongoClient, Db, Collection } from "mongodb";
+import QueryExecutor       from "./QueryExecutor";
 
 
 export default class MongoDbQueryExecutor implements QueryExecutor {
 
-    public query(queryParams: string | Record<string, any>) {
-        console.log(queryParams);   
+    private db_!: Promise<Db>;
+
+    public constructor(type: 'connection' | 'pool' | 'cluster', connector: Promise<Db>) {
+        this.db_ = connector;
+    }
+
+    public async query(queryParams: Record<string, any>) {
+        
+        const db: Db = await this.db_;
+        const collection: Collection<Document> = db.collection(queryParams.collection);
     }
 }

@@ -4,7 +4,7 @@ import * as mysql               from 'mysql2/promise';
 import QueryBuilder             from '../../Query/QueryBuilder';
 import { ConnectionAttributes } from '../Connection';
 import MysqlQueryExecutor       from '../../Query/queryExecutor/MysqlQueryExecutor';
-import QueryExecutor from '../../Query/queryExecutor/QueryExecutor';
+import QueryExecutor            from '../../Query/queryExecutor/QueryExecutor';
 import AdapterConnection        from './AdapterConnection';
 
 

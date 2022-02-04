@@ -6,6 +6,7 @@ import QueryExecutor from '../Query/queryExecutor/QueryExecutor';
 /**
  * ! postgre has same options
  * * we should create opportunity "make many connetions to other databases" 
+ * ! make abstract class 
  */
 
 export interface ConnectionAttributes {
@@ -23,11 +24,13 @@ export interface ConnectionAttributes {
 //? class for connection item? and Big class for connection module (think about patterns) 
 export default class Connection implements ConnectionAttributes {
 
+    //! fix this props and create default props in ConnectionAdapters !!!!
     private dbName_  : string; 
-    private password_: string                          = "";
-    private user_    : string                          = "root";
-    private port_    : number                          = 3306;
-    private host_    : string                          = "127.0.0.1";
+    private password_: string                            = "";
+    private user_    : string                            = "root";
+    private port_    : number                            = 3306;
+    private host_    : string                            = "127.0.0.1";
+    private type_    : 'connection' | 'pool' | 'cluster' = 'connection';
     private adapter_ : 'mysql' | 'postgre' | 'mongoDb'; 
 
 
@@ -41,6 +44,7 @@ export default class Connection implements ConnectionAttributes {
         if(params.user)     this.user_     = params.user;
         if(params.port)     this.port_     = params.port;
         if(params.host)     this.host_     = params.host;
+        if(params.type)     this.type_     = params.type;
         this.adapter_  = params.adapter;
 
         this.adapterConnection = AdapterConnectionFactory.create(params.adapter);
@@ -52,6 +56,7 @@ export default class Connection implements ConnectionAttributes {
             port    : this.port_,
             host    : this.host_,
             adapter : this.adapter_,
+            type    : this.type_,
         });
     }
 
