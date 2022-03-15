@@ -1,15 +1,15 @@
-import MongoDbQueryExecutor from "../queryExecutor/MongoDbQueryExecutor";
-import QueryBuilderAdapter  from "./QueryBuilderAdapter";
+import MongoDbQueryExecutor         from "../queryExecutor/MongoDbQueryExecutor";
+import QueryBuilderAdapter          from "./QueryBuilderAdapter";
+import { Collection, Db, Document, CollectionInfo } from "mongodb";
 
 
 export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
 
-    private queryData    : Record<string, any> = {};
     private queryExecutor: MongoDbQueryExecutor;
 
-
-    constructor(qeuryExecutor: MongoDbQueryExecutor){
-        this.queryExecutor = qeuryExecutor;
+    
+    constructor(queryExecutor: MongoDbQueryExecutor){
+        this.queryExecutor = queryExecutor;
     }
     
 
@@ -28,8 +28,19 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
     }
 
 
-    getTableNames(): Promise<string[]> {
-        throw new Error("Method not implemented.");
+    public async getTableNames(): Promise<Array<string>> {
+        
+        const db: Db = (await this.queryExecutor.query());
+
+        let
+            queryResult = await db.listCollections().toArray(),
+            result: Array<string> = [];
+
+        queryResult.forEach((collection: CollectionInfo) => {
+            result.push(collection.name);
+        });
+
+        return result;
     } 
 
 }

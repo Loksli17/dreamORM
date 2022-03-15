@@ -31,7 +31,7 @@ let main = async () => {
 
     //* trying mongo
     let mongoConnection = new Connection({
-        dbName : 'dreamORM',
+        dbName : 'dreamOrm',
         adapter: 'mongoDb',
         type   : 'connection',
         port   : 27017,
@@ -39,8 +39,9 @@ let main = async () => {
     });
 
     let queryBuilderMongo: QueryBuilder = new QueryBuilder(mongoConnection);
-}
 
+    console.log(await queryBuilderMongo.getTableNames());
+}
 
 main();
 

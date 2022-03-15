@@ -1,5 +1,5 @@
 
 export default interface QueryExecutor {
 
-    query(queryParams: string | Record<string, any>): any;
+    query (queryParams: string | Record<string, any>): any;
 }
