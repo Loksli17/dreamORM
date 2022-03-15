@@ -9,12 +9,16 @@ export default class MongoDbQueryExecutor implements QueryExecutor {
     public constructor(type: 'connection' | 'pool' | 'cluster', connector: Promise<Db>) {
         this.db_ = connector;
     }
-
+    
 
     //* we should think about QueryObjectParser for mongo
     public async query(queryParams: Record<string, any>) {
+
+        queryParams.collection = "test";
         
         const db: Db = await this.db_;
         const collection: Collection<Document> = db.collection(queryParams.collection);
+
+        console.log('collection:', collection);
     }
 }

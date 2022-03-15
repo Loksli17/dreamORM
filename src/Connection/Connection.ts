@@ -60,6 +60,7 @@ export default class Connection implements ConnectionAttributes {
         });
     }
 
+
     public get queryExecutor(): QueryExecutor {
         return this.adapterConnection.queryExecutor;
     }

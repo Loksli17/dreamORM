@@ -24,6 +24,7 @@ export default class MongoDbAdapterConnection implements AdapterConnection {
         if(params.type) this.connectionType = params.type;
 
         const connector: Promise<Db> = this.connectionTypesAssociations[this.connectionType](params);
+        
         this.queryExecutor_ = new MongoDbQueryExecutor(this.connectionType, connector);
     }
 
