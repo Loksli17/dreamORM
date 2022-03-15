@@ -15,17 +15,16 @@ let main = async () => {
 
     const dreamORM = new DreamOrm();
 
-    let mysqlCnnection: Connection = new Connection({
+    let mysqlConnection: Connection = new Connection({
         dbName  : 'vueLearn',
         password: '1234',
         adapter : 'mysql',
         type    : 'pool',
     });
 
-    let queryBuilder: QueryBuilder = new QueryBuilder(mysqlCnnection);
+    let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
 
     console.log(await queryBuilder.getTableNames());
-
 
     let mongoConnection = new Connection({
         dbName : 'dreamORM',

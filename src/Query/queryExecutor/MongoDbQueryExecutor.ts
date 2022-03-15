@@ -10,6 +10,8 @@ export default class MongoDbQueryExecutor implements QueryExecutor {
         this.db_ = connector;
     }
 
+
+    //* we should think about QueryObjectParser for mongo
     public async query(queryParams: Record<string, any>) {
         
         const db: Db = await this.db_;
