@@ -14,6 +14,7 @@ export default class Entity {
 
 //* ----------------- 1. decorator variant
 const decoratorOption = () => {
+
     const entity = (): Function => {
         return <T extends { new (...args: any[]): {} }> (constructor: T) => {
             return class extends constructor {
@@ -24,6 +25,8 @@ const decoratorOption = () => {
 
     entity()
     class DecoratorEntity {
+
+        public id!: number;
 
     }
 
@@ -40,6 +43,7 @@ const extendsOption = () => {
     class Entity {
         // public query: QueryBuilder = new QueryBuilder();
     }
+
 
     class ExtendsEntity extends Entity {
 
