@@ -5,10 +5,8 @@ import QueryBuilderAdapter, { QueryBuilderAdapterFactory } from "./adapter/Query
 
 export default class QueryBuilder {
 
-
     private queryBuilderAdapter: QueryBuilderAdapter;
     private connection         : Connection;
-
 
     public constructor(connection: Connection) {
         this.connection = connection;
@@ -109,8 +107,8 @@ export default class QueryBuilder {
     }
 
 
-    public async getFieldNames(): Promise<Array<string>> {
-        let result: Array<string> = await this.queryBuilderAdapter.getFieldNames();
+    public async getFieldInfo(): Promise<Array<Record<string, any>>> {
+        let result: Array<Record<string, any>> = await this.queryBuilderAdapter.getFieldInfo();
         return result;
     }
 

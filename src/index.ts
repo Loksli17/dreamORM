@@ -26,6 +26,9 @@ let main = async () => {
 
     console.log(await queryBuilder.getTableNames());
 
+    console.log(await queryBuilder.table("animal").getFieldInfo());
+
+
     let mongoConnection = new Connection({
         dbName : 'dreamORM',
         adapter: 'mongoDb',

@@ -25,6 +25,7 @@ export default class MysqlQueryExecutor implements QueryExecutor {
             });
         },
 
+        //! think about try catch
         connection: (sqlString: string): Promise<any> => {
             return this.connection_.then((connection: mysql.Connection) => {
                 return connection.query(sqlString);

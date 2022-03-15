@@ -24,7 +24,7 @@ export default interface QueryBuilderAdapter {
 
     table(name: string): void; // !work name
 
-    getFieldNames(): Promise<Array<string>> // !work name
+    getFieldInfo(): Promise<Array<Record<string, any>>> // ! think about returned type
 
     getTableNames(): Promise<Array<string>>
 }

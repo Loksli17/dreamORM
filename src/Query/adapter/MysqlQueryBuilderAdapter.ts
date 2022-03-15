@@ -6,6 +6,17 @@ import MysqlQueryExecutor from '../queryExecutor/MysqlQueryExecutor';
 import QueryBuilderAdapter from './QueryBuilderAdapter';
 
 
+interface MysqlTableColumn {
+    Field    : string;
+    Type     : string;
+    Collation: string;
+    Null     : string;
+    Key      : string;
+    Default  : string;
+    Extra    : string;
+
+}
+
 
 export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
@@ -28,15 +39,21 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
     //* end point method
     //! add different arguments this method is not simple
-    public async getFieldNames(): Promise<Array<string>> {
-        let qeuryString: string = `show columns from ${this.queryData.table}`;
+    public async getFieldInfo(): Promise<Array<MysqlTableColumn>> {
+
+        const
+            queryString: string = `show full columns from ${this.queryData.tableName}`,
+            queryResult = await this.queryExecutor.query(queryString);
+
         this.clearQueryData();
-        return [];
+
+        return queryResult[0][0];
     }
 
 
     //* end point method
     public async getTableNames(): Promise<Array<string>> {
+
         let 
             result     : Array<string> = [],
             queryString: string        = `show tables`,
@@ -49,6 +66,7 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
         });
 
         this.clearQueryData();
+
         return result;
     }
 
