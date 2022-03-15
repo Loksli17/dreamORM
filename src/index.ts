@@ -41,6 +41,8 @@ let main = async () => {
     let queryBuilderMongo: QueryBuilder = new QueryBuilder(mongoConnection);
 
     console.log(await queryBuilderMongo.getTableNames());
+
+    console.log(await queryBuilderMongo.table("test").getFieldInfo());
 }
 
 main();
