@@ -26,10 +26,6 @@ export default class PostgreesqlQueryBuilderAdapter implements QueryBuilderAdapt
 
         return result;
     }
-
-    public table(name: string): void {
-        console.log(name);
-    }
     
     /**
      * 

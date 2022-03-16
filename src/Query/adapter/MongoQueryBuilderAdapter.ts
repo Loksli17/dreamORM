@@ -1,6 +1,7 @@
 import MongoDbQueryExecutor         from "../queryExecutor/MongoDbQueryExecutor";
 import QueryBuilderAdapter          from "./QueryBuilderAdapter";
 import { Collection, Db, Document, CollectionInfo, WithId } from "mongodb";
+import { QueryObject } from '../QueryBuilder';
 
 
 
@@ -24,12 +25,7 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
     private clearQueryData(): void {
         this.queryData = {};
     }
-
-    public table(name: string): void {
-        this.queryData.tableName = name;
-    }
     
-
 
     createDb(): void {
         console.log("Method not implemented.");
@@ -89,9 +85,9 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
         return result;
     }
 
-    
+
     //* end point method
-    public async findAll(): Promise<Array<Record<string, any>>> {
+    public async findAll(queryObject: QueryObject): Promise<Array<Record<string, any>>> {
         
         let result: Array<Record<string, any>> = [];
 

@@ -3,19 +3,38 @@ import Entity                                              from "../Entity";
 import QueryBuilderAdapter, { QueryBuilderAdapterFactory } from "./adapter/QueryBuilderAdapter";
 
 
+export interface QueryObject {
+
+    limit? : number;
+    offset?: number;
+
+    where?: Record<string, any>;
+    
+    columns?: Array<string>;
+    
+    sort?: {column: string, order: 'DESC' | 'ASC'};
+
+    tableName?: string;
+}
+
+
 
 export default class QueryBuilder {
 
+
     private queryBuilderAdapter: QueryBuilderAdapter;
     private connection         : Connection;
+    private queryData          : QueryObject = {};
+
 
     public constructor(connection: Connection) {
         this.connection = connection;
         this.queryBuilderAdapter = QueryBuilderAdapterFactory.create(connection.adapter as 'mysql' | 'mongoDb', this.connection.queryExecutor); //! fun for now
     }
 
+
     public table(name: string): QueryBuilder {
-        this.queryBuilderAdapter.table(name);
+        this.queryData.tableName = name;
         return this;
     }
     
@@ -50,33 +69,30 @@ export default class QueryBuilder {
     }
 
 
-    public having(): QueryBuilder {
+    public sort(): QueryBuilder {
         return this;
     }
 
 
-    public orderBy(): QueryBuilder {
+    public limit(value: number): QueryBuilder {
+        this.queryData.limit = value;
         return this;
     }
 
 
-    public limit(): QueryBuilder {
+    public offset(value: number): QueryBuilder {
+        this.queryData.offset = value;
         return this;
     }
 
 
-    public offset(): QueryBuilder {
-        return this;
-    }
-
-
-    public take(): QueryBuilder {
-        return this.limit();
+    public take(value: number): QueryBuilder {
+        return this.limit(value);
     }
 
     
-    public skip(): QueryBuilder {
-        return this.offset();
+    public skip(value: number): QueryBuilder {
+        return this.offset(value);
     }
 
     //todo think about another name?
@@ -106,10 +122,10 @@ export default class QueryBuilder {
 
     //* end point method
     public async findAll(): Promise<Array<Record<string, any>>> {
-        return await this.queryBuilderAdapter.findAll();
+        return await this.queryBuilderAdapter.findAll(this.queryData);
     }
 
-    
+
     //* end point method
     public async getFieldInfo(): Promise<Array<Record<string, any>>> {
         let result: Array<Record<string, any>> = await this.queryBuilderAdapter.getFieldInfo();

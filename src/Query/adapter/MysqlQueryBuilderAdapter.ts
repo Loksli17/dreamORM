@@ -1,8 +1,6 @@
-import mysql2              from 'mysql2';
-import AdapterConnection from '../../Connection/adapter/AdapterConnection';
-import MysqlAdapterConnection from '../../Connection/adapter/MysqlAdapterConnection';
-import Connection from '../../Connection/Connection';
-import MysqlQueryExecutor from '../queryExecutor/MysqlQueryExecutor';
+import MysqlQueryParser    from '../parser/MysqlQueryParser';
+import { QueryObject }     from '../QueryBuilder';
+import MysqlQueryExecutor  from '../queryExecutor/MysqlQueryExecutor';
 import QueryBuilderAdapter from './QueryBuilderAdapter';
 
 
@@ -22,11 +20,14 @@ interface MysqlTableColumn {
 
 export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
-    private queryData    : Record<string, any> = {};
-    private queryExecutor: MysqlQueryExecutor; 
+    private queryData    : Record<string, any> = {}; //! reorganaze this!!!
+    private queryExecutor: MysqlQueryExecutor;
+    private queryParser  : MysqlQueryParser;
+
 
     constructor(queryExecutor: MysqlQueryExecutor){
         this.queryExecutor = queryExecutor;
+        this.queryParser   = new MysqlQueryParser();
     }
 
 
@@ -34,10 +35,6 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
         this.queryData = {};
     }
 
-
-    public table(name: string): void {
-        this.queryData.tableName = name;
-    }
 
     //* end point method
     //! add different arguments this method is not simple
@@ -74,11 +71,13 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
 
     //* end point method
-    public async findAll(): Promise<Array<Record<string, any>>> {
+    public async findAll(queryObject: QueryObject): Promise<Array<Record<string, any>>> {
         
         let 
-            queryString: string = `SELECT * FROM ${this.queryData.tableName}`,
+            queryString: string = this.queryParser.parseSelect(queryObject),
             queryResult;
+
+        console.log(queryString);
 
         queryResult = await this.queryExecutor.query(queryString);
 
