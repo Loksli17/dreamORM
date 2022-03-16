@@ -18,6 +18,8 @@ interface MysqlTableColumn {
 }
 
 
+//!think about MysqlQueryParser for parse QueryObject in SQL query
+
 export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
     private queryData    : Record<string, any> = {};
@@ -68,6 +70,21 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
         this.clearQueryData();
 
         return result;
+    }
+
+
+    //* end point method
+    public async findAll(): Promise<Array<Record<string, any>>> {
+        
+        let 
+            queryString: string = `SELECT * FROM ${this.queryData.tableName}`,
+            queryResult;
+
+        queryResult = await this.queryExecutor.query(queryString);
+
+        this.clearQueryData();
+        
+        return queryResult[0];
     }
 
 

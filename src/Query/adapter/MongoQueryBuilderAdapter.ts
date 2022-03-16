@@ -89,4 +89,13 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
         return result;
     }
 
+    
+    //* end point method
+    public async findAll(): Promise<Array<Record<string, any>>> {
+        
+        let result: Array<Record<string, any>> = [];
+
+        return result;
+    }
+
 }

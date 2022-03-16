@@ -28,28 +28,8 @@ class Animal extends Entity {
 }
 
 
+let tryMongo = async () => {
 
-let main = async () => {
-
-    const dreamORM = new DreamOrm();
-
-    let mysqlConnection: Connection = new Connection({
-        dbName  : 'vueLearn',
-        password: '1234',
-        adapter : 'mysql',
-        type    : 'pool',
-    });
-
-    let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
-
-    console.log(await queryBuilder.getTableNames());
-
-    console.log(await queryBuilder.table("animal").getFieldInfo());
-
-
-    const animal: Animal = new Animal(mysqlConnection); //! strange way
-
-    //* trying mongo
     let mongoConnection = new Connection({
         dbName : 'dreamOrm',
         adapter: 'mongoDb',
@@ -65,6 +45,26 @@ let main = async () => {
     console.log(await queryBuilderMongo.table("test").getFieldInfo());
 }
 
-main();
 
-console.log('dreamORM in porgress');
+
+let main = async () => {
+
+    const dreamORM = new DreamOrm();
+
+    let mysqlConnection: Connection = new Connection({
+        dbName  : 'vueLearn',
+        password: '1234',
+        adapter : 'mysql',
+        type    : 'pool',
+    });
+
+    let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
+
+    console.log(await queryBuilder.table("animal").findAll());
+
+    // const animal: Animal = new Animal(mysqlConnection); //! strange way
+
+    // tryMongo();
+}
+
+main();

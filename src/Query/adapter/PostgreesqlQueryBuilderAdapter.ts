@@ -11,14 +11,26 @@ export default class PostgreesqlQueryBuilderAdapter implements QueryBuilderAdapt
         this.pool = pool;
     }
 
+
+    getFieldInfo(): Promise<Record<string, any>[]> {
+        throw new Error('Method not implemented.');
+    }
+    getTableNames(): Promise<string[]> {
+        throw new Error('Method not implemented.');
+    }
+
+    //* end point method
+    public async findAll(): Promise<Array<Record<string, any>>> {
+        
+        let result: Array<Record<string, any>> = [];
+
+        return result;
+    }
+
     public table(name: string): void {
         console.log(name);
     }
-
-    public getFieldNames(): Array<string> {
-        return [];
-    }
-
+    
     /**
      * 
     CREATE DATABASE test

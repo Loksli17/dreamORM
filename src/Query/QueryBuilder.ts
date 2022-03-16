@@ -3,6 +3,7 @@ import Entity                                              from "../Entity";
 import QueryBuilderAdapter, { QueryBuilderAdapterFactory } from "./adapter/QueryBuilderAdapter";
 
 
+
 export default class QueryBuilder {
 
     private queryBuilderAdapter: QueryBuilderAdapter;
@@ -102,17 +103,21 @@ export default class QueryBuilder {
         return new Entity();
     }
 
-    public find(): Array<Entity> {
-        return [new Entity()];
+
+    //* end point method
+    public async findAll(): Promise<Array<Record<string, any>>> {
+        return await this.queryBuilderAdapter.findAll();
     }
 
-
+    
+    //* end point method
     public async getFieldInfo(): Promise<Array<Record<string, any>>> {
         let result: Array<Record<string, any>> = await this.queryBuilderAdapter.getFieldInfo();
         return result;
     }
 
 
+    //* end point method
     public async getTableNames(): Promise<Array<string>> {
         let result: Array<string> = await this.queryBuilderAdapter.getTableNames();
         return result;

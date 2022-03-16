@@ -30,4 +30,6 @@ export default interface QueryBuilderAdapter {
     getFieldInfo(): Promise<Array<Record<string, any>>> // ! think about returned type
 
     getTableNames(): Promise<Array<string>>
+
+    findAll(): Promise<Array<Record<string, any>>> // ! returned type will be another, you know. i will refactor this later
 }
