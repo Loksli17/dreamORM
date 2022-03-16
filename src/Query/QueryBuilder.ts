@@ -10,7 +10,7 @@ export interface QueryObject {
 
     where?: Record<string, any>;
     
-    columns?: Array<string>;
+    fields?: Array<string>;
     
     sort?: {column: string, order: 'DESC' | 'ASC'};
 
@@ -60,8 +60,8 @@ export default class QueryBuilder {
     // }
 
 
-    public fields(): QueryBuilder {
-
+    public fields(fields: Array<string>): QueryBuilder {
+        this.queryData.fields = fields;
         return this;
     }
 

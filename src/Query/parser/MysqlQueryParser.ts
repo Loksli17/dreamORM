@@ -10,20 +10,20 @@ export default class MysqlQueryParser {
 
     private parseColumns(): void {
 
-        if(this.queryObject.columns == undefined) {
+        if(this.queryObject.fields == undefined) {
             this.sql += '*';
             return;
         };
 
-        this.queryObject.columns.forEach((column: string, index: number) => {
-            if(index != this.queryObject.columns!.length - 1){
+        this.queryObject.fields.forEach((column: string, index: number) => {
+            if(index != this.queryObject.fields!.length - 1){
                 this.sql += `${column}, `;
+            } else {
+                this.sql += `${column}`;
             }
-            this.sql += `${column}`;
         });
 
     }
-
 
     private parseLimit(): void {
 
