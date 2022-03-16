@@ -1,6 +1,8 @@
 import DreamOrm     from './main';
 import Connection   from './Connection/Connection';
 import QueryBuilder from './Query/QueryBuilder';
+import Entity, { PrimaryKey } from './Entity/Entity';
+
 
 /** 
  * ! plan for basic features
@@ -11,7 +13,23 @@ import QueryBuilder from './Query/QueryBuilder';
  */
 
 
+class Animal extends Entity {
+
+    // @PrimaryKey();
+    id?: number;
+
+
+    name?: string;
+
+
+    type?: string;
+}
+
+
+
 let main = async () => {
+
+    
 
     const dreamORM = new DreamOrm();
 
@@ -27,6 +45,9 @@ let main = async () => {
     console.log(await queryBuilder.getTableNames());
 
     console.log(await queryBuilder.table("animal").getFieldInfo());
+
+
+    const animal: Animal = new Animal(mysqlConnection); //! strange way
 
 
     //* trying mongo

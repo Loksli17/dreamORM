@@ -1,4 +1,4 @@
-class DecoratorFactory { 
+export default class DecoratorFactory { 
 
     public static createDecoratorAfter(handler: (data: any) => any){
 
