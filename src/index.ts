@@ -60,7 +60,7 @@ let main = async () => {
 
     let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
 
-    console.log(await queryBuilder.table("animal").findAll());
+    console.log(await queryBuilder.table("animal").offset(4).limit(3).findAll());
 
     // const animal: Animal = new Animal(mysqlConnection); //! strange way
 

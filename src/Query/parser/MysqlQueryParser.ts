@@ -32,12 +32,12 @@ export default class MysqlQueryParser {
         if(this.queryObject.limit == undefined && this.queryObject.offset) throw new Error('Offset can not be exist without Limit!')
     
         if(this.queryObject.limit && this.queryObject.offset == undefined) {
-            this.sql += this.queryObject.limit;
+            this.sql += ` LIMIT ${this.queryObject.limit}`;
             return;
         }
 
         if(this.queryObject.limit && this.queryObject.offset) {
-            this.sql += `${this.queryObject.limit}, ${this.queryObject.offset}`;
+            this.sql += ` LIMIT ${this.queryObject.offset}, ${this.queryObject.limit}`;
             return;
         }
     }

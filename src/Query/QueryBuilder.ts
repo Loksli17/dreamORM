@@ -60,7 +60,8 @@ export default class QueryBuilder {
     // }
 
 
-    public select(): QueryBuilder {
+    public fields(): QueryBuilder {
+
         return this;
     }
 
