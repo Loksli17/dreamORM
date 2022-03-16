@@ -1,7 +1,8 @@
 import DreamOrm     from './main';
 import Connection   from './Connection/Connection';
 import QueryBuilder from './Query/QueryBuilder';
-import Entity, { PrimaryKey } from './Entity/Entity';
+
+import Entity, { MinLength, PrimaryKey, Prop } from './Entity/Entity';
 
 
 /** 
@@ -15,21 +16,20 @@ import Entity, { PrimaryKey } from './Entity/Entity';
 
 class Animal extends Entity {
 
-    // @PrimaryKey();
+    @PrimaryKey()
     id?: number;
 
-
+    @Prop()
+    @MinLength(5)
     name?: string;
 
-
+    @Prop()
     type?: string;
 }
 
 
 
 let main = async () => {
-
-    
 
     const dreamORM = new DreamOrm();
 
@@ -48,7 +48,6 @@ let main = async () => {
 
 
     const animal: Animal = new Animal(mysqlConnection); //! strange way
-
 
     //* trying mongo
     let mongoConnection = new Connection({

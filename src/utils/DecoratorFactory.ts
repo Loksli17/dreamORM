@@ -1,6 +1,6 @@
 export default class DecoratorFactory { 
 
-    public static createDecoratorAfter(handler: (data: any) => any){
+    public static createMethodDecoratorAfter(handler: (data: any) => any){
 
         return (target: Record<string, any>, propertyKey: string, descriptor: PropertyDescriptor) => {
 
@@ -16,7 +16,7 @@ export default class DecoratorFactory {
     }
 
 
-    public static createDecoratorBefore(handler: () => void){
+    public static createMethodDecoratorBefore(handler: () => void){
 
         return (target: Record<string, any>, propertyKey: string, descriptor: PropertyDescriptor) => {
 
@@ -31,4 +31,9 @@ export default class DecoratorFactory {
             return descriptor;
         }
     }
+
+
+    // public static createPropDecorator(handler: () => void) {
+
+    // }
 }
