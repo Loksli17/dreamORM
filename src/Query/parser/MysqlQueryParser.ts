@@ -56,4 +56,17 @@ export default class MysqlQueryParser {
 
         return this.sql;
     }
+
+    public parseQueryResultToTableNames(queryResult: Array<any>): Array<string>{
+
+        let result: Array<string> = [];
+
+        queryResult[0].forEach((item: Record<string, string>) => {
+            for (let key in item){
+                result.push(item[key]);
+            }
+        });
+
+        return result;
+    }
 }

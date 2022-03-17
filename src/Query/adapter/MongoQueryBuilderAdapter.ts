@@ -7,7 +7,7 @@ import { MongoDbQueryParser } from "../parser/MongoDbQueryParser";
 
 
 
-interface MongoCollectionDocument {
+export interface MongoCollectionDocument {
     type: string;
     name: string;
 }
@@ -58,22 +58,7 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
             throw new Error(`Collection ${queryData.tableName} hasn't have any document. You should add document for getting Entity structure.`);
         }
 
-        for (const field in collectionDocument) {
-            if (Object.prototype.hasOwnProperty.call(collectionDocument, field)) {
-                
-                let
-                    fieldData: any    = collectionDocument[field],
-                    type     : string = typeof fieldData
-                
-                if(fieldData instanceof Date) type = "date";
-                if(field == '_id') type = "string";
-        
-                result.push({
-                    name: field,
-                    type: type,
-                });
-            }
-        }
+        result = this.queryParser.parseDocumentToNamesArray(collectionDocument);
 
         return result;
     }

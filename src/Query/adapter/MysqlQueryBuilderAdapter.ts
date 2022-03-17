@@ -20,7 +20,7 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
     private queryExecutor: MysqlQueryExecutor;
     private queryParser  : MysqlQueryParser;
-    
+
 
     constructor(queryExecutor: MysqlQueryExecutor){
         this.queryExecutor = queryExecutor;
@@ -48,12 +48,7 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
             queryString: string        = `show tables`,
             queryResult: Array<any>    = await this.queryExecutor.query(queryString);
 
-        //! go to parser?
-        queryResult[0].forEach((item: Record<string, string>) => {
-            for (let key in item){
-                result.push(item[key]);
-            }
-        });
+        result = this.queryParser.parseQueryResultToTableNames(queryResult);
 
         return result;
     }
