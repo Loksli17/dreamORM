@@ -3,7 +3,7 @@ import Entity                                              from "../Entity";
 import QueryBuilderAdapter, { QueryBuilderAdapterFactory } from "./adapter/QueryBuilderAdapter";
 
 
-export interface QueryObject {
+export interface QueryData {
 
     limit? : number;
     offset?: number;
@@ -19,12 +19,14 @@ export interface QueryObject {
 
 
 
+//! add queryData clear
+
 export default class QueryBuilder {
 
 
     private queryBuilderAdapter: QueryBuilderAdapter;
     private connection         : Connection;
-    private queryData          : QueryObject = {};
+    private queryData          : QueryData = {};
 
 
     public constructor(connection: Connection) {

@@ -1,22 +1,22 @@
-import { QueryObject } from "../QueryBuilder";
+import { QueryData  } from "../QueryBuilder";
 
 
 
 export default class MysqlQueryParser {
 
-    private queryObject: QueryObject = {};
-    private sql        : string      = '';
+    private queryData: QueryData = {};
+    private sql        : string    = '';
 
 
     private parseColumns(): void {
 
-        if(this.queryObject.fields == undefined) {
+        if(this.queryData.fields == undefined) {
             this.sql += '*';
             return;
         };
 
-        this.queryObject.fields.forEach((column: string, index: number) => {
-            if(index != this.queryObject.fields!.length - 1){
+        this.queryData.fields.forEach((column: string, index: number) => {
+            if(index != this.queryData.fields!.length - 1){
                 this.sql += `${column}, `;
             } else {
                 this.sql += `${column}`;
@@ -27,30 +27,30 @@ export default class MysqlQueryParser {
 
     private parseLimit(): void {
 
-        if(this.queryObject.limit == undefined && this.queryObject.offset == undefined) return;
+        if(this.queryData.limit == undefined && this.queryData.offset == undefined) return;
 
-        if(this.queryObject.limit == undefined && this.queryObject.offset) throw new Error('Offset can not be exist without Limit!')
+        if(this.queryData.limit == undefined && this.queryData.offset) throw new Error('Offset can not be exist without Limit!')
     
-        if(this.queryObject.limit && this.queryObject.offset == undefined) {
-            this.sql += ` LIMIT ${this.queryObject.limit}`;
+        if(this.queryData.limit && this.queryData.offset == undefined) {
+            this.sql += ` LIMIT ${this.queryData.limit}`;
             return;
         }
 
-        if(this.queryObject.limit && this.queryObject.offset) {
-            this.sql += ` LIMIT ${this.queryObject.offset}, ${this.queryObject.limit}`;
+        if(this.queryData.limit && this.queryData.offset) {
+            this.sql += ` LIMIT ${this.queryData.offset}, ${this.queryData.limit}`;
             return;
         }
     }
 
 
-    public parseSelect(queryObject: QueryObject): string {
+    public parseSelect(queryData: QueryData): string {
 
-        this.queryObject = queryObject;
+        this.queryData = queryData;
 
         this.sql += 'SELECT ';
         this.parseColumns();
         this.sql += " FROM ";
-        this.sql += this.queryObject.tableName
+        this.sql += this.queryData.tableName
 
         this.parseLimit();
 

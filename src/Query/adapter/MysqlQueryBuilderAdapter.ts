@@ -1,5 +1,5 @@
 import MysqlQueryParser    from '../parser/MysqlQueryParser';
-import { QueryObject }     from '../QueryBuilder';
+import { QueryData }       from '../QueryBuilder';
 import MysqlQueryExecutor  from '../queryExecutor/MysqlQueryExecutor';
 import QueryBuilderAdapter from './QueryBuilderAdapter';
 
@@ -20,7 +20,7 @@ interface MysqlTableColumn {
 
 export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
-    private queryData    : Record<string, any> = {}; //! reorganaze this!!!
+    private queryData    : QueryData           = {};
     private queryExecutor: MysqlQueryExecutor;
     private queryParser  : MysqlQueryParser;
 
@@ -71,7 +71,7 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
 
     //* end point method
-    public async findAll(queryObject: QueryObject): Promise<Array<Record<string, any>>> {
+    public async findAll(queryObject: QueryData): Promise<Array<Record<string, any>>> {
         
         let 
             queryString: string = this.queryParser.parseSelect(queryObject),

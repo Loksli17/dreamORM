@@ -40,16 +40,11 @@ let tryMongo = async () => {
 
     let queryBuilderMongo: QueryBuilder = new QueryBuilder(mongoConnection);
 
-    console.log(await queryBuilderMongo.getTableNames());
-
-    console.log(await queryBuilderMongo.table("test").getFieldInfo());
+    console.log(await queryBuilderMongo.table("test").findAll());
 }
 
 
-
-let main = async () => {
-
-    const dreamORM = new DreamOrm();
+let tryMySQL = async () => {
 
     let mysqlConnection: Connection = new Connection({
         dbName  : 'vueLearn',
@@ -66,10 +61,19 @@ let main = async () => {
                         .limit(3)
                         .findAll()
                 );
+}
+
+
+
+let main = async () => {
+
+    const dreamORM = new DreamOrm();
 
     // const animal: Animal = new Animal(mysqlConnection);
 
-    // tryMongo();
+    tryMongo();
+
+    // tryMySQL();
 }
 
 main();
