@@ -45,6 +45,7 @@ let tryMongo = async () => {
     console.log(await queryBuilderMongo.table("test")
         .limit(5)
         .skip(2)
+        .fields(['field1', 'field2'])
         .findAll()
     );
 }

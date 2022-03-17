@@ -5,7 +5,6 @@ import { MongoCollectionDocument } from "../adapter/MongoQueryBuilderAdapter";
 
 export class MongoDbQueryParser {
 
-  
     public parseFindAllCursor(findCursor: FindCursor<WithId<Document>>, queryData: QueryData): FindCursor<WithId<Document>> {
 
         if(queryData.limit != undefined){
@@ -14,6 +13,21 @@ export class MongoDbQueryParser {
 
         if(queryData.offset != undefined) {
             findCursor = findCursor.skip(queryData.offset);
+        }
+
+        if(queryData.fields != undefined) {
+
+            let projection: Record<string, 1 | 0> = {};
+
+            if(!queryData.fields.includes('_id')){
+                projection['_id'] = 0;
+            }
+
+            queryData.fields.forEach((field: string) => {
+                projection[field] = 1; 
+            });
+
+            findCursor.project(projection);
         }
 
         return findCursor;
