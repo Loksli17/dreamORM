@@ -57,6 +57,8 @@ let tryMySQL = async () => {
 
     let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
 
+    await queryBuilder.getTableNames();
+
     console.log(await queryBuilder.table('animal').getFieldsInfo());
 
     console.log(await queryBuilder.table("animal")
@@ -75,9 +77,9 @@ let main = async () => {
 
     // const animal: Animal = new Animal(mysqlConnection);
 
-    // tryMongo();
+    tryMongo();
 
-    tryMySQL();
+    // tryMySQL();
 }
 
 main();

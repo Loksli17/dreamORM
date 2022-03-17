@@ -16,14 +16,11 @@ interface MysqlTableColumn {
 }
 
 
-//!think about MysqlQueryParser for parse QueryObject in SQL query
-
 export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
-    private queryData    : QueryData           = {};
     private queryExecutor: MysqlQueryExecutor;
     private queryParser  : MysqlQueryParser;
-
+    
 
     constructor(queryExecutor: MysqlQueryExecutor){
         this.queryExecutor = queryExecutor;
@@ -31,20 +28,13 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
     }
 
 
-    private clearQueryData(): void {
-        this.queryData = {};
-    }
-
-
     //* end point method
     //! add different arguments this method is not simple
-    public async getFieldInfo(): Promise<Array<MysqlTableColumn>> {
+    public async getFieldsInfo(queryData: QueryData): Promise<Array<MysqlTableColumn>> {
 
         const
-            queryString: string = `show full columns from ${this.queryData.tableName}`,
+            queryString: string = `show full columns from ${queryData.tableName}`,
             queryResult = await this.queryExecutor.query(queryString);
-
-        this.clearQueryData();
 
         return queryResult[0][0];
     }
@@ -58,13 +48,12 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
             queryString: string        = `show tables`,
             queryResult: Array<any>    = await this.queryExecutor.query(queryString);
 
+        //! go to parser?
         queryResult[0].forEach((item: Record<string, string>) => {
             for (let key in item){
                 result.push(item[key]);
             }
         });
-
-        this.clearQueryData();
 
         return result;
     }
@@ -80,8 +69,6 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
         console.log(queryString);
 
         queryResult = await this.queryExecutor.query(queryString);
-
-        this.clearQueryData();
         
         return queryResult[0];
     }

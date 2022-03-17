@@ -4,7 +4,7 @@ import MongoQueryBuilderAdapter from "./MongoQueryBuilderAdapter";
 import QueryExecutor        from "../queryExecutor/QueryExecutor";
 import MysqlQueryExecutor   from "../queryExecutor/MysqlQueryExecutor";
 import MongoDbQueryExecutor from "../queryExecutor/MongoDbQueryExecutor";
-import { QueryObject }      from '../QueryBuilder';
+import { QueryData }        from '../QueryBuilder';
 
 
 
@@ -26,9 +26,9 @@ export default interface QueryBuilderAdapter {
 
     createDb(): void;
 
-    getFieldInfo(): Promise<Array<Record<string, any>>> // ! think about returned type
+    getFieldsInfo(queryData: QueryData): Promise<Array<Record<string, any>>> // ! think about returned type
 
     getTableNames(): Promise<Array<string>>
 
-    findAll(queryObject: QueryObject): Promise<Array<Record<string, any>>> // ! returned type will be another, you know. i will refactor this later
+    findAll(queryData: QueryData): Promise<Array<Record<string, any>>> // ! returned type will be another, you know. i will refactor this later
 }

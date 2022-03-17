@@ -1,7 +1,9 @@
 import MongoDbQueryExecutor         from "../queryExecutor/MongoDbQueryExecutor";
 import QueryBuilderAdapter          from "./QueryBuilderAdapter";
 import { Collection, Db, Document, CollectionInfo, WithId } from "mongodb";
-import { QueryObject } from '../QueryBuilder';
+
+import { QueryData }          from '../QueryBuilder';
+import { MongoDbQueryParser } from "../parser/MongoDbQueryParser";
 
 
 
@@ -14,16 +16,15 @@ interface MongoCollectionDocument {
 
 export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
 
-    private queryData    : Record<string, any> = {};
     private queryExecutor: MongoDbQueryExecutor;
+    // private queryParser  : MongoDbQueryParser;
+    private db           : Promise<Db>;
 
     
     constructor(queryExecutor: MongoDbQueryExecutor){
         this.queryExecutor = queryExecutor;
-    }
-
-    private clearQueryData(): void {
-        this.queryData = {};
+        // this.queryParser   = new MongoDbQueryParser(this.queryExecutor.query());
+        this.db = this.queryExecutor.query();
     }
     
 
@@ -35,11 +36,9 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
 
     //* end point method
     public async getTableNames(): Promise<Array<string>> {
-        
-        const db: Db = (await this.queryExecutor.query());
 
         let
-            queryResult = await db.listCollections().toArray(),
+            queryResult = await this.queryExecutor.getCollectionsName(),
             result: Array<string> = [];
 
         queryResult.forEach((collection: CollectionInfo) => {
@@ -51,16 +50,14 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
 
 
     //* end point method
-    public async getFieldInfo(): Promise<Array<MongoCollectionDocument>> {
-        
-        const db: Db = (await this.queryExecutor.query());
+    public async getFieldsInfo(queryData: QueryData): Promise<Array<MongoCollectionDocument>> {
 
         let 
             result            : Array<MongoCollectionDocument> = [],
-            collectionDocument: WithId<Document> | null = await db.collection(this.queryData.tableName).findOne();
+            collectionDocument: WithId<Document> | null = await this.queryExecutor.findOne(queryData);
 
         if(collectionDocument == undefined) {
-            throw new Error(`Collection ${this.queryData.tableName} hasn't have any document. You should add document for getting Entity structure.`);
+            throw new Error(`Collection ${queryData.tableName} hasn't have any document. You should add document for getting Entity structure.`);
         }
 
         for (const field in collectionDocument) {
@@ -80,16 +77,14 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
             }
         }
 
-        this.clearQueryData(); //? decorator
-
         return result;
     }
 
 
     //* end point method
-    public async findAll(queryObject: QueryObject): Promise<Array<Record<string, any>>> {
+    public async findAll(queryData: QueryData): Promise<Array<Record<string, any>>> {
         
-        let result: Array<Record<string, any>> = [];
+        let result: Array<Record<string, any>> = await this.queryExecutor.findAll(queryData);
 
         return result;
     }
