@@ -1,22 +1,20 @@
 import { QueryData } from "../QueryBuilder";
-import { Db }          from "mongodb";
+import { Collection, Db, Document, CollectionInfo, WithId, FindCursor } from "mongodb";
 
 
 export class MongoDbQueryParser {
 
-    private queryData: QueryData = {};
-    private db       : Promise<Db>;
+  
+    public parseFindAllCursor(findCursor: FindCursor<WithId<Document>>, queryData: QueryData){
 
+        if(queryData.limit != undefined){
+           findCursor = findCursor.limit(queryData.limit);
+        }
 
-    constructor(db: Promise<Db>){
-        this.db = db;
-    }
+        if(queryData.offset != undefined) {
+            findCursor = findCursor.skip(queryData.offset);
+        }
 
-
-    public async parseFindOne(queryData: QueryData){
-        
-        this.queryData = queryData;
-
-        // return await (await this.db).collection(this.queryData.tableName!).;
+        return findCursor;
     }
 }

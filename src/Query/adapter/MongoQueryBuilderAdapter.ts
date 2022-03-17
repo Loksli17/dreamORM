@@ -1,6 +1,6 @@
 import MongoDbQueryExecutor         from "../queryExecutor/MongoDbQueryExecutor";
 import QueryBuilderAdapter          from "./QueryBuilderAdapter";
-import { Collection, Db, Document, CollectionInfo, WithId } from "mongodb";
+import { Collection, Db, Document, CollectionInfo, WithId, FindCursor } from "mongodb";
 
 import { QueryData }          from '../QueryBuilder';
 import { MongoDbQueryParser } from "../parser/MongoDbQueryParser";
@@ -17,14 +17,12 @@ interface MongoCollectionDocument {
 export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
 
     private queryExecutor: MongoDbQueryExecutor;
-    // private queryParser  : MongoDbQueryParser;
-    private db           : Promise<Db>;
+    private queryParser  : MongoDbQueryParser;
 
     
     constructor(queryExecutor: MongoDbQueryExecutor){
         this.queryExecutor = queryExecutor;
-        // this.queryParser   = new MongoDbQueryParser(this.queryExecutor.query());
-        this.db = this.queryExecutor.query();
+        this.queryParser   = new MongoDbQueryParser();
     }
     
 
@@ -83,10 +81,12 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
 
     //* end point method
     public async findAll(queryData: QueryData): Promise<Array<Record<string, any>>> {
-        
-        let result: Array<Record<string, any>> = await this.queryExecutor.findAll(queryData);
 
-        return result;
+        let findCursor: FindCursor<WithId<Document>> = await this.queryExecutor.findAll(queryData);
+        
+        this.queryParser.parseFindAllCursor(findCursor, queryData);
+        
+        return findCursor.toArray();
     }
 
 }

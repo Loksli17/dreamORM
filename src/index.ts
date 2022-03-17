@@ -42,7 +42,11 @@ let tryMongo = async () => {
 
     console.log(await queryBuilderMongo.table('test').getFieldsInfo())
 
-    console.log(await queryBuilderMongo.table("test").findAll());
+    console.log(await queryBuilderMongo.table("test")
+        .limit(5)
+        .skip(2)
+        .findAll()
+    );
 }
 
 
@@ -62,11 +66,11 @@ let tryMySQL = async () => {
     console.log(await queryBuilder.table('animal').getFieldsInfo());
 
     console.log(await queryBuilder.table("animal")
-                        .fields(['id', 'type'])
-                        .offset(4)
-                        .limit(3)
-                        .findAll()
-                );
+        .fields(['id', 'type'])
+        .offset(4)
+        .limit(3)
+        .findAll()
+    );
 }
 
 

@@ -39,12 +39,12 @@ export default class MongoDbQueryExecutor implements QueryExecutor {
     }
 
 
-    public async findAll(queryData: QueryData): Promise<Array<Record<string, any>>> {
+    public async findAll(queryData: QueryData): Promise<FindCursor<WithId<Document>>> {
         
         const collection: Collection<Document> = await this.bindCollection(queryData.tableName);
 
         const result: FindCursor<WithId<Document>> = await collection.find();
         
-        return result.toArray();
+        return result;
     }
 }
