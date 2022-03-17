@@ -40,6 +40,8 @@ let tryMongo = async () => {
 
     let queryBuilderMongo: QueryBuilder = new QueryBuilder(mongoConnection);
 
+    console.log(await queryBuilderMongo.table('test').getFieldsInfo())
+
     console.log(await queryBuilderMongo.table("test").findAll());
 }
 
@@ -54,6 +56,8 @@ let tryMySQL = async () => {
     });
 
     let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
+
+    console.log(await queryBuilder.table('animal').getFieldsInfo());
 
     console.log(await queryBuilder.table("animal")
                         .fields(['id', 'type'])
@@ -71,9 +75,9 @@ let main = async () => {
 
     // const animal: Animal = new Animal(mysqlConnection);
 
-    tryMongo();
+    // tryMongo();
 
-    // tryMySQL();
+    tryMySQL();
 }
 
 main();

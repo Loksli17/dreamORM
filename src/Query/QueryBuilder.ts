@@ -130,8 +130,8 @@ export default class QueryBuilder {
 
 
     //* end point method
-    public async getFieldInfo(): Promise<Array<Record<string, any>>> {
-        let result: Array<Record<string, any>> = await this.queryBuilderAdapter.getFieldInfo();
+    public async getFieldsInfo(): Promise<Array<Record<string, any>>> {
+        let result: Array<Record<string, any>> = await this.queryBuilderAdapter.getFieldsInfo(this.queryData);
         return result;
     }
 

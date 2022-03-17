@@ -5,7 +5,7 @@ import { QueryData  } from "../QueryBuilder";
 export default class MysqlQueryParser {
 
     private queryData: QueryData = {};
-    private sql        : string    = '';
+    private sql      : string    = '';
 
 
     private parseColumns(): void {
