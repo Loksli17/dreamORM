@@ -65,23 +65,22 @@ let tryMySQL = async () => {
 
     await queryBuilder.getTableNames();
 
-    console.log(await queryBuilder.table('animal').getFieldsInfo());
+    // console.log(await queryBuilder.table('animal').getFieldsInfo());
 
     console.log(await queryBuilder.table("animal")
         .where(
             new WhereChain()
-                .equal({id: 7})
-                .or({id: 6})
-                .like({name: 'Holodidov'})
-                .in({id: [1, 5, 6, 10, 12]})
-                .bracket(
-                    new WhereChain()
-                    .equal({id: 5})
-                    .or({id: 10})
-                )
+                .equal({id: 14})
+                // .or({id: 6})
+                // .like({name: 'Holodidov'})
+                // .in({id: [1, 5, 6, 10, 12]})
+                // .bracket(
+                //     new WhereChain()
+                //     .equal({id: 5})
+                //     .or({id: 10})
+                // )
 
         )
-        .offset(4)
         .limit(3)
         .findAll()
     );

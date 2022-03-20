@@ -1,7 +1,6 @@
 import MysqlQueryParser    from '../parser/MysqlQueryParser';
 import { QueryData }       from '../QueryBuilder';
 import MysqlQueryExecutor  from '../queryExecutor/MysqlQueryExecutor';
-import WhereChain, { WhereChainParserFactory }          from '../whereChain/WhereChain';
 import QueryBuilderAdapter from './QueryBuilderAdapter';
 
 

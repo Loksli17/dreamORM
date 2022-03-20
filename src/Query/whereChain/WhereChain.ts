@@ -9,17 +9,17 @@ export interface WhereParser {
 }
 
 
-export abstract class WhereChainParserFactory {
+// export abstract class WhereChainParserFactory {
 
-    private static parserAssociates: Record<string, any> = {
-        mysql  : () => { return new MysqlWhereParser() },
-        mongoDb: () => { return new MongoDbWhereParser()}
-    };
+//     private static parserAssociates: Record<string, any> = {
+//         mysql  : () => { return new MysqlWhereParser() },
+//         mongoDb: () => { return new MongoDbWhereParser()}
+//     };
 
-    public static create(type: 'mysql' | 'mongoDb'): WhereParser {
-        return WhereChainParserFactory.parserAssociates[type]();
-    }
-}
+//     public static create(type: 'mysql' | 'mongoDb'): WhereParser {
+//         return WhereChainParserFactory.parserAssociates[type]();
+//     }
+// }
 
 
 
