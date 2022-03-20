@@ -43,6 +43,7 @@ let tryMongo = async () => {
     console.log(await queryBuilderMongo.table('test').getFieldsInfo())
 
     console.log(await queryBuilderMongo.table("test")
+        .where()
         .limit(5)
         .skip(2)
         .fields(['field1', 'field2'])
@@ -82,9 +83,9 @@ let main = async () => {
 
     // const animal: Animal = new Animal(mysqlConnection);
 
-    tryMongo();
+    // tryMongo();
 
-    // tryMySQL();
+    tryMySQL();
 }
 
 main();

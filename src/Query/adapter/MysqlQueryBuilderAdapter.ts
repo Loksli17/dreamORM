@@ -36,7 +36,7 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
             queryString: string = `show full columns from ${queryData.tableName}`,
             queryResult = await this.queryExecutor.query(queryString);
 
-        return queryResult[0][0];
+        return queryResult[0];
     }
 
 

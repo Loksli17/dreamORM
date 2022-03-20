@@ -5,6 +5,7 @@ import { MongoCollectionDocument } from "../adapter/MongoQueryBuilderAdapter";
 
 export class MongoDbQueryParser {
 
+    
     public parseFindAllCursor(findCursor: FindCursor<WithId<Document>>, queryData: QueryData): FindCursor<WithId<Document>> {
 
         if(queryData.limit != undefined){

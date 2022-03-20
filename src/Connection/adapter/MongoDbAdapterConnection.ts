@@ -12,7 +12,9 @@ export default class MongoDbAdapterConnection implements AdapterConnection {
 
     private queryExecutor_!: MongoDbQueryExecutor;
 
+    
     private connectionType: 'connection' | 'pool' | 'cluster' = 'connection';
+
 
     private connectionTypesAssociations: Record<string, (params: ConnectionAttributes) => Promise<Db>> = {
         // pool      : params => this.createPool(params),
@@ -20,6 +22,7 @@ export default class MongoDbAdapterConnection implements AdapterConnection {
         // cluster   : params => this.createPoolCluster(params),
     }
     
+
     public create(params: ConnectionAttributes): void {
         if(params.type) this.connectionType = params.type;
 
