@@ -4,7 +4,9 @@ import { WhereParser } from "./WhereChain";
 export default class MysqlWhereParser implements WhereParser {
 
     private associations: Record<string, (data: any) => void> = {
-        'equal': (data: any) => this.parseEqual(data), 
+        'equal': (data: any) => this.parseEqual(data),
+        'or'   : (data: any) => this.parseOr(data),
+        'and'  : (data: any) => this.parseAnd(data),
     };
 
     //! fix returned type
@@ -13,7 +15,6 @@ export default class MysqlWhereParser implements WhereParser {
         let sql: string = '';
 
         data.forEach((value: [string, any], index: number) => {
-
             sql += ' ' + this.associations[value[0]](value[1]);
         });
 
@@ -39,6 +40,18 @@ export default class MysqlWhereParser implements WhereParser {
 
         return this.readObject(data, (value: string | number, key: string): string => {
             return `${key} = ${value}`;
+        });
+    }
+
+    private parseOr(data: any): string {
+        return this.readObject(data, (value: string | number, key: string): string => {
+            return `OR ${key} = ${value}`;
+        });
+    }
+
+    private parseAnd(data: any): string {
+        return this.readObject(data, (value: string | number, key: string): string => {
+            return `AND ${key} = ${value}`;
         });
     }
  

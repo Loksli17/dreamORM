@@ -71,7 +71,8 @@ let tryMySQL = async () => {
         .where(
             new WhereChain()
                 .equal({id: 14})
-                // .or({id: 6})
+                .or({id: 6})
+                // .and({id: 8})
                 // .like({name: 'Holodidov'})
                 // .in({id: [1, 5, 6, 10, 12]})
                 // .bracket(
