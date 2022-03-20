@@ -1,6 +1,7 @@
 import MysqlQueryParser    from '../parser/MysqlQueryParser';
 import { QueryData }       from '../QueryBuilder';
 import MysqlQueryExecutor  from '../queryExecutor/MysqlQueryExecutor';
+import WhereChain, { WhereChainParserFactory }          from '../whereChain/WhereChain';
 import QueryBuilderAdapter from './QueryBuilderAdapter';
 
 
@@ -26,7 +27,6 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
         this.queryExecutor = queryExecutor;
         this.queryParser   = new MysqlQueryParser();
     }
-
 
     //* end point method
     //! add different arguments this method is not simple
@@ -67,7 +67,6 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
         
         return queryResult[0];
     }
-
 
     /**
      * create database dreamorm;

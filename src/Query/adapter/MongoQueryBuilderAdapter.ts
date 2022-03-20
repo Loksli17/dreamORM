@@ -4,6 +4,7 @@ import { Collection, Db, Document, CollectionInfo, WithId, FindCursor } from "mo
 
 import { QueryData }          from '../QueryBuilder';
 import { MongoDbQueryParser } from "../parser/MongoDbQueryParser";
+import WhereChain from "../whereChain/WhereChain";
 
 
 
@@ -24,8 +25,8 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
         this.queryExecutor = queryExecutor;
         this.queryParser   = new MongoDbQueryParser();
     }
-    
 
+    
     createDb(): void {
         console.log("Method not implemented.");
     }

@@ -1,4 +1,6 @@
 import { Pool }            from 'pg';
+import { QueryData } from '../QueryBuilder';
+import WhereChain from '../whereChain/WhereChain';
 import QueryBuilderAdapter from './QueryBuilderAdapter';
 
 
@@ -11,10 +13,10 @@ export default class PostgreesqlQueryBuilderAdapter implements QueryBuilderAdapt
         this.pool = pool;
     }
 
-
-    getFieldInfo(): Promise<Record<string, any>[]> {
+    getFieldsInfo(queryData: QueryData): Promise<Record<string, any>[]> {
         throw new Error('Method not implemented.');
     }
+    
     getTableNames(): Promise<string[]> {
         throw new Error('Method not implemented.');
     }

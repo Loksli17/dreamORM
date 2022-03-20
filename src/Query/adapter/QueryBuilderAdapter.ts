@@ -5,6 +5,7 @@ import QueryExecutor        from "../queryExecutor/QueryExecutor";
 import MysqlQueryExecutor   from "../queryExecutor/MysqlQueryExecutor";
 import MongoDbQueryExecutor from "../queryExecutor/MongoDbQueryExecutor";
 import { QueryData }        from '../QueryBuilder';
+import WhereChain from "../whereChain/WhereChain";
 
 
 

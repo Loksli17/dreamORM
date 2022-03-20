@@ -1,4 +1,6 @@
 import { QueryData  } from "../QueryBuilder";
+import MysqlWhereParser from "../whereChain/MysqlWhereParser";
+import WhereChain, { WhereChainParserFactory } from "../whereChain/WhereChain";
 
 
 
@@ -43,6 +45,28 @@ export default class MysqlQueryParser {
     }
 
 
+    private parseWhere(): void {
+
+        if(this.queryData.where == undefined){
+            throw new Error('No data for where!');
+        }
+
+        const params: WhereChain | string = this.queryData.where as WhereChain | string;
+
+        if(params instanceof WhereChain){
+            //* WhereChain..
+
+            let chain: WhereChain = params;
+
+            let parser: MysqlWhereParser = WhereChainParserFactory.create('mysql');
+            this.sql += parser.parse(chain.data);
+
+        } else {
+
+        }
+    }
+
+
     public parseSelect(queryData: QueryData): string {
 
         this.queryData = queryData;
@@ -52,10 +76,13 @@ export default class MysqlQueryParser {
         this.sql += " FROM ";
         this.sql += this.queryData.tableName
 
+        this.parseWhere();
+
         this.parseLimit();
 
         return this.sql;
     }
+
 
     public parseQueryResultToTableNames(queryResult: Array<any>): Array<string>{
 

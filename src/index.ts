@@ -1,6 +1,7 @@
 import DreamOrm     from './main';
 import Connection   from './Connection/Connection';
 import QueryBuilder from './Query/QueryBuilder';
+import WhereChain   from './Query/whereChain/WhereChain';
 
 import Entity, { MinLength, PrimaryKey, Prop } from './Entity/Entity';
 
@@ -43,7 +44,6 @@ let tryMongo = async () => {
     console.log(await queryBuilderMongo.table('test').getFieldsInfo())
 
     console.log(await queryBuilderMongo.table("test")
-        .where()
         .limit(5)
         .skip(2)
         .fields(['field1', 'field2'])
@@ -68,7 +68,19 @@ let tryMySQL = async () => {
     console.log(await queryBuilder.table('animal').getFieldsInfo());
 
     console.log(await queryBuilder.table("animal")
-        .fields(['id', 'type'])
+        .where(
+            new WhereChain()
+                .equal({id: 7})
+                .or({id: 6})
+                .like({name: 'Holodidov'})
+                .in({id: [1, 5, 6, 10, 12]})
+                .bracket(
+                    new WhereChain()
+                    .equal({id: 5})
+                    .or({id: 10})
+                )
+
+        )
         .offset(4)
         .limit(3)
         .findAll()
