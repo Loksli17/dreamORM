@@ -73,7 +73,7 @@ let tryMySQL = async () => {
                 .in({id: [1, 2, 14, 56]})
                 .andIn({name: [1, 5, 6, 10, 12]})
                 // .equal({id: 14})
-                // .or({id: 6})
+                .orEq({id: 6})
                 // .and({id: 8})
                 // .like({name: 'Holodidov'})
                 // 

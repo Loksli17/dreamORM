@@ -4,9 +4,9 @@ import { WhereParser } from "./WhereChain";
 export default class MysqlWhereParser implements WhereParser {
 
     private associations: Record<string, (data: any) => void> = {
-        'equal': (data: any) => this.parseEqual(data),
-        'or'   : (data: any) => this.parseOr(data),
-        'and'  : (data: any) => this.parseAnd(data),
+        'eq'   : (data: any) => this.parseEqual(data),
+        'orEq' : (data: any) => this.parseOr(data),
+        'andEq': (data: any) => this.parseAnd(data),
         'in'   : (data: any) => this.parseIn(data),
         'andIn': (data: any) => this.parseAndIn(data),
         'orIn' : (data: any) => this.parseOrIn(data),

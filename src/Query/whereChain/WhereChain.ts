@@ -36,20 +36,20 @@ export default class WhereChain {
     }
 
 
-    public equal(obj: Record<string, number | boolean | string>): WhereChain {
-        this.data_.push(['equal', obj]);
+    public eq(obj: Record<string, number | boolean | string>): WhereChain {
+        this.data_.push(['eq', obj]);
         return this;
     }
 
 
-    public or(obj: Record<string, number | boolean | string>): WhereChain {
-        this.data_.push(['or', obj]);
+    public orEq(obj: Record<string, number | boolean | string>): WhereChain {
+        this.data_.push(['orEq', obj]);
         return this;
     }
 
 
-    public and(obj: Record<string, number | boolean | string>): WhereChain {
-        this.data_.push(['and', obj]);
+    public andEq(obj: Record<string, number | boolean | string>): WhereChain {
+        this.data_.push(['andEq', obj]);
         return this;
     }
 
