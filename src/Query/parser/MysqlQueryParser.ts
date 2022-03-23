@@ -56,10 +56,10 @@ export default class MysqlQueryParser {
         if(params instanceof WhereBuilder){
             //* WhereBuilder..
 
-            let chain: WhereBuilder = params;
+            let builder: WhereBuilder = params;
 
             let parser: MysqlWhereParser = new MysqlWhereParser();
-            this.sql += ' WHERE' + parser.parse(chain.data);
+            this.sql += ' WHERE' + parser.parse(builder.data);
 
         } else {
 

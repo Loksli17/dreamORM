@@ -78,7 +78,17 @@ export default class WhereBuilder {
 
 
     public bracket(whereBuilder: WhereBuilder): WhereBuilder {
-        
+        this.data_.push(['bracket', whereBuilder]);
+        return this;
+    }
+
+    public orBracket(whereBuilder: WhereBuilder): WhereBuilder {
+        this.data_.push(['orBracket', whereBuilder]);
+        return this;
+    }
+
+    public andBracket(whereBuilder: WhereBuilder): WhereBuilder {
+        this.data_.push(['andBracket', whereBuilder]);
         return this;
     }
 

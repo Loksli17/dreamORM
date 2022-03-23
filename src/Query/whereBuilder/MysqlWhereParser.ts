@@ -1,4 +1,4 @@
-import { WhereParser } from "./WhereBuilder";
+import WhereBuilder, { WhereParser } from "./WhereBuilder";
 
 
 export default class MysqlWhereParser implements WhereParser {
@@ -7,9 +7,14 @@ export default class MysqlWhereParser implements WhereParser {
         'eq'   : (data: any) => this.parseEqual(data),
         'orEq' : (data: any) => this.parseOr(data),
         'andEq': (data: any) => this.parseAnd(data),
+
         'in'   : (data: any) => this.parseIn(data),
         'andIn': (data: any) => this.parseAndIn(data),
         'orIn' : (data: any) => this.parseOrIn(data),
+
+        'bracket'   : (data: any) => this.parseBracket(data),
+        'orBracket' : (data: any) => this.orParseBracket(data),
+        'andBracket': (data: any) => this.andParseBracket(data),
     };
 
     //! fix returned type
@@ -75,6 +80,21 @@ export default class MysqlWhereParser implements WhereParser {
         return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
             return `OR ${key} in (${(value as Array<number>).join(', ')})`;
         })
+    }
+
+    private parseBracket(whereBuilder: WhereBuilder): string {
+        let result: string = '(' + this.parse(whereBuilder.data) + ')';
+        return result;
+    }
+
+    private andParseBracket(whereBuilder: WhereBuilder): string {
+        let result: string = 'AND (' + this.parse(whereBuilder.data) + ')';
+        return result;
+    }
+
+    private orParseBracket(whereBuilder: WhereBuilder): string {
+        let result: string = 'OR (' + this.parse(whereBuilder.data) + ')';
+        return result;
     }
  
 }

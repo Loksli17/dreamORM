@@ -74,10 +74,15 @@ let tryMySQL = async () => {
                 .andIn({name: [1, 5, 6, 10, 12]})
                 .orEq({id: 6})
                 // .like({name: 'Holodidov'})
-                .bracket(
+                .orBracket(
                     new WhereBuilder()
                     .eq({id: 5})
                     .orEq({id: 10})
+                    .orBracket(
+                        new WhereBuilder()
+                        .eq({id: 5})
+                        .orIn({id: [6, 7, 8, 9]})
+                    )
                 )
 
         )
