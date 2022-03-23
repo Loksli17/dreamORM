@@ -66,6 +66,17 @@ export default class WhereChain {
     }
 
 
+    public orIn(obj: Record<string, Array<number | string>>): WhereChain {
+        this.data_.push(['orIn', obj]);
+        return this;
+    }
+
+    public andIn(obj: Record<string, Array<number | string>>): WhereChain {
+        this.data_.push(['andIn', obj]);
+        return this;
+    }
+
+
     public bracket(whereChain: WhereChain): WhereChain {
         return this;
     }

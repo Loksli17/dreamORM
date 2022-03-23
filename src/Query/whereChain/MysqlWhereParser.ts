@@ -7,6 +7,9 @@ export default class MysqlWhereParser implements WhereParser {
         'equal': (data: any) => this.parseEqual(data),
         'or'   : (data: any) => this.parseOr(data),
         'and'  : (data: any) => this.parseAnd(data),
+        'in'   : (data: any) => this.parseIn(data),
+        'andIn': (data: any) => this.parseAndIn(data),
+        'orIn' : (data: any) => this.parseOrIn(data),
     };
 
     //! fix returned type
@@ -53,6 +56,25 @@ export default class MysqlWhereParser implements WhereParser {
         return this.readObject(data, (value: string | number, key: string): string => {
             return `AND ${key} = ${value}`;
         });
+    }
+
+    private parseIn(data: any): string {
+        return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
+            return `${key} in (${(value as Array<number>).join(', ')})`;
+        })
+    }
+
+    private parseAndIn(data: any): string {
+        return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
+            return `AND ${key} in (${(value as Array<number>).join(', ')})`;
+        })
+    }
+
+
+    private parseOrIn(data: any): string {
+        return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
+            return `OR ${key} in (${(value as Array<number>).join(', ')})`;
+        })
     }
  
 }
