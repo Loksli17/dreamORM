@@ -1,6 +1,6 @@
 import { QueryData  }   from "../QueryBuilder";
-import MysqlWhereParser from "../whereChain/MysqlWhereParser";
-import WhereChain       from "../whereChain/WhereChain";
+import MysqlWhereParser from "../whereBuilder/MysqlWhereParser";
+import WhereBuilder     from "../whereBuilder/WhereBuilder";
 
 
 
@@ -51,12 +51,12 @@ export default class MysqlQueryParser {
             throw new Error('No data for where!');
         }
 
-        const params: WhereChain | string = this.queryData.where as WhereChain | string;
+        const params: WhereBuilder | string = this.queryData.where as WhereBuilder | string;
 
-        if(params instanceof WhereChain){
-            //* WhereChain..
+        if(params instanceof WhereBuilder){
+            //* WhereBuilder..
 
-            let chain: WhereChain = params;
+            let chain: WhereBuilder = params;
 
             let parser: MysqlWhereParser = new MysqlWhereParser();
             this.sql += ' WHERE' + parser.parse(chain.data);

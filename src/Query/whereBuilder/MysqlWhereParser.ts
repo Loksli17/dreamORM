@@ -1,4 +1,4 @@
-import { WhereParser } from "./WhereChain";
+import { WhereParser } from "./WhereBuilder";
 
 
 export default class MysqlWhereParser implements WhereParser {

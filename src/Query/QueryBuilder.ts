@@ -1,7 +1,7 @@
 import Connection                                          from "./../Connection/Connection";
 import Entity                                              from "../Entity";
 import QueryBuilderAdapter, { QueryBuilderAdapterFactory } from "./adapter/QueryBuilderAdapter";
-import WhereChain                                          from "./whereChain/WhereChain";
+import WhereChain                                          from "./whereBuilder/WhereBuilder";
 
 
 export interface QueryData {

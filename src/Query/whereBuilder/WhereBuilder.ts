@@ -9,7 +9,7 @@ export interface WhereParser {
 }
 
 
-// export abstract class WhereChainParserFactory {
+// export abstract class WhereBuilderParserFactory {
 
 //     private static parserAssociates: Record<string, any> = {
 //         mysql  : () => { return new MysqlWhereParser() },
@@ -17,13 +17,13 @@ export interface WhereParser {
 //     };
 
 //     public static create(type: 'mysql' | 'mongoDb'): WhereParser {
-//         return WhereChainParserFactory.parserAssociates[type]();
+//         return WhereBuilderParserFactory.parserAssociates[type]();
 //     }
 // }
 
 
 
-export default class WhereChain {
+export default class WhereBuilder {
 
     private data_: Array<[string, any]> = []; //? think 
 
@@ -36,48 +36,49 @@ export default class WhereChain {
     }
 
 
-    public eq(obj: Record<string, number | boolean | string>): WhereChain {
+    public eq(obj: Record<string, number | boolean | string>): WhereBuilder {
         this.data_.push(['eq', obj]);
         return this;
     }
 
 
-    public orEq(obj: Record<string, number | boolean | string>): WhereChain {
+    public orEq(obj: Record<string, number | boolean | string>): WhereBuilder {
         this.data_.push(['orEq', obj]);
         return this;
     }
 
 
-    public andEq(obj: Record<string, number | boolean | string>): WhereChain {
+    public andEq(obj: Record<string, number | boolean | string>): WhereBuilder {
         this.data_.push(['andEq', obj]);
         return this;
     }
 
 
-    public like(obj: Record<string, string>): WhereChain {
+    public like(obj: Record<string, string>): WhereBuilder {
         this.data_.push(['like', obj]);
         return this;
     }
 
 
-    public in(obj: Record<string, Array<number | string>>): WhereChain {
+    public in(obj: Record<string, Array<number | string>>): WhereBuilder {
         this.data_.push(['in', obj]);
         return this;
     }
 
 
-    public orIn(obj: Record<string, Array<number | string>>): WhereChain {
+    public orIn(obj: Record<string, Array<number | string>>): WhereBuilder {
         this.data_.push(['orIn', obj]);
         return this;
     }
 
-    public andIn(obj: Record<string, Array<number | string>>): WhereChain {
+    public andIn(obj: Record<string, Array<number | string>>): WhereBuilder {
         this.data_.push(['andIn', obj]);
         return this;
     }
 
 
-    public bracket(whereChain: WhereChain): WhereChain {
+    public bracket(whereBuilder: WhereBuilder): WhereBuilder {
+        
         return this;
     }
 

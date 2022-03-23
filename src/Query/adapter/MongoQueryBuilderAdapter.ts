@@ -4,7 +4,7 @@ import { Collection, Db, Document, CollectionInfo, WithId, FindCursor } from "mo
 
 import { QueryData }          from '../QueryBuilder';
 import { MongoDbQueryParser } from "../parser/MongoDbQueryParser";
-import WhereChain from "../whereChain/WhereChain";
+import WhereChain from "../whereBuilder/WhereBuilder";
 
 
 

@@ -1,6 +1,6 @@
 import { Pool }            from 'pg';
 import { QueryData } from '../QueryBuilder';
-import WhereChain from '../whereChain/WhereChain';
+import WhereChain from '../whereBuilder/WhereBuilder';
 import QueryBuilderAdapter from './QueryBuilderAdapter';
 
 

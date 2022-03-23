@@ -1,7 +1,7 @@
 import DreamOrm     from './main';
 import Connection   from './Connection/Connection';
 import QueryBuilder from './Query/QueryBuilder';
-import WhereChain   from './Query/whereChain/WhereChain';
+import WhereBuilder from './Query/whereBuilder/WhereBuilder';
 
 import Entity, { MinLength, PrimaryKey, Prop } from './Entity/Entity';
 
@@ -69,19 +69,16 @@ let tryMySQL = async () => {
 
     console.log(await queryBuilder.table("animal")
         .where(
-            new WhereChain()
+            new WhereBuilder()
                 .in({id: [1, 2, 14, 56]})
                 .andIn({name: [1, 5, 6, 10, 12]})
-                // .equal({id: 14})
                 .orEq({id: 6})
-                // .and({id: 8})
                 // .like({name: 'Holodidov'})
-                // 
-                // .bracket(
-                //     new WhereChain()
-                //     .equal({id: 5})
-                //     .or({id: 10})
-                // )
+                .bracket(
+                    new WhereBuilder()
+                    .eq({id: 5})
+                    .orEq({id: 10})
+                )
 
         )
         .limit(3)
