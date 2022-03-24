@@ -90,8 +90,18 @@ export default class WhereBuilder {
         return this;
     }
 
+    public notOrIn(obj: Record<string, Array<number | string>>): WhereBuilder {
+        this.data_.push(['notOrIn', obj]);
+        return this;
+    }
+
     public andIn(obj: Record<string, Array<number | string>>): WhereBuilder {
         this.data_.push(['andIn', obj]);
+        return this;
+    }
+
+    public notAndIn(obj: Record<string, Array<number | string>>): WhereBuilder {
+        this.data_.push(['notAndIn', obj]);
         return this;
     }
 

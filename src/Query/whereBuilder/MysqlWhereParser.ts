@@ -10,12 +10,16 @@ export default class MysqlWhereParser implements WhereParser {
         'notOrEq' : (data: any) => this.parseOr(data, true),
         'andEq'   : (data: any) => this.parseAnd(data),
         'notAndEq': (data: any) => this.parseAnd(data, true),
-        
 
-        'in'   : (data: any) => this.parseIn(data),
-        'andIn': (data: any) => this.parseAndIn(data),
-        'orIn' : (data: any) => this.parseOrIn(data),
-        'notIn': (data: any) => this.parseIn(data, true),
+        'in'      : (data: any) => this.parseIn(data),
+        'notIn'   : (data: any) => this.parseIn(data, true),
+        'andIn'   : (data: any) => this.parseAndIn(data),
+        'notAndIn': (data: any) => this.parseAndIn(data, true),
+        'orIn'    : (data: any) => this.parseOrIn(data),
+        'notOrIn' : (data: any) => this.parseOrIn(data, true),
+
+        'like'   : (data: any) => this.parseLike(data),
+        'notLike': (data: any) => this.parseLike(data, true),
 
         'bracket'   : (data: any) => this.parseBracket(data),
         'orBracket' : (data: any) => this.orParseBracket(data),
@@ -93,7 +97,7 @@ export default class MysqlWhereParser implements WhereParser {
         });
     }
 
-    private parseAndIn(data: any): string {
+    private parseAndIn(data: any, isNot: boolean = false): string {
 
         return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
 
@@ -103,11 +107,11 @@ export default class MysqlWhereParser implements WhereParser {
 
             let normalValue: Array<string> = this.normalArrayToSql(value);
 
-            return `AND ${key} in (${(normalValue).join(', ')})`;
+            return `AND ${key} ${this.parseNot(isNot, 'NOT')} in (${(normalValue).join(', ')})`;
         })
     }
 
-    private parseOrIn(data: any): string {
+    private parseOrIn(data: any, isNot: boolean = false): string {
 
         return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
 
@@ -117,8 +121,15 @@ export default class MysqlWhereParser implements WhereParser {
 
             let normalValue: Array<string> = this.normalArrayToSql(value);
             
-            return `OR ${key} in (${(normalValue).join(', ')})`;
+            return `OR ${key} ${this.parseNot(isNot, 'NOT')} in (${(normalValue).join(', ')})`;
         })
+    }
+
+
+    private parseLike(data: any, isNot: boolean = false): string {
+        return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
+            return `${key} ${this.parseNot(isNot, 'NOT')} LIKE '${value}'`
+        });
     }
 
 
