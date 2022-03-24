@@ -70,11 +70,7 @@ let tryMySQL = async () => {
     console.log(await queryBuilder.table('animal').where(
         new WhereBuilder()
             .notLike({name: '%new%'})
-            // .notIn({id: ['1', '2', '3', '4']})
-            // .notAndIn({id: [5, 6, 7]})
-            // .notOrIn({id: [8, 9]})
-            // .like({name: '%new%'})
-    ).sort(['id', 'desc']).findAll());
+    ).sort(['id', 'desc']).sort({column: 'name'}).findAll());
 
 
     // console.log(await queryBuilder.table("animal")

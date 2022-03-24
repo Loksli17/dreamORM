@@ -75,7 +75,7 @@ export default class QueryBuilder {
     }
 
 
-    public sort(params: [string, 'desc' | 'asc'] | {column: string, order: 'desc' | 'asc'}): QueryBuilder {
+    public sort(params: [string, 'desc' | 'asc'] | {column: string, order?: 'desc' | 'asc'}): QueryBuilder {
         this.queryData.sort = params;
         return this;
     }

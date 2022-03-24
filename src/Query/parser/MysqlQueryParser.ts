@@ -77,10 +77,10 @@ export default class MysqlQueryParser {
 
         if(Array.isArray(params)) {
             if(params[1] == undefined) params[1] = 'asc';
-            this.sql += `ORDER BY ${params[0]} ${params[1]}`;
+            this.sql += ` ORDER BY ${params[0]} ${params[1]}`;
         } else {
             if(params.order == undefined) params.order = 'asc';
-            this.sql += `ORDER BY ${params.column} ${params.order}`;
+            this.sql += ` ORDER BY ${params.column} ${params.order}`;
         }
     }
 
