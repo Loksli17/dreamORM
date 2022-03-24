@@ -74,7 +74,27 @@ export default class WhereBuilder {
     }
 
     public notLike(obj: Record<string, string>): WhereBuilder {
-        this.data_.push(['like', obj]);
+        this.data_.push(['notLike', obj]);
+        return this;
+    }
+
+    public andLike(obj: Record<string, string>): WhereBuilder {
+        this.data_.push(['andLike', obj]);
+        return this;
+    }
+
+    public notAndLike(obj: Record<string, string>): WhereBuilder {
+        this.data_.push(['notAndLike', obj]);
+        return this;
+    }
+
+    public orLike(obj: Record<string, string>): WhereBuilder {
+        this.data_.push(['orLike', obj]);
+        return this;
+    }
+
+    public notOrLike(obj: Record<string, string>): WhereBuilder {
+        this.data_.push(['notOrlike', obj]);
         return this;
     }
 

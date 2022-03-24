@@ -18,8 +18,12 @@ export default class MysqlWhereParser implements WhereParser {
         'orIn'    : (data: any) => this.addOr(this.parseIn(data)),
         'notOrIn' : (data: any) => this.addOr(this.parseIn(data, true)),
 
-        'like'   : (data: any) => this.parseLike(data),
-        'notLike': (data: any) => this.parseLike(data, true),
+        'like'      : (data: any) => this.parseLike(data),
+        'notLike'   : (data: any) => this.parseLike(data, true),
+        'andLike'   : (data: any) => this.addAnd(this.parseLike(data)),
+        'notAndLike': (data: any) => this.addAnd(this.parseLike(data, true)),
+        'orLike'    : (data: any) => this.addOr(this.parseLike(data)),
+        'notOrLike' : (data: any) => this.addOr(this.parseLike(data, true)),
 
         'bracket'   : (data: any) => this.parseBracket(data),
         'orBracket' : (data: any) => this.addOr(this.parseBracket(data)),
@@ -59,7 +63,8 @@ export default class MysqlWhereParser implements WhereParser {
     }
 
     private parseNot(isNot: boolean, symbol: '!' | 'NOT'): string {
-        return `${isNot ? symbol :''}`;
+        if(symbol == 'NOT') symbol += ' ';
+        return `${isNot ? symbol : ''}`;
     }
 
     private addAnd(query: string): string{
@@ -89,14 +94,14 @@ export default class MysqlWhereParser implements WhereParser {
 
             let normalValue: Array<string> = this.normalArrayToSql(value);
 
-            return `${key} ${this.parseNot(isNot, 'NOT')} in (${(normalValue).join(', ')})`;
+            return `${key} ${this.parseNot(isNot, 'NOT')}in (${(normalValue).join(', ')})`;
         });
     }
 
 
     private parseLike(data: any, isNot: boolean = false): string {
         return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
-            return `${key} ${this.parseNot(isNot, 'NOT')} LIKE '${value}'`
+            return `${key} ${this.parseNot(isNot, 'NOT')}LIKE '${value}'`
         });
     }
 
