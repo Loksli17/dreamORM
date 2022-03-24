@@ -74,7 +74,7 @@ let tryMySQL = async () => {
             // .notAndIn({id: [5, 6, 7]})
             // .notOrIn({id: [8, 9]})
             // .like({name: '%new%'})
-    ).findAll());
+    ).sort(['id', 'desc']).findAll());
 
 
     // console.log(await queryBuilder.table("animal")

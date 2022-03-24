@@ -67,6 +67,24 @@ export default class MysqlQueryParser {
     }
 
 
+    private parseOrderBy(): void {
+
+        if(this.queryData.sort == undefined){
+            throw new Error('No data for sort!');
+        }
+
+        const params: {column: string, order?: 'desc' | 'asc'} | [string, 'desc' | 'asc'] = this.queryData.sort;
+
+        if(Array.isArray(params)) {
+            if(params[1] == undefined) params[1] = 'asc';
+            this.sql += `ORDER BY ${params[0]} ${params[1]}`;
+        } else {
+            if(params.order == undefined) params.order = 'asc';
+            this.sql += `ORDER BY ${params.column} ${params.order}`;
+        }
+    }
+
+
     public parseSelect(queryData: QueryData): string {
 
         this.queryData = queryData;
@@ -77,6 +95,8 @@ export default class MysqlQueryParser {
         this.sql += this.queryData.tableName
 
         this.parseWhere();
+
+        this.parseOrderBy();
 
         this.parseLimit();
 

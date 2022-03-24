@@ -13,7 +13,7 @@ export interface QueryData {
     
     fields?: Array<string>;
     
-    sort?: {column: string, order: 'DESC' | 'ASC'};
+    sort?: {column: string, order?: 'desc' | 'asc'} | [string, 'desc' | 'asc'];
 
     tableName?: string;
 }
@@ -75,7 +75,8 @@ export default class QueryBuilder {
     }
 
 
-    public sort(): QueryBuilder {
+    public sort(params: [string, 'desc' | 'asc'] | {column: string, order: 'desc' | 'asc'}): QueryBuilder {
+        this.queryData.sort = params;
         return this;
     }
 
