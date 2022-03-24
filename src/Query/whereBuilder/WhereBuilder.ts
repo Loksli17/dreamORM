@@ -73,6 +73,11 @@ export default class WhereBuilder {
         return this;
     }
 
+    public notLike(obj: Record<string, string>): WhereBuilder {
+        this.data_.push(['like', obj]);
+        return this;
+    }
+
 
 
     public in(obj: Record<string, Array<number | string>>): WhereBuilder {

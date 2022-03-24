@@ -6,24 +6,24 @@ export default class MysqlWhereParser implements WhereParser {
     private associations: Record<string, (data: any) => void> = {
         'eq'      : (data: any) => this.parseEqual(data),
         'notEq'   : (data: any) => this.parseEqual(data, true),
-        'orEq'    : (data: any) => this.parseOr(data),
-        'notOrEq' : (data: any) => this.parseOr(data, true),
-        'andEq'   : (data: any) => this.parseAnd(data),
-        'notAndEq': (data: any) => this.parseAnd(data, true),
+        'orEq'    : (data: any) => this.addOr(this.parseEqual(data)),
+        'notOrEq' : (data: any) => this.addOr(this.parseEqual(data, true)),
+        'andEq'   : (data: any) => this.addAnd(this.parseEqual(data)),
+        'notAndEq': (data: any) => this.addAnd(this.parseEqual(data, true)),
 
         'in'      : (data: any) => this.parseIn(data),
         'notIn'   : (data: any) => this.parseIn(data, true),
-        'andIn'   : (data: any) => this.parseAndIn(data),
-        'notAndIn': (data: any) => this.parseAndIn(data, true),
-        'orIn'    : (data: any) => this.parseOrIn(data),
-        'notOrIn' : (data: any) => this.parseOrIn(data, true),
+        'andIn'   : (data: any) => this.addAnd(this.parseIn(data)),
+        'notAndIn': (data: any) => this.addAnd(this.parseIn(data, true)),
+        'orIn'    : (data: any) => this.addOr(this.parseIn(data)),
+        'notOrIn' : (data: any) => this.addOr(this.parseIn(data, true)),
 
         'like'   : (data: any) => this.parseLike(data),
         'notLike': (data: any) => this.parseLike(data, true),
 
         'bracket'   : (data: any) => this.parseBracket(data),
-        'orBracket' : (data: any) => this.orParseBracket(data),
-        'andBracket': (data: any) => this.andParseBracket(data),
+        'orBracket' : (data: any) => this.addOr(this.parseBracket(data)),
+        'andBracket': (data: any) => this.addOr(this.parseBracket(data)),
     };
 
     //! fix returned type
@@ -62,23 +62,19 @@ export default class MysqlWhereParser implements WhereParser {
         return `${isNot ? symbol :''}`;
     }
 
+    private addAnd(query: string): string{
+        return `AND ${query}`;
+    }
+
+    private addOr(query: string): string{
+        return `OR ${query}`;
+    }
+
 
     private parseEqual(data: any, isNot: boolean = false): string {
 
         return this.readObject(data, (value: string | number, key: string): string => {
             return `${key} ${this.parseNot(isNot, '!')}= ${value}`;
-        });
-    }
-
-    private parseOr(data: any, isNot: boolean = false): string {
-        return this.readObject(data, (value: string | number, key: string): string => {
-            return `OR ${key} ${this.parseNot(isNot, '!')}= ${value}`;
-        });
-    }
-
-    private parseAnd(data: any, isNot: boolean = false): string {
-        return this.readObject(data, (value: string | number, key: string): string => {
-            return `AND ${key} ${this.parseNot(isNot, '!')}= ${value}`;
         });
     }
 
@@ -97,34 +93,6 @@ export default class MysqlWhereParser implements WhereParser {
         });
     }
 
-    private parseAndIn(data: any, isNot: boolean = false): string {
-
-        return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
-
-            if(typeof value == 'string' || typeof value == 'number'){
-                throw new Error('Data for `in` must be Array<T>');
-            }
-
-            let normalValue: Array<string> = this.normalArrayToSql(value);
-
-            return `AND ${key} ${this.parseNot(isNot, 'NOT')} in (${(normalValue).join(', ')})`;
-        })
-    }
-
-    private parseOrIn(data: any, isNot: boolean = false): string {
-
-        return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
-
-            if(typeof value == 'string' || typeof value == 'number'){
-                throw new Error('Data for `in` must be Array<T>');
-            }
-
-            let normalValue: Array<string> = this.normalArrayToSql(value);
-            
-            return `OR ${key} ${this.parseNot(isNot, 'NOT')} in (${(normalValue).join(', ')})`;
-        })
-    }
-
 
     private parseLike(data: any, isNot: boolean = false): string {
         return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
@@ -135,16 +103,6 @@ export default class MysqlWhereParser implements WhereParser {
 
     private parseBracket(whereBuilder: WhereBuilder): string {
         let result: string = '(' + this.parse(whereBuilder.data) + ')';
-        return result;
-    }
-
-    private andParseBracket(whereBuilder: WhereBuilder): string {
-        let result: string = 'AND (' + this.parse(whereBuilder.data) + ')';
-        return result;
-    }
-
-    private orParseBracket(whereBuilder: WhereBuilder): string {
-        let result: string = 'OR (' + this.parse(whereBuilder.data) + ')';
         return result;
     }
  

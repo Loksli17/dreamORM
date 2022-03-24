@@ -69,10 +69,12 @@ let tryMySQL = async () => {
 
     console.log(await queryBuilder.table('animal').where(
         new WhereBuilder()
+            .eq({id: 1})
+            .andEq({id: 3})
             // .notIn({id: ['1', '2', '3', '4']})
             // .notAndIn({id: [5, 6, 7]})
             // .notOrIn({id: [8, 9]})
-            .like({name: '%new%'})
+            // .like({name: '%new%'})
     ).findAll());
 
 
