@@ -4,13 +4,18 @@ import WhereBuilder, { WhereParser } from "./WhereBuilder";
 export default class MysqlWhereParser implements WhereParser {
 
     private associations: Record<string, (data: any) => void> = {
-        'eq'   : (data: any) => this.parseEqual(data),
-        'orEq' : (data: any) => this.parseOr(data),
-        'andEq': (data: any) => this.parseAnd(data),
+        'eq'      : (data: any) => this.parseEqual(data),
+        'notEq'   : (data: any) => this.parseEqual(data, true),
+        'orEq'    : (data: any) => this.parseOr(data),
+        'notOrEq' : (data: any) => this.parseOr(data, true),
+        'andEq'   : (data: any) => this.parseAnd(data),
+        'notAndEq': (data: any) => this.parseAnd(data, true),
+        
 
         'in'   : (data: any) => this.parseIn(data),
         'andIn': (data: any) => this.parseAndIn(data),
         'orIn' : (data: any) => this.parseOrIn(data),
+        'notIn': (data: any) => this.parseIn(data, true),
 
         'bracket'   : (data: any) => this.parseBracket(data),
         'orBracket' : (data: any) => this.orParseBracket(data),
@@ -43,44 +48,79 @@ export default class MysqlWhereParser implements WhereParser {
         return result
     }
 
-
-    private parseEqual(data: any): string {
-
-        return this.readObject(data, (value: string | number, key: string): string => {
-            return `${key} = ${value}`;
+    private normalArrayToSql(array: Array<string |number>): Array<string> {
+        return array.map((value: string | number): string => {
+            return `'${value}'`;
         });
     }
 
-    private parseOr(data: any): string {
+    private parseNot(isNot: boolean, symbol: '!' | 'NOT'): string {
+        return `${isNot ? symbol :''}`;
+    }
+
+
+    private parseEqual(data: any, isNot: boolean = false): string {
+
         return this.readObject(data, (value: string | number, key: string): string => {
-            return `OR ${key} = ${value}`;
+            return `${key} ${this.parseNot(isNot, '!')}= ${value}`;
         });
     }
 
-    private parseAnd(data: any): string {
+    private parseOr(data: any, isNot: boolean = false): string {
         return this.readObject(data, (value: string | number, key: string): string => {
-            return `AND ${key} = ${value}`;
+            return `OR ${key} ${this.parseNot(isNot, '!')}= ${value}`;
         });
     }
 
-    private parseIn(data: any): string {
+    private parseAnd(data: any, isNot: boolean = false): string {
+        return this.readObject(data, (value: string | number, key: string): string => {
+            return `AND ${key} ${this.parseNot(isNot, '!')}= ${value}`;
+        });
+    }
+
+
+    private parseIn(data: any, isNot: boolean = false): string {
+
         return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
-            return `${key} in (${(value as Array<number>).join(', ')})`;
-        })
+
+            if(typeof value == 'string' || typeof value == 'number'){
+                throw new Error('Data for `in` must be Array<T>');
+            }
+
+            let normalValue: Array<string> = this.normalArrayToSql(value);
+
+            return `${key} ${this.parseNot(isNot, 'NOT')} in (${(normalValue).join(', ')})`;
+        });
     }
 
     private parseAndIn(data: any): string {
+
         return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
-            return `AND ${key} in (${(value as Array<number>).join(', ')})`;
+
+            if(typeof value == 'string' || typeof value == 'number'){
+                throw new Error('Data for `in` must be Array<T>');
+            }
+
+            let normalValue: Array<string> = this.normalArrayToSql(value);
+
+            return `AND ${key} in (${(normalValue).join(', ')})`;
         })
     }
-
 
     private parseOrIn(data: any): string {
+
         return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
-            return `OR ${key} in (${(value as Array<number>).join(', ')})`;
+
+            if(typeof value == 'string' || typeof value == 'number'){
+                throw new Error('Data for `in` must be Array<T>');
+            }
+
+            let normalValue: Array<string> = this.normalArrayToSql(value);
+            
+            return `OR ${key} in (${(normalValue).join(', ')})`;
         })
     }
+
 
     private parseBracket(whereBuilder: WhereBuilder): string {
         let result: string = '(' + this.parse(whereBuilder.data) + ')';

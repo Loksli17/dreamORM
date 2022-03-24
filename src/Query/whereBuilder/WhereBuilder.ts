@@ -41,17 +41,31 @@ export default class WhereBuilder {
         return this;
     }
 
+    public notEq(obj: Record<string, number | boolean | string>): WhereBuilder {
+        this.data_.push(['notEq', obj]);
+        return this;
+    }
 
     public orEq(obj: Record<string, number | boolean | string>): WhereBuilder {
         this.data_.push(['orEq', obj]);
         return this;
     }
 
+    public notOrEq(obj: Record<string, number | boolean | string>): WhereBuilder {
+        this.data_.push(['notOrEq', obj]);
+        return this;
+    }
 
     public andEq(obj: Record<string, number | boolean | string>): WhereBuilder {
         this.data_.push(['andEq', obj]);
         return this;
     }
+
+    public notAndEq(obj: Record<string, number | boolean | string>): WhereBuilder {
+        this.data_.push(['notOrEq', obj]);
+        return this;
+    }
+
 
 
     public like(obj: Record<string, string>): WhereBuilder {
@@ -60,11 +74,16 @@ export default class WhereBuilder {
     }
 
 
+
     public in(obj: Record<string, Array<number | string>>): WhereBuilder {
         this.data_.push(['in', obj]);
         return this;
     }
 
+    public notIn(obj: Record<string, Array<number | string>>): WhereBuilder {
+        this.data_.push(['notIn', obj]);
+        return this;
+    }
 
     public orIn(obj: Record<string, Array<number | string>>): WhereBuilder {
         this.data_.push(['orIn', obj]);

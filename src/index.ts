@@ -63,32 +63,35 @@ let tryMySQL = async () => {
 
     let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
 
-    await queryBuilder.getTableNames();
+    console.log(await queryBuilder.getTableNames());
 
-    // console.log(await queryBuilder.table('animal').getFieldsInfo());
+    console.log(await queryBuilder.table('animal').getFieldsInfo());
 
-    console.log(await queryBuilder.table("animal")
-        .where(
-            new WhereBuilder()
-                .in({id: [1, 2, 14, 56]})
-                .andIn({name: [1, 5, 6, 10, 12]})
-                .orEq({id: 6})
-                // .like({name: 'Holodidov'})
-                .orBracket(
-                    new WhereBuilder()
-                    .eq({id: 5})
-                    .orEq({id: 10})
-                    .orBracket(
-                        new WhereBuilder()
-                        .eq({id: 5})
-                        .orIn({id: [6, 7, 8, 9]})
-                    )
-                )
+    console.log(await queryBuilder.table('animal').where(new WhereBuilder().notIn({id: ['1', '2', '3', '4']})).findAll());
 
-        )
-        .limit(3)
-        .findAll()
-    );
+    
+    // console.log(await queryBuilder.table("animal")
+    //     .where(
+    //         new WhereBuilder()
+    //             .in({id: [1, 2, 14, 56]})
+    //             .andIn({name: ['Vaan', 'Marcus']})
+    //             .orEq({id: 6})
+    //             .orBracket(
+    //                 new WhereBuilder()
+    //                 .eq({id: 5})
+    //                 .orEq({id: 10})
+    //                 .orBracket(
+    //                     new WhereBuilder()
+    //                     .eq({id: 5})
+    //                     .orIn({id: [6, 7, 8, 9]})
+    //                 )
+    //             )
+    //     )
+    //     .limit(3)
+    //     .findAll()
+    // );
+
+
 }
 
 
