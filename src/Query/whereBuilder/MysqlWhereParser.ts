@@ -32,6 +32,13 @@ export default class MysqlWhereParser implements WhereParser {
         'orBetween'    : (data: any) => this.addOr(this.parseBetween(data)),
         'notOrBetween' : (data: any) => this.addOr(this.parseBetween(data, true)),
 
+        'regex'      : (data: any) => this.parseRegex(data),
+        'notRegex'   : (data: any) => this.parseRegex(data, true),
+        'andRegex'   : (data: any) => this.addAnd(this.parseRegex(data)),
+        'notAndRegex': (data: any) => this.addAnd(this.parseRegex(data, true)),
+        'orRegex'    : (data: any) => this.addOr(this.parseRegex(data)),
+        'notOrRegex' : (data: any) => this.addOr(this.parseRegex(data, true)),
+
         'bracket'   : (data: any) => this.parseBracket(data),
         'orBracket' : (data: any) => this.addOr(this.parseBracket(data)),
         'andBracket': (data: any) => this.addOr(this.parseBracket(data)),
@@ -107,7 +114,7 @@ export default class MysqlWhereParser implements WhereParser {
 
 
     private parseLike(data: any, isNot: boolean = false): string {
-        return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
+        return this.readObject(data, (value: string | number, key: string): string => {
             return `${key} ${this.parseNot(isNot, 'NOT')}LIKE '${value}'`
         });
     }
@@ -115,7 +122,7 @@ export default class MysqlWhereParser implements WhereParser {
 
     private parseBetween(data: any, isNot: boolean = false): string {
         
-        return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
+        return this.readObject(data, (value: string | number, key: string): string => {
             
             if(typeof value == 'string' || typeof value == 'number'){
                 throw new Error('Data for `between` must be [string | number, string | number]');
@@ -124,6 +131,14 @@ export default class MysqlWhereParser implements WhereParser {
             let normalValue: Array<string> = this.normalArrayToSql(value);
 
             return `${key} ${this.parseNot(isNot, 'NOT')}BETWEEN ${normalValue[0]} AND ${normalValue[1]}`
+        });
+    }
+
+
+    private parseRegex(data: any, isNot: boolean = false): string {
+        
+        return this.readObject(data, (value: string | number, key: string): string => {
+            return `${key} REGEXP '${value}'`;
         });
     }
 

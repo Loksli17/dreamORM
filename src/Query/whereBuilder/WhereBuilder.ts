@@ -165,6 +165,39 @@ export default class WhereBuilder {
 
 
 
+    public regex(obj: Record<string, string>){
+        console.log(obj);
+        this.data_.push(['regex', obj]);
+        return this;
+    }
+
+    public notRegex(obj: Record<string, string>){
+        this.data_.push(['notRegex', obj]);
+        return this;
+    }
+
+    public orRegex(obj: Record<string, string>){
+        this.data_.push(['orRegex', obj]);
+        return this;
+    }
+
+    public notOrRegex(obj: Record<string, string>){
+        this.data_.push(['notOrRegex', obj]);
+        return this;
+    }
+
+    public andRegex(obj: Record<string, string>){
+        this.data_.push(['andRegex', obj]);
+        return this;
+    }
+
+    public notAndRegex(obj: Record<string, string>){
+        this.data_.push(['notAndRegex', obj]);
+        return this;
+    }
+
+
+
     public bracket(whereBuilder: WhereBuilder): WhereBuilder {
         this.data_.push(['bracket', whereBuilder]);
         return this;

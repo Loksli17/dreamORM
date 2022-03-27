@@ -72,13 +72,9 @@ let tryMySQL = async () => {
     console.log(await queryBuilder.table('article')
         .where(
             new WhereBuilder()
-                .between({date: ['2021-01-01', '2021-03-27']})
-                .orBetween({date: ['2022-01-01', '2022-03-27']})
-                .notOrBetween({date: ['2022-01-01', '2022-03-27']})
-                .andBetween({date: ['2022-01-01', '2022-03-27']})
-                .notAndBetween({date: ['2022-01-01', '2022-03-27']})
+                .regex({title: '^c'})
         )
-        .fields(['id', 'date'])
+        .fields(['id', 'date', 'title'])
         .findAll()
     );
 
