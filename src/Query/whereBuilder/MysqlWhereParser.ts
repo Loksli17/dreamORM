@@ -25,6 +25,13 @@ export default class MysqlWhereParser implements WhereParser {
         'orLike'    : (data: any) => this.addOr(this.parseLike(data)),
         'notOrLike' : (data: any) => this.addOr(this.parseLike(data, true)),
 
+        'between'      : (data: any) => this.parseBetween(data),
+        'notBetween'   : (data: any) => this.parseBetween(data, true),
+        'andBetween'   : (data: any) => this.addAnd(this.parseBetween(data)),
+        'notAndBetween': (data: any) => this.addAnd(this.parseBetween(data, true)),
+        'orBetween'    : (data: any) => this.addOr(this.parseBetween(data)),
+        'notOrBetween' : (data: any) => this.addOr(this.parseBetween(data, true)),
+
         'bracket'   : (data: any) => this.parseBracket(data),
         'orBracket' : (data: any) => this.addOr(this.parseBracket(data)),
         'andBracket': (data: any) => this.addOr(this.parseBracket(data)),
@@ -102,6 +109,21 @@ export default class MysqlWhereParser implements WhereParser {
     private parseLike(data: any, isNot: boolean = false): string {
         return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
             return `${key} ${this.parseNot(isNot, 'NOT')}LIKE '${value}'`
+        });
+    }
+
+
+    private parseBetween(data: any, isNot: boolean = false): string {
+        
+        return this.readObject(data, (value: string | number | Array<string | number>, key: string): string => {
+            
+            if(typeof value == 'string' || typeof value == 'number'){
+                throw new Error('Data for `between` must be [string | number, string | number]');
+            }
+
+            let normalValue: Array<string> = this.normalArrayToSql(value);
+
+            return `${key} ${this.parseNot(isNot, 'NOT')}BETWEEN ${normalValue[0]} AND ${normalValue[1]}`
         });
     }
 

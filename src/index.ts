@@ -67,11 +67,20 @@ let tryMySQL = async () => {
 
     console.log(await queryBuilder.table('animal').getFieldsInfo());
 
-    console.log(await queryBuilder.table('animal').where(
-        new WhereBuilder()
-            .notLike({name: '%new%'})
-    ).sort(['id', 'desc']).sort({column: 'name'}).findAll());
+    // console.log(await queryBuilder.table('animal').where({}).findAll());
 
+    console.log(await queryBuilder.table('article')
+        .where(
+            new WhereBuilder()
+                .between({date: ['2021-01-01', '2021-03-27']})
+                .orBetween({date: ['2022-01-01', '2022-03-27']})
+                .notOrBetween({date: ['2022-01-01', '2022-03-27']})
+                .andBetween({date: ['2022-01-01', '2022-03-27']})
+                .notAndBetween({date: ['2022-01-01', '2022-03-27']})
+        )
+        .fields(['id', 'date'])
+        .findAll()
+    );
 
     // console.log(await queryBuilder.table("animal")
     //     .where(

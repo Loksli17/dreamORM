@@ -131,6 +131,40 @@ export default class WhereBuilder {
     }
 
 
+
+    public between(obj: Record<string, Array<number | string>>){
+        console.log(obj);
+        this.data_.push(['between', obj]);
+        return this;
+    }
+
+    public notBetween(obj: Record<string, Array<number | string>>){
+        this.data_.push(['notBetween', obj]);
+        return this;
+    }
+
+    public orBetween(obj: Record<string, Array<number | string>>){
+        this.data_.push(['orBetween', obj]);
+        return this;
+    }
+
+    public notOrBetween(obj: Record<string, Array<number | string>>){
+        this.data_.push(['notOrBetween', obj]);
+        return this;
+    }
+
+    public andBetween(obj: Record<string, Array<number | string>>){
+        this.data_.push(['andBetween', obj]);
+        return this;
+    }
+
+    public notAndBetween(obj: Record<string, Array<number | string>>){
+        this.data_.push(['notAndBetween', obj]);
+        return this;
+    }
+
+
+
     public bracket(whereBuilder: WhereBuilder): WhereBuilder {
         this.data_.push(['bracket', whereBuilder]);
         return this;
