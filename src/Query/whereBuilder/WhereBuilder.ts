@@ -165,6 +165,71 @@ export default class WhereBuilder {
 
 
 
+    public less(obj: Record<string, number | string>){
+        console.log(obj);
+        this.data_.push(['less', obj]);
+        return this;
+    }
+
+    public notLess(obj: Record<string, number | string>){
+        this.data_.push(['notLess', obj]);
+        return this;
+    }
+
+    public orLess(obj: Record<string, number | string>){
+        this.data_.push(['orLess', obj]);
+        return this;
+    }
+
+    public notOrLess(obj: Record<string, number | string>){
+        this.data_.push(['notOrLess', obj]);
+        return this;
+    }
+
+    public andLess(obj: Record<string, number | string>){
+        this.data_.push(['andLess', obj]);
+        return this;
+    }
+
+    public notAndLess(obj: Record<string, number | string>){
+        this.data_.push(['notAndLess', obj]);
+        return this;
+    }
+
+
+    public lessEq(obj: Record<string, number | string>){
+        console.log(obj);
+        this.data_.push(['lessEq', obj]);
+        return this;
+    }
+
+    public notLessEq(obj: Record<string, number | string>){
+        this.data_.push(['notLessEq', obj]);
+        return this;
+    }
+
+    public orLessEq(obj: Record<string, number | string>){
+        this.data_.push(['orLessEq', obj]);
+        return this;
+    }
+
+    public notOrLessEq(obj: Record<string, number | string>){
+        this.data_.push(['notOrLessEq', obj]);
+        return this;
+    }
+
+    public andLessEq(obj: Record<string, number | string>){
+        this.data_.push(['andLessEq', obj]);
+        return this;
+    }
+
+    public notAndLessEq(obj: Record<string, number | string>){
+        this.data_.push(['notAndLessEq', obj]);
+        return this;
+    }
+
+
+
     public regex(obj: Record<string, string>){
         console.log(obj);
         this.data_.push(['regex', obj]);

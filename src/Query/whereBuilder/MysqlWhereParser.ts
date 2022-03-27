@@ -39,6 +39,20 @@ export default class MysqlWhereParser implements WhereParser {
         'orRegex'    : (data: any) => this.addOr(this.parseRegex(data)),
         'notOrRegex' : (data: any) => this.addOr(this.parseRegex(data, true)),
 
+        'less'      : (data: any) => this.parseLess(data),
+        'notLess'   : (data: any) => this.parseLess(data, true),
+        'andLess'   : (data: any) => this.addAnd(this.parseLess(data)),
+        'notAndLess': (data: any) => this.addAnd(this.parseLess(data, true)),
+        'orLess'    : (data: any) => this.addOr(this.parseLess(data)),
+        'notOrLess' : (data: any) => this.addOr(this.parseLess(data, true)),
+
+        'lessEq'      : (data: any) => this.parseLess(data,false, true),
+        'notLessEq'   : (data: any) => this.parseLess(data, true, true),
+        'andLessEq'   : (data: any) => this.addAnd(this.parseLess(data, false, true)),
+        'notAndLessEq': (data: any) => this.addAnd(this.parseLess(data, true, true)),
+        'orLessEq'    : (data: any) => this.addOr(this.parseLess(data, false, true)),
+        'notOrLessEq' : (data: any) => this.addOr(this.parseLess(data, true, true)),
+
         'bracket'   : (data: any) => this.parseBracket(data),
         'orBracket' : (data: any) => this.addOr(this.parseBracket(data)),
         'andBracket': (data: any) => this.addOr(this.parseBracket(data)),
@@ -91,9 +105,18 @@ export default class MysqlWhereParser implements WhereParser {
 
 
     private parseEqual(data: any, isNot: boolean = false): string {
-
         return this.readObject(data, (value: string | number, key: string): string => {
             return `${key} ${this.parseNot(isNot, '!')}= ${value}`;
+        });
+    }
+
+
+    private parseLess(data: any, isNot: boolean = false, isEqual: boolean = false): string {
+
+        const equal: string = isEqual ? '=' : '';
+
+        return this.readObject(data, (value: string | number, key: string): string => {
+            return `${this.parseNot(isNot, 'NOT')}${key} <${equal} '${value}'`;
         });
     }
 
@@ -136,7 +159,6 @@ export default class MysqlWhereParser implements WhereParser {
 
 
     private parseRegex(data: any, isNot: boolean = false): string {
-        
         return this.readObject(data, (value: string | number, key: string): string => {
             return `${key} REGEXP '${value}'`;
         });
