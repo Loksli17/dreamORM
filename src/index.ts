@@ -1,7 +1,7 @@
 import DreamOrm     from './main';
 import Connection   from './Connection/Connection';
 import QueryBuilder from './Query/QueryBuilder';
-import WhereBuilder from './Query/whereBuilder/WhereBuilder';
+import wb from './Query/whereBuilder/WhereBuilder';
 
 import Entity, { MinLength, PrimaryKey, Prop } from './Entity/Entity';
 
@@ -67,19 +67,8 @@ let tryMySQL = async () => {
 
     console.log(await queryBuilder.table('animal').getFieldsInfo());
 
-    // console.log(await queryBuilder.table('animal').where({}).findAll());
-
     console.log(await queryBuilder.table('article')
-        .where(
-            new WhereBuilder()
-                .less({id: 5})
-                .orLess({id: 7})
-                .notAndLess({id: 6})
-                .notAndLess({id: 10})
-                .andLess({id: 50})
-                .orLessEq({id: 20})
-                .andLessEq({id: 30})
-        )
+        .where(new wb().less({id: 7}).andBetween({date: ['2021-01-19', '2021-01-20']}))
         .fields(['id', 'date', 'title'])
         .findAll()
     );

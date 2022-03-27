@@ -230,6 +230,71 @@ export default class WhereBuilder {
 
 
 
+    public more(obj: Record<string, number | string>){
+        console.log(obj);
+        this.data_.push(['more', obj]);
+        return this;
+    }
+
+    public notMore(obj: Record<string, number | string>){
+        this.data_.push(['notMore', obj]);
+        return this;
+    }
+
+    public orMore(obj: Record<string, number | string>){
+        this.data_.push(['orMore', obj]);
+        return this;
+    }
+
+    public notOrMore(obj: Record<string, number | string>){
+        this.data_.push(['notOrMore', obj]);
+        return this;
+    }
+
+    public andMore(obj: Record<string, number | string>){
+        this.data_.push(['andMore', obj]);
+        return this;
+    }
+
+    public notAndMore(obj: Record<string, number | string>){
+        this.data_.push(['notAndMore', obj]);
+        return this;
+    }
+
+
+    public moreEq(obj: Record<string, number | string>){
+        console.log(obj);
+        this.data_.push(['moreEq', obj]);
+        return this;
+    }
+
+    public notMoreEq(obj: Record<string, number | string>){
+        this.data_.push(['notMoreEq', obj]);
+        return this;
+    }
+
+    public orMoreEq(obj: Record<string, number | string>){
+        this.data_.push(['orMoreEq', obj]);
+        return this;
+    }
+
+    public notOrMoreEq(obj: Record<string, number | string>){
+        this.data_.push(['notOrMoreEq', obj]);
+        return this;
+    }
+
+    public andMoreEq(obj: Record<string, number | string>){
+        this.data_.push(['andMoreEq', obj]);
+        return this;
+    }
+
+    public notAndMoreEq(obj: Record<string, number | string>){
+        this.data_.push(['notAndMoreEq', obj]);
+        return this;
+    }
+
+
+
     public regex(obj: Record<string, string>){
         console.log(obj);
         this.data_.push(['regex', obj]);

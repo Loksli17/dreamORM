@@ -39,19 +39,33 @@ export default class MysqlWhereParser implements WhereParser {
         'orRegex'    : (data: any) => this.addOr(this.parseRegex(data)),
         'notOrRegex' : (data: any) => this.addOr(this.parseRegex(data, true)),
 
-        'less'      : (data: any) => this.parseLess(data),
-        'notLess'   : (data: any) => this.parseLess(data, true),
-        'andLess'   : (data: any) => this.addAnd(this.parseLess(data)),
-        'notAndLess': (data: any) => this.addAnd(this.parseLess(data, true)),
-        'orLess'    : (data: any) => this.addOr(this.parseLess(data)),
-        'notOrLess' : (data: any) => this.addOr(this.parseLess(data, true)),
+        'less'      : (data: any) => this.parseLessMore(data, '<'),
+        'notLess'   : (data: any) => this.parseLessMore(data, '<', true),
+        'andLess'   : (data: any) => this.addAnd(this.parseLessMore(data, '<')),
+        'notAndLess': (data: any) => this.addAnd(this.parseLessMore(data, '<', true)),
+        'orLess'    : (data: any) => this.addOr(this.parseLessMore(data, '<')),
+        'notOrLess' : (data: any) => this.addOr(this.parseLessMore(data, '<', true)),
 
-        'lessEq'      : (data: any) => this.parseLess(data,false, true),
-        'notLessEq'   : (data: any) => this.parseLess(data, true, true),
-        'andLessEq'   : (data: any) => this.addAnd(this.parseLess(data, false, true)),
-        'notAndLessEq': (data: any) => this.addAnd(this.parseLess(data, true, true)),
-        'orLessEq'    : (data: any) => this.addOr(this.parseLess(data, false, true)),
-        'notOrLessEq' : (data: any) => this.addOr(this.parseLess(data, true, true)),
+        'lessEq'      : (data: any) => this.parseLessMore(data, '<', false, true),
+        'notLessEq'   : (data: any) => this.parseLessMore(data, '<', true, true),
+        'andLessEq'   : (data: any) => this.addAnd(this.parseLessMore(data, '<', false, true)),
+        'notAndLessEq': (data: any) => this.addAnd(this.parseLessMore(data, '<', true, true)),
+        'orLessEq'    : (data: any) => this.addOr(this.parseLessMore(data, '<', false, true)),
+        'notOrLessEq' : (data: any) => this.addOr(this.parseLessMore(data, '<', true, true)),
+
+        'more'      : (data: any) => this.parseLessMore(data, '>'),
+        'notMore'   : (data: any) => this.parseLessMore(data, '>', true),
+        'andMore'   : (data: any) => this.addAnd(this.parseLessMore(data, '>')),
+        'notAndMore': (data: any) => this.addAnd(this.parseLessMore(data, '>', true)),
+        'orMore'    : (data: any) => this.addOr(this.parseLessMore(data, '>')),
+        'notOrMore' : (data: any) => this.addOr(this.parseLessMore(data, '>', true)),
+
+        'moreEq'      : (data: any) => this.parseLessMore(data, '>', false, true),
+        'notMoreEq'   : (data: any) => this.parseLessMore(data, '>', true, true),
+        'andMoreEq'   : (data: any) => this.addAnd(this.parseLessMore(data, '>', false, true)),
+        'notAndMoreEq': (data: any) => this.addAnd(this.parseLessMore(data, '>', true, true)),
+        'orMoreEq'    : (data: any) => this.addOr(this.parseLessMore(data, '>', false, true)),
+        'notOrMoreEq' : (data: any) => this.addOr(this.parseLessMore(data, '>', true, true)),
 
         'bracket'   : (data: any) => this.parseBracket(data),
         'orBracket' : (data: any) => this.addOr(this.parseBracket(data)),
@@ -111,12 +125,12 @@ export default class MysqlWhereParser implements WhereParser {
     }
 
 
-    private parseLess(data: any, isNot: boolean = false, isEqual: boolean = false): string {
+    private parseLessMore(data: any, lessMore: '<' | '>', isNot: boolean = false, isEqual: boolean = false): string {
 
         const equal: string = isEqual ? '=' : '';
 
         return this.readObject(data, (value: string | number, key: string): string => {
-            return `${this.parseNot(isNot, 'NOT')}${key} <${equal} '${value}'`;
+            return `${this.parseNot(isNot, 'NOT')}${key} ${lessMore}${equal} '${value}'`;
         });
     }
 
