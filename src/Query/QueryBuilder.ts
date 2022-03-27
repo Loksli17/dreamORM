@@ -63,6 +63,7 @@ export default class QueryBuilder {
     // }
 
 
+    //* add here all Fileds params and fix empty param
     public fields(fields: Array<string>): QueryBuilder {
         this.queryData.fields = fields;
         return this;

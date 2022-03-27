@@ -47,10 +47,6 @@ export default class MysqlQueryParser {
 
     private parseWhere(): void {
 
-        if(this.queryData.where == undefined){
-            throw new Error('No data for where!');
-        }
-
         const params: WhereBuilder | string = this.queryData.where as WhereBuilder | string;
 
         if(params instanceof WhereBuilder){
@@ -69,11 +65,7 @@ export default class MysqlQueryParser {
 
     private parseOrderBy(): void {
 
-        if(this.queryData.sort == undefined){
-            throw new Error('No data for sort!');
-        }
-
-        const params: {column: string, order?: 'desc' | 'asc'} | [string, 'desc' | 'asc'] = this.queryData.sort;
+        const params: {column: string, order?: 'desc' | 'asc'} | [string, 'desc' | 'asc'] = this.queryData.sort!;
 
         if(Array.isArray(params)) {
             if(params[1] == undefined) params[1] = 'asc';
@@ -92,13 +84,13 @@ export default class MysqlQueryParser {
         this.sql += 'SELECT ';
         this.parseColumns();
         this.sql += " FROM ";
-        this.sql += this.queryData.tableName
+        this.sql += this.queryData.tableName;
 
-        this.parseWhere();
+        if(this.queryData.where != undefined) this.parseWhere();
 
-        this.parseOrderBy();
+        if(this.queryData.sort != undefined) this.parseOrderBy();
 
-        this.parseLimit();
+        if(this.queryData.sort != undefined) this.parseLimit();
 
         return this.sql;
     }
