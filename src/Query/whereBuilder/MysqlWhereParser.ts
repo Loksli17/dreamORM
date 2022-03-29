@@ -72,6 +72,7 @@ export default class MysqlWhereParser implements WhereParser {
         'andBracket': (data: any) => this.addOr(this.parseBracket(data)),
     };
 
+    
     //! fix returned type
     public parse(data: Array<[string, any]>): string | Record<string, any> {
         
@@ -83,6 +84,8 @@ export default class MysqlWhereParser implements WhereParser {
 
         return sql;
     }
+
+
 
     private readObject(obj: Record<string, any>, handler: (value: string | number, key: string) => string): string {
 
