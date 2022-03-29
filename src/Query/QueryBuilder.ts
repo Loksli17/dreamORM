@@ -19,6 +19,7 @@ export interface QueryData {
 }
 
 
+type whereRecord =  string | number | boolean;
 
 //! add queryData clear
 
@@ -70,7 +71,7 @@ export default class QueryBuilder {
     }
 
 
-    public where(params: Record<string, string | number | boolean> | WhereChain): QueryBuilder {
+    public where(params: Record<string, whereRecord | Array<whereRecord>> | WhereChain): QueryBuilder {
         this.queryData.where = params;
         return this;
     }

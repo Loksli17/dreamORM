@@ -70,8 +70,6 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
     //* end point method
     public async findOne(queryData: QueryData): Promise<Record<string, any>> {
-
-        console.log(queryData)
         
         let 
             queryString: string = this.queryParser.parseSelect(queryData),

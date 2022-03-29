@@ -47,19 +47,56 @@ export default class MysqlQueryParser {
 
     private parseWhere(): void {
 
-        const params: WhereBuilder | string = this.queryData.where as WhereBuilder | string;
+        const params: WhereBuilder | Record<string, any> = this.queryData.where as WhereBuilder | Record<string, any>;
+
+         let builder: WhereBuilder
 
         if(params instanceof WhereBuilder){
             //* WhereBuilder..
-
-            let builder: WhereBuilder = params;
-
-            let parser: MysqlWhereParser = new MysqlWhereParser();
-            this.sql += ' WHERE' + parser.parse(builder.data);
-
+            builder = params;
+            
         } else {
 
+            builder = new WhereBuilder();
+            let countIter: number = 0;
+
+            for (const key in params) {
+                if (Object.prototype.hasOwnProperty.call(params, key)) {
+                    const value = params[key];
+                    
+                    const obj: Record<string, any> = {};
+                    obj[key] = value;
+                    
+                    if(countIter == 0) {
+
+                        let valueType: string = typeof value;
+
+                        switch (valueType) {
+                            case 'string': case 'number': case 'boolean':
+                                builder.eq(obj);
+                                break;
+                            case 'object':
+                                if(Array.isArray(value)) builder.in(obj);
+                        }
+                        
+                    } else {
+                        let valueType: string = typeof value;
+
+                        switch (valueType) {
+                            case 'string': case 'number': case 'boolean':
+                                builder.andEq(obj);
+                                break;
+                            case 'object':
+                                if(Array.isArray(value)) builder.andIn(obj);
+                        }
+                    }
+                }
+            }
+
         }
+
+        let parser: MysqlWhereParser = new MysqlWhereParser();
+        this.sql += ' WHERE' + parser.parse(builder.data);
     }
 
 
@@ -90,7 +127,7 @@ export default class MysqlQueryParser {
 
         if(this.queryData.sort != undefined) this.parseOrderBy();
 
-        if(this.queryData.sort != undefined) this.parseLimit();
+        if(this.queryData.limit != undefined) this.parseLimit();
 
         return this.sql;
     }

@@ -67,11 +67,13 @@ let tryMySQL = async () => {
 
     console.log(await queryBuilder.table('animal').getFieldsInfo());
 
-    console.log(await queryBuilder.table('article')
-        .where(new wb().less({id: 7}).andBetween({date: ['2021-01-19', '2021-01-20']}))
-        .fields(['id', 'date', 'title'])
-        .findAll()
-    );
+    console.log(await queryBuilder.table('animal').where({id: 2}).findOne());
+
+    // console.log(await queryBuilder.table('article')
+    //     .where(new wb().less({id: 7}).andBetween({date: ['2021-01-19', '2021-01-20']}))
+    //     .fields(['id', 'date', 'title'])
+    //     .findAll()
+    // );
 
     // console.log(await queryBuilder.table("animal")
     //     .where(
