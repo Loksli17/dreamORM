@@ -79,7 +79,7 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
         queryResult = await this.queryExecutor.query(queryString);
         
-        return queryResult[0];
+        return queryResult[0][0];
     }
 
 
