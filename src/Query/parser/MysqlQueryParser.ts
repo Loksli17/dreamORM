@@ -49,12 +49,24 @@ export default class MysqlQueryParser {
 
         const params: WhereBuilder | Record<string, any> = this.queryData.where as WhereBuilder | Record<string, any>;
 
-         let builder: WhereBuilder
+        let builder: WhereBuilder;
+
+        const typeSwitchHandler = (value: any, obj: Record<string, any>, type: 'and' | 'eq') => {
+            let valueType: string = typeof value;
+
+            switch (valueType) {
+                case 'string': case 'number': case 'boolean':
+                    (type == 'eq') ? builder.eq(obj) : builder.andEq(obj);
+                    break;
+                case 'object':
+                    if(Array.isArray(value)) (type == 'eq') ? builder.in(obj) : builder.andIn(obj);
+            }
+        }
 
         if(params instanceof WhereBuilder){
             //* WhereBuilder..
             builder = params;
-            
+
         } else {
 
             builder = new WhereBuilder();
@@ -68,31 +80,14 @@ export default class MysqlQueryParser {
                     obj[key] = value;
                     
                     if(countIter == 0) {
-
                         let valueType: string = typeof value;
-
-                        switch (valueType) {
-                            case 'string': case 'number': case 'boolean':
-                                builder.eq(obj);
-                                break;
-                            case 'object':
-                                if(Array.isArray(value)) builder.in(obj);
-                        }
-                        
+                        typeSwitchHandler(valueType, obj, 'eq');
                     } else {
                         let valueType: string = typeof value;
-
-                        switch (valueType) {
-                            case 'string': case 'number': case 'boolean':
-                                builder.andEq(obj);
-                                break;
-                            case 'object':
-                                if(Array.isArray(value)) builder.andIn(obj);
-                        }
+                        typeSwitchHandler(valueType, obj, 'and');
                     }
                 }
             }
-
         }
 
         let parser: MysqlWhereParser = new MysqlWhereParser();
