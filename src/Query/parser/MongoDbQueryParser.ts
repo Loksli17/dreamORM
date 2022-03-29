@@ -1,34 +1,77 @@
-import { QueryData } from "../QueryBuilder";
 import { Collection, Db, Document, CollectionInfo, WithId, FindCursor } from "mongodb";
+
+import { QueryData }               from "../QueryBuilder";
 import { MongoCollectionDocument } from "../adapter/MongoQueryBuilderAdapter";
+import MongoDbWhereParser          from "../whereBuilder/MongoDbWhereParser";
+import WhereBuilder                from "../whereBuilder/WhereBuilder";
 
 
 export class MongoDbQueryParser {
 
+    private queryData  : QueryData = {};
+    private findCursor!: FindCursor<WithId<Document>>;
+
+
+    private parseLimit(): void {
+        this.findCursor.limit(this.queryData.limit!);
+    }
+
+    private parseSkip(): void {
+        this.findCursor.skip(this.queryData.limit!);
+    }
+
+    private parseColumns(): void {
+        let projection: Record<string, 1 | 0> = {};
+
+        if(!this.queryData.fields!.includes('_id')){
+            projection['_id'] = 0;
+        }
+
+        this.queryData.fields!.forEach((field: string) => {
+            projection[field] = 1; 
+        });
+
+        this.findCursor.project(projection);
+    }
+
+    private parseWhere(): void {
+
+        const params: WhereBuilder | Record<string, any> = this.queryData.where as WhereBuilder | Record<string, any>;
+        let builder: WhereBuilder;
+
+        if(params instanceof WhereBuilder){
+            //* WhereBuilder ..
+            builder = params;
+
+            const query: Record<string, any> = new MongoDbWhereParser().parse(builder.data) as Record<string, any>;
+            this.findCursor.addQueryModifier('$query', query);
+
+        } else {
+            //* simple object ..
+        }
+
+    }
+
     
     public parseFindAllCursor(findCursor: FindCursor<WithId<Document>>, queryData: QueryData): FindCursor<WithId<Document>> {
 
+        this.queryData  = queryData;
+        this.findCursor = findCursor;
+
         if(queryData.limit != undefined){
-           findCursor = findCursor.limit(queryData.limit);
+           this.parseLimit();
         }
 
         if(queryData.offset != undefined) {
-            findCursor = findCursor.skip(queryData.offset);
+            this.parseSkip();
         }
 
         if(queryData.fields != undefined) {
+            this.parseColumns();
+        }
 
-            let projection: Record<string, 1 | 0> = {};
-
-            if(!queryData.fields.includes('_id')){
-                projection['_id'] = 0;
-            }
-
-            queryData.fields.forEach((field: string) => {
-                projection[field] = 1; 
-            });
-
-            findCursor.project(projection);
+        if(queryData.where != undefined) {
+            this.parseWhere();
         }
 
         return findCursor;

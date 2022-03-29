@@ -78,7 +78,6 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
         // let findCursor: FindCursor<WithId<Document>> = await this.queryExecutor.findAll(queryData);
         // this.queryParser.parseFindAllCursor(findCursor, queryData);
         // return findCursor.toArray();
-
         return [];
     }
 

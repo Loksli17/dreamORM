@@ -68,7 +68,8 @@ export default class MysqlQueryParser {
             builder = params;
 
         } else {
-
+            //* simple object ..
+            
             builder = new WhereBuilder();
             let countIter: number = 0;
 

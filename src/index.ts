@@ -1,7 +1,7 @@
 import DreamOrm     from './main';
 import Connection   from './Connection/Connection';
 import QueryBuilder from './Query/QueryBuilder';
-import wb from './Query/whereBuilder/WhereBuilder';
+import wb           from './Query/whereBuilder/WhereBuilder';
 
 import Entity, { MinLength, PrimaryKey, Prop } from './Entity/Entity';
 
@@ -44,9 +44,9 @@ let tryMongo = async () => {
     console.log(await queryBuilderMongo.table('test').getFieldsInfo())
 
     console.log(await queryBuilderMongo.table("test")
-        .limit(5)
-        .skip(2)
-        .fields(['field1', 'field2'])
+        .where(
+            new wb().eq({field1: 'test1'})
+        )
         .findAll()
     );
 }
@@ -107,9 +107,9 @@ let main = async () => {
 
     // const animal: Animal = new Animal(mysqlConnection);
 
-    // tryMongo();
+    tryMongo();
 
-    tryMySQL();
+    // tryMySQL();
 }
 
 main();

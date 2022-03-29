@@ -1,6 +1,6 @@
 import { WithId, Db, Collection, CollectionInfo, FindCursor } from "mongodb";
-import { QueryData } from "../QueryBuilder";
-import QueryExecutor from "./QueryExecutor";
+import { QueryData }                                          from "../QueryBuilder";
+import QueryExecutor                                          from "./QueryExecutor";
 
 
 
@@ -40,11 +40,8 @@ export default class MongoDbQueryExecutor implements QueryExecutor {
 
 
     public async findAll(queryData: QueryData): Promise<FindCursor<WithId<Document>>> {
-        
         const collection: Collection<Document> = await this.bindCollection(queryData.tableName);
-
         const result: FindCursor<WithId<Document>> = await collection.find();
-        
         return result;
     }
 }

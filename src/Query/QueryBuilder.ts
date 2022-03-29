@@ -1,7 +1,7 @@
 import Connection                                          from "./../Connection/Connection";
 import Entity                                              from "../Entity";
 import QueryBuilderAdapter, { QueryBuilderAdapterFactory } from "./adapter/QueryBuilderAdapter";
-import WhereChain                                          from "./whereBuilder/WhereBuilder";
+import WhereBuilder                                        from "./whereBuilder/WhereBuilder";
 
 
 export interface QueryData {
@@ -71,7 +71,7 @@ export default class QueryBuilder {
     }
 
 
-    public where(params: Record<string, whereRecord | Array<whereRecord>> | WhereChain): QueryBuilder {
+    public where(params: Record<string, whereRecord | Array<whereRecord>> | WhereBuilder): QueryBuilder {
         this.queryData.where = params;
         return this;
     }
