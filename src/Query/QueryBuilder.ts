@@ -123,8 +123,10 @@ export default class QueryBuilder {
         return new Entity();
     }
 
-    public findOne(): Entity {
-        return new Entity();
+    //* end point method
+    public async findOne(): Promise<Record<string, any>> {
+        this.queryData.limit = 1;
+        return await this.queryBuilderAdapter.findOne(this.queryData);
     }
 
 

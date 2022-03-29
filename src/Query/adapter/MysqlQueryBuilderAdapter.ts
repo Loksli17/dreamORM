@@ -54,10 +54,10 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
 
     //* end point method
-    public async findAll(queryObject: QueryData): Promise<Array<Record<string, any>>> {
+    public async findAll(queryData: QueryData): Promise<Array<Record<string, any>>> {
         
         let 
-            queryString: string = this.queryParser.parseSelect(queryObject),
+            queryString: string = this.queryParser.parseSelect(queryData),
             queryResult;
 
         console.log(queryString);
@@ -66,6 +66,24 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
         
         return queryResult[0];
     }
+
+
+    //* end point method
+    public async findOne(queryData: QueryData): Promise<Record<string, any>> {
+
+        console.log(queryData)
+        
+        let 
+            queryString: string = this.queryParser.parseSelect(queryData),
+            queryResult;
+
+        console.log(queryString);
+
+        queryResult = await this.queryExecutor.query(queryString);
+        
+        return queryResult[0];
+    }
+
 
     /**
      * create database dreamorm;

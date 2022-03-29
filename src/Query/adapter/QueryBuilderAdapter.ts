@@ -31,4 +31,6 @@ export default interface QueryBuilderAdapter {
     getTableNames(): Promise<Array<string>>
 
     findAll(queryData: QueryData): Promise<Array<Record<string, any>>> // ! returned type will be another, you know. i will refactor this later
+
+    findOne(queryData: QueryData): Promise<Record<string, any>> // ! returned type will be another, you know. i will refactor this later
 }
