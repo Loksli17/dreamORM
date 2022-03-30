@@ -1,4 +1,4 @@
-import { WhereParser } from "./WhereBuilder";
+import WhereBuilder, { WhereParser } from "./WhereBuilder";
 
 
 export default class MongoDbWhereParser implements WhereParser {
@@ -19,6 +19,10 @@ export default class MongoDbWhereParser implements WhereParser {
         'notAndIn': (data: any) => this.parseIn(data, true),
         'orIn'    : (data: any) => this.parseIn(data),
         'notOrIn' : (data: any) => this.parseIn(data, true),
+
+        'bracket'   : (data: any) => this.parseBracket(data),
+        'orBracket' : (data: any) => this.parseBracket(data, 'or'),
+        'andBracket': (data: any) => this.parseBracket(data, 'and'),
     }
 
     private readObject(obj: Record<string, any>, handler: (value: string | number | Record<string, any>, key: string) => Record<string, any>): Record<string, any> {
@@ -36,6 +40,12 @@ export default class MongoDbWhereParser implements WhereParser {
     }
 
 
+    /**
+     * * at first i must parse brackets and then content of brackets!!
+     * * in documention we should write about right usage of brackets with mongoDB 
+     * @param data 
+     * @returns 
+     */
     //! fix returned type
     public parse(data: Array<[string, any]>): Record<string, any> {
         
@@ -78,6 +88,7 @@ export default class MongoDbWhereParser implements WhereParser {
         });
     }
 
+    
 
     //*WIP
     private parseIn(data: any, isNot: boolean = false): Record<string, any>{ 
@@ -88,6 +99,17 @@ export default class MongoDbWhereParser implements WhereParser {
             obj[key] = (isNot) ? {$ne: value} : value;
             return obj;
         });
+    }
+
+
+    private parseBracket(whereBuilder: WhereBuilder, type: 'and' | 'or' | null = null): Record<string, any> {
+
+        if(type == undefined) throw `Method bracket does't work with MongoDb, use andBracket | orBracket instead. `;
+        
+        const result: Record<string, any> = {};
+        result[`$${type}`] = this.parse(whereBuilder.data);
+
+        return result;
     }
 
 }
