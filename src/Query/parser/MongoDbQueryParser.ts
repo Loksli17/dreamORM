@@ -43,8 +43,10 @@ export class MongoDbQueryParser {
             //* WhereBuilder ..
             builder = params;
 
-            const query: Record<string, any> = new MongoDbWhereParser().parse(builder.data) as Record<string, any>;
-            console.log(query)
+            let query: Record<string, any> = new MongoDbWhereParser().parse(builder.data) as Record<string, any>;
+
+            console.log(query);
+
             this.findCursor.addQueryModifier('$query', query);
 
         } else {

@@ -45,7 +45,10 @@ let tryMongo = async () => {
 
     console.log(await queryBuilderMongo.table("test")
         .where(
-            new wb().notEq({field1: 'test1'})
+            new wb()
+                .notEq({field1: 'test1'})
+                .notAndEq({field1: 'test2'})
+                .notAndEq({field1: 'test3'})
         )
         .findAll()
     );

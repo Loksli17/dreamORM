@@ -25,7 +25,9 @@ export interface WhereParser {
 
 export default class WhereBuilder {
 
-    private data_: Array<[string, any]> = []; //? think 
+    //* In Future, i can think about hash-table for new good experience 
+    //* with data structures
+    private data_: Array<[string, any]> = []; 
 
     constructor(){
 
