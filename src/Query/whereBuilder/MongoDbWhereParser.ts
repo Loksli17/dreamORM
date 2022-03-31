@@ -20,6 +20,13 @@ export default class MongoDbWhereParser implements WhereParser {
         'orIn'    : (data: any) => this.parseIn(data),
         'notOrIn' : (data: any) => this.parseIn(data, true),
 
+        'like'      : (data: any) => this.parseLike(data),
+        'notLike'   : (data: any) => this.parseLike(data, true),
+        'andLike'   : (data: any) => this.parseLike(data),
+        'notAndLike': (data: any) => this.parseLike(data, true),
+        'orLike'    : (data: any) => this.parseLike(data),
+        'notOrLike' : (data: any) => this.parseLike(data, true),
+
         'bracket'   : (data: any) => this.parseBracket(data),
         'orBracket' : (data: any) => this.parseBracket(data),
         'andBracket': (data: any) => this.parseBracket(data),
@@ -104,13 +111,31 @@ export default class MongoDbWhereParser implements WhereParser {
     }
      
 
-    //*WIP
     private parseIn(data: any, isNot: boolean = false): Record<string, any> {
         
         const obj: Record<string, any> = {}; 
 
         return this.readObject(data, (value: string | number | Record<string, any>, key: string): Record<string, any> => {
             obj[key] = (isNot) ? {$nin: value} : {$in: value};
+            return obj;
+        });
+    }
+
+
+    private parseLike(data: any, isNot: boolean = false): Record<string, any> {
+
+        const obj: Record<string, any> = {}; 
+
+        return this.readObject(data, (value: string | number | Record<string, any>, key: string): Record<string, any> => {
+            if(typeof value != 'string') throw new Error(`Value of like must be string`); //! it is fun for a now
+
+            if(value[0]                != '%') value = '^' + value;
+            if(value[value.length - 1] != '%') value = value + '$';
+
+            value = value.replace(/%/g, '');
+
+            let reg: RegExp = new RegExp(value);
+            obj[key] = (isNot) ? {$not: reg} : reg;
             return obj;
         });
     }

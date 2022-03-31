@@ -45,7 +45,7 @@ let tryMongo = async () => {
 
     console.log(await queryBuilderMongo.table("test")
         .where(
-            new wb().notIn({field1: ['test1', 'test2', 'test', 'test3', 'test4']})
+            new wb().notLike({field1: '%a'})
         )
         .findAll()
     );
