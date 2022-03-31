@@ -123,7 +123,7 @@ export default class MysqlWhereParser implements WhereParser {
 
     private parseEqual(data: any, isNot: boolean = false): string {
         return this.readObject(data, (value: string | number, key: string): string => {
-            return `${key} ${this.parseNot(isNot, '!')}= ${value}`;
+            return `${key} ${this.parseNot(isNot, '!')}= '${value}'`;
         });
     }
 
