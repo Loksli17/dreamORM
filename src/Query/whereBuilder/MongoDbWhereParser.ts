@@ -3,8 +3,6 @@ import WhereBuilder, { WhereParser } from "./WhereBuilder";
 
 export default class MongoDbWhereParser implements WhereParser {
 
-    // private condStatus: 'or' | 'and' = 'or';
-
 
     private associations: Record<string, (data: any) => void> = {
 
@@ -22,9 +20,9 @@ export default class MongoDbWhereParser implements WhereParser {
         'orIn'    : (data: any) => this.parseIn(data),
         'notOrIn' : (data: any) => this.parseIn(data, true),
 
-        // 'bracket'   : (data: any) => this.parseBracket(data, this.condStatus),
-        // 'orBracket' : (data: any) => this.parseBracket(data, 'or'),
-        // 'andBracket': (data: any) => this.parseBracket(data, 'and'),
+        'bracket'   : (data: any) => this.parseBracket(data),
+        'orBracket' : (data: any) => this.parseBracket(data),
+        'andBracket': (data: any) => this.parseBracket(data),
     }
 
     private readObject(obj: Record<string, any>, handler: (value: string | number | Record<string, any>, key: string) => Record<string, any>): Record<string, any> {
@@ -71,42 +69,20 @@ export default class MongoDbWhereParser implements WhereParser {
     //! fix returned type
     public parse(data: Array<[string, any]>): Record<string, any> {
 
-        let result: Record<string, any> = {
+        let result: Record<string, any> = {};
 
-        };
-
-        for(let i = 1; i < data.length; i++){
+        for(let i = 1; i < data.length; i++) {
 
             let condStatus: 'or' | 'and' = data[i][0].includes('or') ? 'or' : 'and';
 
-            if (this.recognizeBracket(data[0])) {
-                this.checkBrackets(data);
+            if(this.recognizeBracket(data[0])) this.checkBrackets(data);
 
-                if(i == 1){
-                    result[`$${condStatus}`] = [];
-                    result[`$${condStatus}`].push(this.parse(data[0][1].data));
-                }
-
-                result[`$${condStatus}`].push(this.parse(data[i][1].data));
-
-            } else {
-
-                if(condStatus == 'or') {
-                    if(i == 1) {
-                        result['$or'] = [];
-                        result['$or'].push(this.associations[data[0][0]](data[0][1]));
-                    }
-                    result['$or'].push(this.associations[data[i][0]](data[i][1]));
-                    continue;
-                }
-
-                if(i == 1) {
-                    result['$and'] = [];
-                    result['$and'].push(this.associations[data[0][0]](data[0][1]));
-                } 
-
-                result['$and'].push(this.associations[data[i][0]](data[i][1]));
+            if(i == 1){
+                result[`$${condStatus}`] = [];
+                result[`$${condStatus}`].push(this.associations[data[0][0]](data[0][1]));
             }
+
+            result[`$${condStatus}`].push(this.associations[data[i][0]](data[i][1]));
         }
 
         return result;
@@ -122,8 +98,7 @@ export default class MongoDbWhereParser implements WhereParser {
             return obj;
         });
     }
-
-    
+     
 
     //*WIP
     private parseIn(data: any, isNot: boolean = false): Record<string, any> {
@@ -137,14 +112,8 @@ export default class MongoDbWhereParser implements WhereParser {
     }
 
 
-    private parseBracket(whereBuilder: WhereBuilder, type: 'and' | 'or' | null = null): Record<string, any> {
-
-        // if(type == undefined) throw `Method bracket does't work with MongoDb, use andBracket | orBracket instead. `;
-        
-        const result: Record<string, any> = {};
-        result[`$${type}`] = this.parse(whereBuilder.data);
-
-        return result;
+    private parseBracket(whereBuilder: WhereBuilder): Record<string, any> {
+        return this.parse(whereBuilder.data);
     }
 
 }
