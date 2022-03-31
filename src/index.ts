@@ -45,19 +45,7 @@ let tryMongo = async () => {
 
     console.log(await queryBuilderMongo.table("test")
         .where(
-            new wb()
-                .bracket(
-                    new wb().eq({field1: 'test1'}).andEq({field2: 123})
-                ).orBracket(
-                    new wb().eq({field1: 'test2'}).andEq({field3: 56.78})
-                ).orBracket(
-                    new wb()
-                        .bracket(
-                            new wb().eq({field1: 'test'}).orEq({field: 'test3'})
-                        ).andBracket(
-                            new wb().eq({field2: 123}).orEq({field: 1234})
-                        )
-                )
+            new wb().notIn({field1: ['test1', 'test2', 'test', 'test3', 'test4']})
         )
         .findAll()
     );
@@ -141,7 +129,7 @@ let main = async () => {
 
     await tryMongo();
 
-    await tryMySQL();
+    // await tryMySQL();
 }
 
 main();

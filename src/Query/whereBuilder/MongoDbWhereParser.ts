@@ -71,6 +71,10 @@ export default class MongoDbWhereParser implements WhereParser {
 
         let result: Record<string, any> = {};
 
+        if(data.length == 1){
+            return this.associations[data[0][0]](data[0][1]) as any;
+        }
+
         for(let i = 1; i < data.length; i++) {
 
             let condStatus: 'or' | 'and' = data[i][0].includes('or') ? 'or' : 'and';
@@ -106,7 +110,7 @@ export default class MongoDbWhereParser implements WhereParser {
         const obj: Record<string, any> = {}; 
 
         return this.readObject(data, (value: string | number | Record<string, any>, key: string): Record<string, any> => {
-            obj[key] = (isNot) ? {$ne: value} : value;
+            obj[key] = (isNot) ? {$nin: value} : {$in: value};
             return obj;
         });
     }
