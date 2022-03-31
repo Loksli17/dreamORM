@@ -83,7 +83,6 @@ export default class MongoDbWhereParser implements WhereParser {
                 this.checkBrackets(data);
 
                 if(i == 1){
-                    // this.condStatus = condStatus;
                     result[`$${condStatus}`] = [];
                     result[`$${condStatus}`].push(this.parse(data[0][1].data));
                 }

@@ -69,7 +69,7 @@ export default class MysqlWhereParser implements WhereParser {
 
         'bracket'   : (data: any) => this.parseBracket(data),
         'orBracket' : (data: any) => this.addOr(this.parseBracket(data)),
-        'andBracket': (data: any) => this.addOr(this.parseBracket(data)),
+        'andBracket': (data: any) => this.addAnd(this.parseBracket(data)),
     };
 
     
