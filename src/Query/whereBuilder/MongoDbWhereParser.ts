@@ -86,10 +86,10 @@ export default class MongoDbWhereParser implements WhereParser {
                     // this.condStatus = condStatus;
                     result[`$${condStatus}`] = [];
                     result[`$${condStatus}`].push(this.parse(data[0][1].data));
-                    result[`$${condStatus}`].push(this.parse(data[i][1].data));
                 }
 
                 result[`$${condStatus}`].push(this.parse(data[i][1].data));
+
             } else {
 
                 if(condStatus == 'or') {

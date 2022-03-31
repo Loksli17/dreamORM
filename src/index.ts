@@ -50,11 +50,14 @@ let tryMongo = async () => {
                     new wb().eq({field1: 'test1'}).andEq({field2: 123})
                 ).orBracket(
                     new wb().eq({field1: 'test2'}).andEq({field3: 56.78})
+                ).orBracket(
+                    new wb()
+                        .bracket(
+                            new wb().eq({field1: 'test'}).orEq({field: 'test3'})
+                        ).andBracket(
+                            new wb().eq({field2: 123}).orEq({field: 1234})
+                        )
                 )
-                // .notEq({field1: 'test1'})
-                // .notAndEq({field1: 'test2'})
-                // .notAndEq({field1: 'test3'})
-                // .orEq({fileld3: 322})
         )
         .findAll()
     );
@@ -72,11 +75,11 @@ let tryMySQL = async () => {
 
     let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
 
-    console.log(await queryBuilder.getTableNames());
+    // console.log(await queryBuilder.getTableNames());
 
-    console.log(await queryBuilder.table('animal').getFieldsInfo());
+    // console.log(await queryBuilder.table('animal').getFieldsInfo());
 
-    console.log(await queryBuilder.table('animal').where({id: 2}).findOne());
+    // console.log(await queryBuilder.table('animal').where({id: 2}).findOne());
 
     // console.log(await queryBuilder.table('article')
     //     .where(new wb().less({id: 7}).andBetween({date: ['2021-01-19', '2021-01-20']}))
@@ -86,16 +89,16 @@ let tryMySQL = async () => {
 
     // console.log(await queryBuilder.table("animal")
     //     .where(
-    //         new WhereBuilder()
+    //         new wb()
     //             .in({id: [1, 2, 14, 56]})
     //             .andIn({name: ['Vaan', 'Marcus']})
     //             .orEq({id: 6})
     //             .orBracket(
-    //                 new WhereBuilder()
+    //                 new wb()
     //                 .eq({id: 5})
     //                 .orEq({id: 10})
     //                 .orBracket(
-    //                     new WhereBuilder()
+    //                     new wb()
     //                     .eq({id: 5})
     //                     .orIn({id: [6, 7, 8, 9]})
     //                 )
@@ -104,6 +107,26 @@ let tryMySQL = async () => {
     //     .limit(3)
     //     .findAll()
     // );
+
+
+    console.log(await queryBuilder.table("animal")
+        .where(
+            new wb()
+                .bracket(
+                    new wb().eq({name: 'Vaaan'}).andEq({id: 1})
+                ).orBracket(
+                    new wb().eq({name: 'Billy'}).andEq({type: 'full master'})
+                ).orBracket(
+                    new wb()
+                        .bracket(
+                            new wb().eq({name: 'Dima'}).orEq({name: 'Marcus'})
+                        ).andBracket(
+                            new wb().eq({type: 'poppol'}).orEq({type: 'type 1'})
+                        )
+                )
+        )
+        .findAll()
+    );
 
 
 }
@@ -116,9 +139,9 @@ let main = async () => {
 
     // const animal: Animal = new Animal(mysqlConnection);
 
-    tryMongo();
+    await tryMongo();
 
-    // tryMySQL();
+    await tryMySQL();
 }
 
 main();
