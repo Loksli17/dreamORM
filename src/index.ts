@@ -41,17 +41,16 @@ let tryMongo = async () => {
 
     let queryBuilderMongo: QueryBuilder = new QueryBuilder(mongoConnection);
 
-    console.log(await queryBuilderMongo.table('test').getFieldsInfo())
+    // console.log(await queryBuilderMongo.table('test').getFieldsInfo());
 
     console.log(await queryBuilderMongo.table("test")
         .where(
             new wb()
                 .bracket(
                     new wb().eq({field1: 'test1'}).andEq({field2: 123})
-                ).andBracket(
+                ).orBracket(
                     new wb().eq({field1: 'test2'}).andEq({field3: 56.78})
                 )
-                
                 // .notEq({field1: 'test1'})
                 // .notAndEq({field1: 'test2'})
                 // .notAndEq({field1: 'test3'})
