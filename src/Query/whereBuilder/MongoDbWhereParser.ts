@@ -68,8 +68,6 @@ export default class MongoDbWhereParser implements WhereParser {
 
 
     /**
-     * * at first i must parse brackets and then content of brackets!!
-     * * in documention we should write about right usage of brackets with mongoDB 
      * @param data 
      * @returns 
      */
