@@ -46,7 +46,7 @@ let tryMongo = async () => {
     console.log(await queryBuilderMongo.table("test")
         .where(
             new wb()
-                .lessEq({field2: 100})
+                .more({field2: 1234})
         )
         .findAll()
     );

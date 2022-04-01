@@ -55,6 +55,20 @@ export default class MongoDbWhereParser implements WhereParser {
         'orLessEq'    : (data: any) => this.parseLessMore(data, '$lt', false, true),
         'notOrLessEq' : (data: any) => this.parseLessMore(data, '$lt', true, true),
 
+        'more'      : (data: any) => this.parseLessMore(data, '$gt'),
+        'notMore'   : (data: any) => this.parseLessMore(data, '$gt', true),
+        'andMore'   : (data: any) => this.parseLessMore(data, '$gt'),
+        'notAndMore': (data: any) => this.parseLessMore(data, '$gt', true),
+        'orMore'    : (data: any) => this.parseLessMore(data, '$gt'),
+        'notOrMore' : (data: any) => this.parseLessMore(data, '$gt', true),
+
+        'moreEq'      : (data: any) => this.parseLessMore(data, '$gt', false, true),
+        'notMoreEq'   : (data: any) => this.parseLessMore(data, '$gt', true, true),
+        'andMoreEq'   : (data: any) => this.parseLessMore(data, '$gt', false, true),
+        'notAndMoreEq': (data: any) => this.parseLessMore(data, '$gt', true, true),
+        'orMoreEq'    : (data: any) => this.parseLessMore(data, '$gt', false, true),
+        'notOrMoreEq' : (data: any) => this.parseLessMore(data, '$gt', true, true),
+
         'bracket'   : (data: any) => this.parseBracket(data),
         'orBracket' : (data: any) => this.parseBracket(data),
         'andBracket': (data: any) => this.parseBracket(data),
