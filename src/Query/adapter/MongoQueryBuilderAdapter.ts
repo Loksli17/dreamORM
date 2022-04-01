@@ -1,10 +1,9 @@
-import MongoDbQueryExecutor         from "../queryExecutor/MongoDbQueryExecutor";
-import QueryBuilderAdapter          from "./QueryBuilderAdapter";
-import { Collection, Db, Document, CollectionInfo, WithId, FindCursor } from "mongodb";
+import { Document, CollectionInfo, WithId, FindCursor } from "mongodb";
 
+import MongoDbQueryExecutor   from "../queryExecutor/MongoDbQueryExecutor";
+import QueryBuilderAdapter    from "./QueryBuilderAdapter";
 import { QueryData }          from '../QueryBuilder';
 import { MongoDbQueryParser } from "../parser/MongoDbQueryParser";
-import WhereChain from "../whereBuilder/WhereBuilder";
 
 
 
@@ -74,6 +73,7 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
 
 
     //* end point method
+    //! refactor this method with queryExecutor.findOne()!!
     public async findOne(queryData: QueryData): Promise<Record<string, any>> {
         let findCursor: FindCursor<WithId<Document>> = await this.queryExecutor.findAll(queryData);
         this.queryParser.parseFindOneCursor(findCursor, queryData);
