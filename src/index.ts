@@ -43,12 +43,16 @@ let tryMongo = async () => {
 
     // console.log(await queryBuilderMongo.table('test').getFieldsInfo());
 
-    console.log(await queryBuilderMongo.table("test")
-        .where(
-            new wb()
-                .more({field2: 1234})
-        )
-        .findOne()
+    // console.log(await queryBuilderMongo.table("test")
+    //     .where(
+    //         new wb()
+    //             .more({field2: 1234})
+    //     )
+    //     .findAll()
+    // );
+
+    console.log(
+        await queryBuilderMongo.table('test').where(new wb().eq({field1: 'test1'})).findOne()
     );
 }
 
@@ -118,7 +122,7 @@ let tryMySQL = async () => {
     );
 
     console.log(
-        await queryBuilder.table('animal').findOne()
+        await queryBuilder.table('animal').where({field1: 'test'}).findOne()
     );
 
 }
@@ -131,9 +135,9 @@ let main = async () => {
 
     // const animal: Animal = new Animal(mysqlConnection);
 
-    // await tryMongo();
+    await tryMongo();
 
-    await tryMySQL();
+    // await tryMySQL();
 }
 
 main();

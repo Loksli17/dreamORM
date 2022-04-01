@@ -69,16 +69,15 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
     public async findAll(queryData: QueryData): Promise<Array<Record<string, any>>> {
         let findCursor: FindCursor<WithId<Document>> = await this.queryExecutor.findAll(queryData);
         this.queryParser.parseFindAllCursor(findCursor, queryData);
-        return findCursor.toArray();
+        return await findCursor.toArray();
     }
 
 
     //* end point method
     public async findOne(queryData: QueryData): Promise<Record<string, any>> {
-        // let findCursor: FindCursor<WithId<Document>> = await this.queryExecutor.findAll(queryData);
-        // this.queryParser.parseFindAllCursor(findCursor, queryData);
-        // return findCursor.toArray();
-        return [];
+        let findCursor: FindCursor<WithId<Document>> = await this.queryExecutor.findAll(queryData);
+        this.queryParser.parseFindOneCursor(findCursor, queryData);
+        return await findCursor.toArray();
     }
 
 }

@@ -79,6 +79,31 @@ export class MongoDbQueryParser {
             this.parseWhere();
         }
 
+        this.queryData = {};
+
+        return findCursor;
+    }
+
+
+    public parseFindOneCursor(findCursor: FindCursor<WithId<Document>>, queryData: QueryData): FindCursor<WithId<Document>> {
+
+        this.queryData = queryData;
+        this.findCursor = findCursor;
+
+        if(queryData.limit != undefined){
+           this.parseLimit();
+        }
+
+        if(queryData.fields != undefined) {
+            this.parseColumns();
+        }
+
+        if(queryData.where != undefined) {
+            this.parseWhere();
+        }
+
+        this.queryData = {};
+
         return findCursor;
     }
 
