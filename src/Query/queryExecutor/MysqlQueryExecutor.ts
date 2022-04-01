@@ -19,7 +19,7 @@ export default class MysqlQueryExecutor implements QueryExecutor {
 
     private queryTypesAssociations: Record<string, (sqlString: string) => any> = {
 
-        pool : (sqlString: string): Promise<any> => {
+        pool: (sqlString: string): Promise<any> => {
             return this.pool_.query(sqlString).then((value: any) => {
                 return value;
             });

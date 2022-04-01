@@ -21,14 +21,23 @@ export interface QueryData {
 
 type whereRecord =  string | number | boolean;
 
-//! add queryData clear
 
+
+
+//! add queryData clear
 export default class QueryBuilder {
 
 
     private queryBuilderAdapter: QueryBuilderAdapter;
     private connection         : Connection;
     private queryData          : QueryData = {};
+    private whereBuilder       : WhereBuilder | undefined;
+
+    private reset(): void {
+        this.queryData    = {};
+        this.whereBuilder = undefined;
+    }
+    
 
 
     public constructor(connection: Connection) {
@@ -73,6 +82,7 @@ export default class QueryBuilder {
 
     public where(params: Record<string, whereRecord | Array<whereRecord>> | WhereBuilder): QueryBuilder {
         this.queryData.where = params;
+        if(params instanceof WhereBuilder) this.whereBuilder = params; 
         return this;
     }
 
@@ -124,22 +134,28 @@ export default class QueryBuilder {
         return new Entity();
     }
 
+
     //* end point method
     public async findOne(): Promise<Record<string, any>> {
         this.queryData.limit = 1;
-        return await this.queryBuilderAdapter.findOne(this.queryData);
+        const result: Record<string, any> = await this.queryBuilderAdapter.findOne(this.queryData);
+        this.reset();
+        return result;
     }
 
 
     //* end point method
     public async findAll(): Promise<Array<Record<string, any>>> {
-        return await this.queryBuilderAdapter.findAll(this.queryData);
+        const result: Array<Record<string, any>> = await this.queryBuilderAdapter.findAll(this.queryData);
+        this.reset();
+        return result;
     }
 
 
     //* end point method
     public async getFieldsInfo(): Promise<Array<Record<string, any>>> {
         let result: Array<Record<string, any>> = await this.queryBuilderAdapter.getFieldsInfo(this.queryData);
+        this.reset();
         return result;
     }
 
@@ -147,6 +163,7 @@ export default class QueryBuilder {
     //* end point method
     public async getTableNames(): Promise<Array<string>> {
         let result: Array<string> = await this.queryBuilderAdapter.getTableNames();
+        this.reset();
         return result;
     } 
 

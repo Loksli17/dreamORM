@@ -48,7 +48,7 @@ let tryMongo = async () => {
             new wb()
                 .more({field2: 1234})
         )
-        .findAll()
+        .findOne()
     );
 }
 
@@ -117,6 +117,9 @@ let tryMySQL = async () => {
         .findAll()
     );
 
+    console.log(
+        await queryBuilder.table('animal').findOne()
+    );
 
 }
 
@@ -128,9 +131,9 @@ let main = async () => {
 
     // const animal: Animal = new Animal(mysqlConnection);
 
-    await tryMongo();
+    // await tryMongo();
 
-    // await tryMySQL();
+    await tryMySQL();
 }
 
 main();

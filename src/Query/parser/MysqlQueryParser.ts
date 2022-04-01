@@ -125,7 +125,10 @@ export default class MysqlQueryParser {
 
         if(this.queryData.limit != undefined) this.parseLimit();
 
-        return this.sql;
+        const result: string = this.sql;
+        this.sql = "";
+        
+        return result;
     }
 
 

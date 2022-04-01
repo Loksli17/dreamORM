@@ -31,10 +31,7 @@ export default class MongoDbQueryExecutor implements QueryExecutor {
 
 
     public async findOne(queryData: QueryData): Promise<WithId<Document> | null> {
-
         const collection: Collection<Document> = await this.bindCollection(queryData.tableName);
-
-        // ! add here conditions!!
         return await collection.findOne();
     }
 
