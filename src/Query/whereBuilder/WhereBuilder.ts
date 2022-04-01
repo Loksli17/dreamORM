@@ -135,7 +135,6 @@ export default class WhereBuilder {
 
 
     public between(obj: Record<string, Array<number | string>>){
-        console.log(obj);
         this.data_.push(['between', obj]);
         return this;
     }
@@ -168,7 +167,6 @@ export default class WhereBuilder {
 
 
     public less(obj: Record<string, number | string>){
-        console.log(obj);
         this.data_.push(['less', obj]);
         return this;
     }
@@ -200,7 +198,6 @@ export default class WhereBuilder {
 
 
     public lessEq(obj: Record<string, number | string>){
-        console.log(obj);
         this.data_.push(['lessEq', obj]);
         return this;
     }
@@ -233,7 +230,6 @@ export default class WhereBuilder {
 
 
     public more(obj: Record<string, number | string>){
-        console.log(obj);
         this.data_.push(['more', obj]);
         return this;
     }
@@ -265,7 +261,6 @@ export default class WhereBuilder {
 
 
     public moreEq(obj: Record<string, number | string>){
-        console.log(obj);
         this.data_.push(['moreEq', obj]);
         return this;
     }
@@ -298,7 +293,6 @@ export default class WhereBuilder {
 
 
     public regex(obj: Record<string, string>){
-        console.log(obj);
         this.data_.push(['regex', obj]);
         return this;
     }

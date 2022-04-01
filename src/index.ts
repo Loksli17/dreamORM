@@ -46,9 +46,7 @@ let tryMongo = async () => {
     console.log(await queryBuilderMongo.table("test")
         .where(
             new wb()
-                .between({field2: [0, 100]})
-                .orBetween({field2: [100, 110]})
-                .notOrBetween({field2: [110, 200]})
+                .lessEq({field2: 100})
         )
         .findAll()
     );

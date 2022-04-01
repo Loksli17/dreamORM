@@ -41,6 +41,20 @@ export default class MongoDbWhereParser implements WhereParser {
         'orRegex'    : (data: any) => this.parseRegex(data),
         'notOrRegex' : (data: any) => this.parseRegex(data, true),
 
+        'less'      : (data: any) => this.parseLessMore(data, '$lt'),
+        'notLess'   : (data: any) => this.parseLessMore(data, '$lt', true),
+        'andLess'   : (data: any) => this.parseLessMore(data, '$lt'),
+        'notAndLess': (data: any) => this.parseLessMore(data, '$lt', true),
+        'orLess'    : (data: any) => this.parseLessMore(data, '$lt'),
+        'notOrLess' : (data: any) => this.parseLessMore(data, '$lt', true),
+
+        'lessEq'      : (data: any) => this.parseLessMore(data, '$lt', false, true),
+        'notLessEq'   : (data: any) => this.parseLessMore(data, '$lt', true, true),
+        'andLessEq'   : (data: any) => this.parseLessMore(data, '$lt', false, true),
+        'notAndLessEq': (data: any) => this.parseLessMore(data, '$lt', true, true),
+        'orLessEq'    : (data: any) => this.parseLessMore(data, '$lt', false, true),
+        'notOrLessEq' : (data: any) => this.parseLessMore(data, '$lt', true, true),
+
         'bracket'   : (data: any) => this.parseBracket(data),
         'orBracket' : (data: any) => this.parseBracket(data),
         'andBracket': (data: any) => this.parseBracket(data),
@@ -123,6 +137,21 @@ export default class MongoDbWhereParser implements WhereParser {
             return obj;
         });
     }
+
+    
+    private parseLessMore(data: any, lessMore: '$lt' | '$gt', isNot: boolean = false, isEqual: boolean = false): Record<string, any>{
+
+        const 
+            obj               : Record<string, any> = {},
+            lessMoreNormalized: string              = isEqual ? lessMore + 'e' : lessMore,
+            lessMoreObject    : Record<string, any> = {}; 
+
+        return this.readObject(data, (value: string | number | Record<string, any>, key: string): Record<string, any> => {
+            lessMoreObject[lessMoreNormalized] = value;
+            obj[key] = (isNot) ? {$not: lessMoreObject} : lessMoreObject;
+            return obj;
+        });
+    }
      
 
     private parseIn(data: any, isNot: boolean = false): Record<string, any> {
@@ -185,7 +214,6 @@ export default class MongoDbWhereParser implements WhereParser {
 
             obj[key] = (isNot) ? {$not: betweenObj} : betweenObj;
 
-            console.log(obj)
             return obj;
         });
     }
