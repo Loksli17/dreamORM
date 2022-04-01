@@ -45,7 +45,7 @@ let tryMongo = async () => {
 
     console.log(await queryBuilderMongo.table("test")
         .where(
-            new wb().notLike({field1: '%a'})
+            new wb().notRegex({field1: '^t'}).orRegex({field1: '0$'}).notOrRegex({field1: '[0-9]'})
         )
         .findAll()
     );

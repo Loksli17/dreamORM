@@ -27,6 +27,13 @@ export default class MongoDbWhereParser implements WhereParser {
         'orLike'    : (data: any) => this.parseLike(data),
         'notOrLike' : (data: any) => this.parseLike(data, true),
 
+        'regex'      : (data: any) => this.parseRegex(data),
+        'notRegex'   : (data: any) => this.parseRegex(data, true),
+        'andRegex'   : (data: any) => this.parseRegex(data),
+        'notAndRegex': (data: any) => this.parseRegex(data, true),
+        'orRegex'    : (data: any) => this.parseRegex(data),
+        'notOrRegex' : (data: any) => this.parseRegex(data, true),
+
         'bracket'   : (data: any) => this.parseBracket(data),
         'orBracket' : (data: any) => this.parseBracket(data),
         'andBracket': (data: any) => this.parseBracket(data),
@@ -82,14 +89,19 @@ export default class MongoDbWhereParser implements WhereParser {
 
         for(let i = 1; i < data.length; i++) {
 
-            let condStatus: 'or' | 'and' = data[i][0].includes('or') ? 'or' : 'and';
+            const type: string = data[i][0];
 
-            if(this.recognizeBracket(data[0])) this.checkBrackets(data);
+            let condStatus: 'or' | 'and' = type.toLowerCase().includes('or') ? 'or' : 'and';
+
+            if(this.recognizeBracket(Object.assign({}, data[0]))) this.checkBrackets(data);
 
             if(i == 1){
                 result[`$${condStatus}`] = [];
+                console.log(this.associations[data[0][0]], data[0][0]);
                 result[`$${condStatus}`].push(this.associations[data[0][0]](data[0][1]));
             }
+
+            console.log(result[`$${condStatus}`], `$${condStatus}`);
 
             result[`$${condStatus}`].push(this.associations[data[i][0]](data[i][1]));
         }
@@ -132,6 +144,19 @@ export default class MongoDbWhereParser implements WhereParser {
 
             value = value.replace(/%/g, '');
 
+            let reg: RegExp = new RegExp(value);
+            obj[key] = (isNot) ? {$not: reg} : reg;
+            return obj;
+        });
+    }
+
+
+    private parseRegex(data: any, isNot: boolean = false): Record<string, any> {
+
+        const obj: Record<string, any> = {}; 
+
+        return this.readObject(data, (value: string | number | Record<string, any>, key: string): Record<string, any> => {
+            if(typeof value != 'string') throw new Error(`Value of like must be string`); //! it is fun for a now
             let reg: RegExp = new RegExp(value);
             obj[key] = (isNot) ? {$not: reg} : reg;
             return obj;
