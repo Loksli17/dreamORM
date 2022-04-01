@@ -31,11 +31,9 @@ export default class QueryBuilder {
     private queryBuilderAdapter: QueryBuilderAdapter;
     private connection         : Connection;
     private queryData          : QueryData = {};
-    private whereBuilder       : WhereBuilder | undefined;
 
     private reset(): void {
-        this.queryData    = {};
-        this.whereBuilder = undefined;
+        this.queryData = {};
     }
     
 
@@ -81,8 +79,7 @@ export default class QueryBuilder {
 
 
     public where(params: Record<string, whereRecord | Array<whereRecord>> | WhereBuilder): QueryBuilder {
-        this.queryData.where = params;
-        if(params instanceof WhereBuilder) this.whereBuilder = params; 
+        this.queryData.where = params; 
         return this;
     }
 
