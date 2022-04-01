@@ -45,7 +45,10 @@ let tryMongo = async () => {
 
     console.log(await queryBuilderMongo.table("test")
         .where(
-            new wb().notRegex({field1: '^t'}).orRegex({field1: '0$'}).notOrRegex({field1: '[0-9]'})
+            new wb()
+                .between({field2: [0, 100]})
+                .orBetween({field2: [100, 110]})
+                .notOrBetween({field2: [110, 200]})
         )
         .findAll()
     );

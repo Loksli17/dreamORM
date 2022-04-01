@@ -20,6 +20,13 @@ export default class MongoDbWhereParser implements WhereParser {
         'orIn'    : (data: any) => this.parseIn(data),
         'notOrIn' : (data: any) => this.parseIn(data, true),
 
+        'between'      : (data: any) => this.parseBetween(data),
+        'notBetween'   : (data: any) => this.parseBetween(data, true),
+        'andBetween'   : (data: any) => this.parseBetween(data),
+        'notAndBetween': (data: any) => this.parseBetween(data, true),
+        'orBetween'    : (data: any) => this.parseBetween(data),
+        'notOrBetween' : (data: any) => this.parseBetween(data, true),
+
         'like'      : (data: any) => this.parseLike(data),
         'notLike'   : (data: any) => this.parseLike(data, true),
         'andLike'   : (data: any) => this.parseLike(data),
@@ -97,11 +104,8 @@ export default class MongoDbWhereParser implements WhereParser {
 
             if(i == 1){
                 result[`$${condStatus}`] = [];
-                console.log(this.associations[data[0][0]], data[0][0]);
                 result[`$${condStatus}`].push(this.associations[data[0][0]](data[0][1]));
             }
-
-            console.log(result[`$${condStatus}`], `$${condStatus}`);
 
             result[`$${condStatus}`].push(this.associations[data[i][0]](data[i][1]));
         }
@@ -159,6 +163,29 @@ export default class MongoDbWhereParser implements WhereParser {
             if(typeof value != 'string') throw new Error(`Value of like must be string`); //! it is fun for a now
             let reg: RegExp = new RegExp(value);
             obj[key] = (isNot) ? {$not: reg} : reg;
+            return obj;
+        });
+    }
+
+
+    private parseBetween(data: any, isNot: boolean = false): Record<string, any> {
+
+        const obj: Record<string, any> = {};
+
+        return this.readObject(data, (value: string | number | Record<string, any>, key: string): Record<string, any> => {
+            
+            if(typeof value == 'string' || typeof value == 'number'){
+                throw new Error('Data for `between` must be [string | number, string | number]');
+            }
+
+            const betweenObj: {'$gte': any, '$lte':any} = {
+                $gte: value[0],
+                $lte: value[1],  
+            };
+
+            obj[key] = (isNot) ? {$not: betweenObj} : betweenObj;
+
+            console.log(obj)
             return obj;
         });
     }
