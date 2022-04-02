@@ -12,6 +12,20 @@ export class MongoDbQueryParser {
     private findCursor!: FindCursor<WithId<Document>>;
 
 
+    private parseOrderBy(): void {
+        console.log(this.queryData.sort);
+        
+        let sortObject: {[index: string]: -1 | 1} = {};
+
+        if(Array.isArray(this.queryData.sort)) {
+            sortObject[this.queryData.sort[0]] = (this.queryData.sort[1] == 'asc') ? 1 : -1;
+        } else {
+            sortObject[this.queryData.sort!.column] = (this.queryData.sort!.order == 'asc') ? 1 : -1;
+        }
+
+        this.findCursor.sort(sortObject);
+    }
+
     private parseLimit(): void {
         this.findCursor.limit(this.queryData.limit!);
     }
@@ -79,12 +93,17 @@ export class MongoDbQueryParser {
             this.parseWhere();
         }
 
+        if(queryData.sort != undefined){
+            this.parseOrderBy();
+        }
+
         this.queryData = {};
 
         return findCursor;
     }
 
 
+    //*this method is not work!!!
     public parseFindOneCursor(findCursor: FindCursor<WithId<Document>>, queryData: QueryData): FindCursor<WithId<Document>> {
 
         this.queryData = queryData;

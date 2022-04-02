@@ -51,8 +51,12 @@ let tryMongo = async () => {
     //     .findAll()
     // );
 
+    // console.log(
+    //     await queryBuilderMongo.table('test').where(new wb().eq({field1: 'test1'})).findOne()
+    // );
+
     console.log(
-        await queryBuilderMongo.table('test').where(new wb().eq({field1: 'test1'})).findOne()
+        await queryBuilderMongo.table('test').sort(['field2', 'desc']).findAll()
     );
 }
 
