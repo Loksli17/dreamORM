@@ -167,7 +167,7 @@ export {
 export default class Entity {
     
     private queryBuilder: QueryBuilder | undefined;
-
+    
 
     public constructor(connection: Connection){
         this.queryBuilder = new QueryBuilder(connection);
@@ -175,5 +175,10 @@ export default class Entity {
 
     public build(obj: Record<string, any>): void{
 
+    }
+
+    
+    public static query(): QueryBuilder{
+        return this.
     }
 }

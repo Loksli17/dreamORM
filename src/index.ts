@@ -15,6 +15,9 @@ import Entity, { MinLength, PrimaryKey, Prop } from './Entity/Entity';
  */
 
 
+
+
+
 class Animal extends Entity {
 
     @PrimaryKey()
@@ -84,26 +87,26 @@ let tryMySQL = async () => {
     //     .findAll()
     // );
 
-    // console.log(await queryBuilder.table("animal")
-    //     .where(
-    //         new wb()
-    //             .in({id: [1, 2, 14, 56]})
-    //             .andIn({name: ['Vaan', 'Marcus']})
-    //             .orEq({id: 6})
-    //             .orBracket(
-    //                 new wb()
-    //                 .eq({id: 5})
-    //                 .orEq({id: 10})
-    //                 .orBracket(
-    //                     new wb()
-    //                     .eq({id: 5})
-    //                     .orIn({id: [6, 7, 8, 9]})
-    //                 )
-    //             )
-    //     )
-    //     .limit(3)
-    //     .findAll()
-    // );
+    console.log(await queryBuilder.table("animal")
+        .where(
+            new wb()
+                .in({id: [1, 2, 14, 56]})
+                .andIn({name: ['Vaan', 'Marcus']})
+                .orEq({id: 6})
+                .orBracket(
+                    new wb()
+                    .eq({id: 5})
+                    .orEq({id: 10})
+                    .orBracket(
+                        new wb()
+                        .eq({id: 5})
+                        .orIn({id: [6, 7, 8, 9]})
+                    )
+                )
+        )
+        .limit(3)
+        .findAll()
+    );
 
 
     console.log(await queryBuilder.table("animal")
@@ -140,6 +143,9 @@ let main = async () => {
     // const animal: Animal = new Animal(mysqlConnection);
 
     await tryMongo();
+
+    const entityName = Animal.name;
+    console.log(entityName);
 
     // await tryMySQL();
 }

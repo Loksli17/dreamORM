@@ -13,7 +13,6 @@ export class MongoDbQueryParser {
 
 
     private parseOrderBy(): void {
-        console.log(this.queryData.sort);
         
         let sortObject: {[index: string]: -1 | 1} = {};
 
@@ -26,14 +25,17 @@ export class MongoDbQueryParser {
         this.findCursor.sort(sortObject);
     }
 
+
     private parseLimit(): void {
         this.findCursor.limit(this.queryData.limit!);
     }
+
 
     private parseSkip(): void {
         this.findCursor.skip(this.queryData.limit!);
     }
 
+    
     private parseColumns(): void {
         let projection: Record<string, 1 | 0> = {};
 
@@ -58,8 +60,6 @@ export class MongoDbQueryParser {
             builder = params;
 
             let query: Record<string, any> = new MongoDbWhereParser().parse(builder.data) as Record<string, any>;
-
-            // query = {"field1": new RegExp('^a')}
 
             console.log(query);
 

@@ -12,7 +12,6 @@ interface MysqlTableColumn {
     Key      : string;
     Default  : string;
     Extra    : string;
-
 }
 
 

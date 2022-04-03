@@ -3,13 +3,22 @@ import Connection from './Connection/Connection';
 
 /**
  * ! Class DreamOrm will be Entry Point
- * * this class must be a Singtlon?
+ * * this class must be a Singlton?
  */
 
-export default class DreamOrm {
+class DreamOrm {
     
+    public static instance: DreamOrm;
+
     // ?this variant
-    constructor(){
+    private constructor(){
 
     }
+
+    public static get Instance(): DreamOrm {
+        return this.instance || (this.instance = new this);
+    }
 }
+
+
+export default DreamOrm.Instance;
