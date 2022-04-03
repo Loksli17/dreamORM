@@ -1,11 +1,11 @@
 import AdapterConnection, { AdapterConnectionFactory } from './adapter/AdapterConnection';
-import QueryExecutor from '../Query/queryExecutor/QueryExecutor';
-
+import QueryExecutor                                   from '../Query/queryExecutor/QueryExecutor';
+import Entity, { HashEntityConnection }                from '../Entity/Entity';
 
 
 /**
  * ! postgre has same options
- * * we should create opportunity "make many connetions to other databases" 
+ * * we should create opportunity "make many connetions to different databases" 
  * ! make abstract class 
  */
 
@@ -17,6 +17,7 @@ export interface ConnectionAttributes {
     host?    : string;
     type?    : 'connection' | 'pool' | 'cluster';
     adapter  : 'mysql' | 'postgre' | 'mongoDb';
+    entities?: Array<typeof Entity>; 
 }
 
 
@@ -32,7 +33,6 @@ export default class Connection implements ConnectionAttributes {
     private host_    : string                            = "127.0.0.1";
     private type_    : 'connection' | 'pool' | 'cluster' = 'connection';
     private adapter_ : 'mysql' | 'postgre' | 'mongoDb'; 
-
 
     private adapterConnection: AdapterConnection;
 
@@ -58,6 +58,15 @@ export default class Connection implements ConnectionAttributes {
             adapter : this.adapter_,
             type    : this.type_,
         });
+
+        //? to different place
+        if(params.entities){
+            params.entities.forEach((entityClass: typeof Entity) => {
+                if(!Entity.hasEntity(entityClass.name)) Entity.addEntity(entityClass.name);
+                Entity.pushConnection(entityClass.name, this);
+            });
+        }
+        
     }
 
 

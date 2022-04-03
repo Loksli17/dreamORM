@@ -76,11 +76,14 @@ let tryMySQL = async () => {
         password: '1234',
         adapter : 'mysql',
         type    : 'pool',
+        entities: [Animal],
     });
 
     orm.pushConnection(mysqlConnection);
 
     console.log('try singleton:', DreamOrm.instance);
+
+    console.log(await Animal.query().findOne());
 
     let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
 

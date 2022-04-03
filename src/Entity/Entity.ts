@@ -163,22 +163,42 @@ export {
 }
 
 
+export interface HashEntityConnection {
+    [index: string]: Array<Connection>;
+}
 
+
+
+//? may I use hash-table for save set(Entity <-> Connections)
+//? may be use EntityConnectionBridge
 export default class Entity {
-    
-    private queryBuilder: QueryBuilder | undefined;
 
+    private static connections: HashEntityConnection = {};
 
-    public constructor(connection: Connection){
-        this.queryBuilder = new QueryBuilder(connection);
+    public static pushConnection(entityName: string, connection: Connection): void {
+        Entity.connections[entityName].push(connection);
     }
+
+    public static addEntity(entityName: string) {
+        Entity.connections[entityName] = [];
+    }
+    
+    public static hasEntity(entityName: string): boolean {
+        return Entity.connections[entityName] == undefined ? false : true;
+    }
+    
+    // private queryBuilder: QueryBuilder | undefined;
+
+
+    // public constructor(connection: Connection){
+    //     this.queryBuilder = new QueryBuilder(connection);
+    // }
 
     public build(obj: Record<string, any>): void{
 
     }
-
     
-    // public static query(): QueryBuilder{
-    //     return 
-    // }
+    public static query(): QueryBuilder {
+        return new QueryBuilder(Entity.connections[this.name][0]).table(this.name);
+    }
 }
