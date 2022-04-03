@@ -6,19 +6,21 @@ import Connection from './Connection/Connection';
  * * this class must be a Singlton?
  */
 
+
 class DreamOrm {
-    
+
     public static instance: DreamOrm;
+    private connections: Array<Connection> = [];
 
-    // ?this variant
-    private constructor(){
-
+    public constructor(connections: Array<Connection>){
+        this.connections = connections;
+        DreamOrm.instance = (DreamOrm.instance) || (this);
     }
 
-    public static get Instance(): DreamOrm {
-        return this.instance || (this.instance = new this);
+    public pushConnection(connection: Connection): void {
+        this.connections.push(connection);
     }
 }
 
 
-export default DreamOrm.Instance;
+export default DreamOrm;

@@ -15,7 +15,7 @@ import Entity, { MinLength, PrimaryKey, Prop } from './Entity/Entity';
  */
 
 
-
+const orm: DreamOrm = new DreamOrm([]);
 
 
 class Animal extends Entity {
@@ -32,6 +32,7 @@ class Animal extends Entity {
 }
 
 
+
 let tryMongo = async () => {
 
     let mongoConnection = new Connection({
@@ -41,6 +42,10 @@ let tryMongo = async () => {
         port   : 27017,
         host   : 'localhost',
     });
+
+    orm.pushConnection(mongoConnection);
+
+    console.log('try singleton: ', DreamOrm.instance);
 
     let queryBuilderMongo: QueryBuilder = new QueryBuilder(mongoConnection);
 
@@ -58,9 +63,9 @@ let tryMongo = async () => {
     //     await queryBuilderMongo.table('test').where(new wb().eq({field1: 'test1'})).findOne()
     // );
 
-    console.log(
-        await queryBuilderMongo.table('test').sort(['field2', 'desc']).findAll()
-    );
+    // console.log(
+    //     await queryBuilderMongo.table('test').sort(['field2', 'desc']).findAll()
+    // );
 }
 
 
@@ -72,6 +77,10 @@ let tryMySQL = async () => {
         adapter : 'mysql',
         type    : 'pool',
     });
+
+    orm.pushConnection(mysqlConnection);
+
+    console.log('try singleton: ', DreamOrm.instance);
 
     let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
 
@@ -87,58 +96,56 @@ let tryMySQL = async () => {
     //     .findAll()
     // );
 
-    console.log(await queryBuilder.table("animal")
-        .where(
-            new wb()
-                .in({id: [1, 2, 14, 56]})
-                .andIn({name: ['Vaan', 'Marcus']})
-                .orEq({id: 6})
-                .orBracket(
-                    new wb()
-                    .eq({id: 5})
-                    .orEq({id: 10})
-                    .orBracket(
-                        new wb()
-                        .eq({id: 5})
-                        .orIn({id: [6, 7, 8, 9]})
-                    )
-                )
-        )
-        .limit(3)
-        .findAll()
-    );
+    // console.log(await queryBuilder.table("animal")
+    //     .where(
+    //         new wb()
+    //             .in({id: [1, 2, 14, 56]})
+    //             .andIn({name: ['Vaan', 'Marcus']})
+    //             .orEq({id: 6})
+    //             .orBracket(
+    //                 new wb()
+    //                 .eq({id: 5})
+    //                 .orEq({id: 10})
+    //                 .orBracket(
+    //                     new wb()
+    //                     .eq({id: 5})
+    //                     .orIn({id: [6, 7, 8, 9]})
+    //                 )
+    //             )
+    //     )
+    //     .limit(3)
+    //     .findAll()
+    // );
 
 
-    console.log(await queryBuilder.table("animal")
-        .where(
-            new wb()
-                .bracket(
-                    new wb().eq({name: 'Vaaan'}).andEq({id: 1})
-                ).orBracket(
-                    new wb().eq({name: 'Billy'}).andEq({type: 'full master'})
-                ).orBracket(
-                    new wb()
-                        .bracket(
-                            new wb().eq({name: 'Dima'}).orEq({name: 'Marcus'})
-                        ).andBracket(
-                            new wb().eq({type: 'poppol'}).orEq({type: 'type 1'})
-                        )
-                )
-        )
-        .findAll()
-    );
+    // console.log(await queryBuilder.table("animal")
+    //     .where(
+    //         new wb()
+    //             .bracket(
+    //                 new wb().eq({name: 'Vaaan'}).andEq({id: 1})
+    //             ).orBracket(
+    //                 new wb().eq({name: 'Billy'}).andEq({type: 'full master'})
+    //             ).orBracket(
+    //                 new wb()
+    //                     .bracket(
+    //                         new wb().eq({name: 'Dima'}).orEq({name: 'Marcus'})
+    //                     ).andBracket(
+    //                         new wb().eq({type: 'poppol'}).orEq({type: 'type 1'})
+    //                     )
+    //             )
+    //     )
+    //     .findAll()
+    // );
 
-    console.log(
-        await queryBuilder.table('animal').where({field1: 'test'}).findOne()
-    );
+    // console.log(
+    //     await queryBuilder.table('animal').where({name: 'Vaaan'}).findOne()
+    // );
 
 }
 
 
 
 let main = async () => {
-
-    const dreamORM = new DreamOrm();
 
     // const animal: Animal = new Animal(mysqlConnection);
 
@@ -147,7 +154,7 @@ let main = async () => {
     const entityName = Animal.name;
     console.log(entityName);
 
-    // await tryMySQL();
+    await tryMySQL();
 }
 
 main();

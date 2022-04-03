@@ -167,7 +167,7 @@ export {
 export default class Entity {
     
     private queryBuilder: QueryBuilder | undefined;
-    
+
 
     public constructor(connection: Connection){
         this.queryBuilder = new QueryBuilder(connection);
@@ -178,7 +178,7 @@ export default class Entity {
     }
 
     
-    public static query(): QueryBuilder{
-        return this.
-    }
+    // public static query(): QueryBuilder{
+    //     return 
+    // }
 }
