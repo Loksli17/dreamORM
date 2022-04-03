@@ -15,7 +15,7 @@ import Entity, { MinLength, PrimaryKey, Prop } from './Entity/Entity';
  */
 
 
-const orm: DreamOrm = new DreamOrm([]);
+const orm: DreamOrm = new DreamOrm();
 
 
 class Animal extends Entity {
@@ -45,7 +45,7 @@ let tryMongo = async () => {
 
     orm.pushConnection(mongoConnection);
 
-    console.log('try singleton: ', DreamOrm.instance);
+    console.log('try singleton:', DreamOrm.instance);
 
     let queryBuilderMongo: QueryBuilder = new QueryBuilder(mongoConnection);
 
@@ -80,7 +80,7 @@ let tryMySQL = async () => {
 
     orm.pushConnection(mysqlConnection);
 
-    console.log('try singleton: ', DreamOrm.instance);
+    console.log('try singleton:', DreamOrm.instance);
 
     let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
 
@@ -150,9 +150,6 @@ let main = async () => {
     // const animal: Animal = new Animal(mysqlConnection);
 
     await tryMongo();
-
-    const entityName = Animal.name;
-    console.log(entityName);
 
     await tryMySQL();
 }

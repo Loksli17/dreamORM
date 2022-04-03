@@ -12,7 +12,7 @@ class DreamOrm {
     public static instance: DreamOrm;
     private connections: Array<Connection> = [];
 
-    public constructor(connections: Array<Connection>){
+    public constructor(connections: Array<Connection> = []){
         this.connections = connections;
         DreamOrm.instance = (DreamOrm.instance) || (this);
     }
