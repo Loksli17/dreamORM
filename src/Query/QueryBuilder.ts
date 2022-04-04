@@ -166,18 +166,8 @@ export default class QueryBuilder {
 
 
     //* end point method
-    public async removeOne(whereParams: WhereBuilder | Record<string, any>): Promise<any> {
-        let result: Array<string> = await this.queryBuilderAdapter.getTableNames();
-        this.reset();
-        return result;
-    }
-
-
-    //* end point method
     public async removeById(id: number | string): Promise<any> {
-
         this.queryData.where = new WhereBuilder().eq({id: id});
-
         let result: any = await this.queryBuilderAdapter.removeById(this.queryData);
         this.reset();
         return result;
