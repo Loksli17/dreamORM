@@ -1,6 +1,7 @@
 import MysqlQueryParser    from '../parser/MysqlQueryParser';
 import { QueryData }       from '../QueryBuilder';
 import MysqlQueryExecutor  from '../queryExecutor/MysqlQueryExecutor';
+import WhereBuilder from '../whereBuilder/WhereBuilder';
 import QueryBuilderAdapter from './QueryBuilderAdapter';
 
 
@@ -87,6 +88,20 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
      */
     public createDb(): void {
 
+    }
+
+
+    public async remove(queryData: QueryData): Promise<any> {
+        
+        let
+            queryString: string = this.queryParser.parseRemove(queryData),
+            queryResult: any;
+
+        console.log(queryString);
+
+        queryResult = await this.queryExecutor.query(queryString);
+
+        return queryResult;
     }
     
 }

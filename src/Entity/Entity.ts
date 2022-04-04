@@ -162,7 +162,6 @@ export {
     OneToOne,
 }
 
-
 export interface HashEntityConnection {
     [index: string]: Array<Connection>;
 }
@@ -170,7 +169,7 @@ export interface HashEntityConnection {
 
 
 //? may I use hash-table for save set(Entity <-> Connections)
-//? may be use EntityConnectionBridge
+//? may be use EntityConnectionAdapter
 export default class Entity {
 
     private static connections: HashEntityConnection = {};
@@ -187,13 +186,6 @@ export default class Entity {
         return Entity.connections[entityName] == undefined ? false : true;
     }
     
-    // private queryBuilder: QueryBuilder | undefined;
-
-
-    // public constructor(connection: Connection){
-    //     this.queryBuilder = new QueryBuilder(connection);
-    // }
-
     public build(obj: Record<string, any>): void{
 
     }

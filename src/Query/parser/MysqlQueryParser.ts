@@ -144,4 +144,18 @@ export default class MysqlQueryParser {
 
         return result;
     }
+
+    
+    public parseRemove(queryData: QueryData): string {
+
+        this.queryData = queryData;
+        this.sql = `DELETE FROM ${queryData.tableName}`;
+
+        if(this.queryData.where != undefined) this.parseWhere();
+
+        const result: string = this.sql;
+        this.sql = "";
+
+        return result;
+    }
 }

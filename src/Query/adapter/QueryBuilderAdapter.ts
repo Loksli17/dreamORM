@@ -5,6 +5,7 @@ import QueryExecutor        from "../queryExecutor/QueryExecutor";
 import MysqlQueryExecutor   from "../queryExecutor/MysqlQueryExecutor";
 import MongoDbQueryExecutor from "../queryExecutor/MongoDbQueryExecutor";
 import { QueryData }        from '../QueryBuilder';
+import WhereBuilder         from "../whereBuilder/WhereBuilder";
 
 
 
@@ -33,4 +34,7 @@ export default interface QueryBuilderAdapter {
     findAll(queryData: QueryData): Promise<Array<Record<string, any>>> // ! returned type will be another, you know. i will refactor this later
 
     findOne(queryData: QueryData): Promise<Record<string, any>> // ! returned type will be another, you know. i will refactor this later
+
+    remove(queryData: QueryData): Promise<any> //! think about returned type
+
 }

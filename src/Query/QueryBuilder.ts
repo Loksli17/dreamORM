@@ -169,8 +169,16 @@ export default class QueryBuilder {
 
     }
 
-    public removeAll(): void {
 
+    public removeById(): void {
+
+    }
+
+
+    public async remove(): Promise<any> {
+        let result: any = await this.queryBuilderAdapter.remove(this.queryData);
+        this.reset();
+        return result;
     }
 
 

@@ -80,7 +80,7 @@ let tryMySQL = async () => {
     });
 
     orm.pushConnection(mysqlConnection);
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
     console.log('try singleton:', DreamOrm.instance);
 
     console.log(await Animal.query().findOne());
@@ -89,7 +89,7 @@ let tryMySQL = async () => {
 
     // console.log(await queryBuilder.getTableNames());
 
-    // console.log(await queryBuilder.table('animal').getFieldsInfo());
+    // console.log(await Animal.query().getFieldsInfo());
 
     // console.log(await queryBuilder.table('animal').where({id: 2}).findOne());
 
@@ -99,27 +99,29 @@ let tryMySQL = async () => {
     //     .findAll()
     // );
 
-    // console.log(await queryBuilder.table("animal")
-    //     .where(
-    //         new wb()
-    //             .in({id: [1, 2, 14, 56]})
-    //             .andIn({name: ['Vaan', 'Marcus']})
-    //             .orEq({id: 6})
-    //             .orBracket(
-    //                 new wb()
-    //                 .eq({id: 5})
-    //                 .orEq({id: 10})
-    //                 .orBracket(
-    //                     new wb()
-    //                     .eq({id: 5})
-    //                     .orIn({id: [6, 7, 8, 9]})
-    //                 )
-    //             )
-    //     )
-    //     .limit(3)
-    //     .findAll()
-    // );
+    console.log(await Animal.query()
+        .where(
+            new wb()
+                .in({id: [1, 2, 14, 56]})
+                .andIn({name: ['Vaan', 'Marcus']})
+                .orEq({id: 6})
+                .orBracket(
+                    new wb()
+                    .eq({id: 5})
+                    .orEq({id: 10})
+                    .orBracket(
+                        new wb()
+                        .eq({id: 5})
+                        .orIn({id: [6, 7, 8, 9]})
+                    )
+                )
+        )
+        .limit(3)
+        .findAll()
+    );
 
+
+    console.log(await Animal.query().where(new wb().moreEq({id: 17})).remove());
 
     // console.log(await queryBuilder.table("animal")
     //     .where(
