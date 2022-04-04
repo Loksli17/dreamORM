@@ -41,4 +41,10 @@ export default class MongoDbQueryExecutor implements QueryExecutor {
         const result: FindCursor<WithId<Document>> = await collection.find();
         return result;
     }
+
+    
+    public async remove(queryData: QueryData): Promise<any> {
+        const collection: Collection<Document> = await this.bindCollection(queryData.tableName);
+        // const result = await collection.deleteMany();
+    }
 }

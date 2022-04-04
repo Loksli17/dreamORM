@@ -66,6 +66,8 @@ let tryMongo = async () => {
     // console.log(
     //     await queryBuilderMongo.table('test').sort(['field2', 'desc']).findAll()
     // );
+
+    console.log(await Animal.query().where({field: 'test16'}).remove());
 }
 
 
@@ -156,7 +158,7 @@ let main = async () => {
 
     await tryMongo();
 
-    await tryMySQL();
+    // await tryMySQL();
 }
 
 main();
