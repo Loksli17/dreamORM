@@ -165,16 +165,26 @@ export default class QueryBuilder {
     } 
 
 
-    public removeOne(): void {
-
+    //* end point method
+    public async removeOne(whereParams: WhereBuilder | Record<string, any>): Promise<any> {
+        let result: Array<string> = await this.queryBuilderAdapter.getTableNames();
+        this.reset();
+        return result;
     }
 
 
-    public removeById(): void {
+    //* end point method
+    public async removeById(id: number | string): Promise<any> {
 
+        this.queryData.where = new WhereBuilder().eq({id: id});
+
+        let result: any = await this.queryBuilderAdapter.removeById(this.queryData);
+        this.reset();
+        return result;
     }
 
 
+    //* end point method
     public async remove(): Promise<any> {
         let result: any = await this.queryBuilderAdapter.remove(this.queryData);
         this.reset();
@@ -183,7 +193,11 @@ export default class QueryBuilder {
 
 
     //? void or new database record?
-    public static save(): void {
+    public static insertAll(): void {
+
+    }
+
+    public static insertOne(): void {
 
     }
 

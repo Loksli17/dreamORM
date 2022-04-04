@@ -121,7 +121,7 @@ let tryMySQL = async () => {
     );
 
 
-    console.log(await Animal.query().where(new wb().moreEq({id: 17})).remove());
+    console.log(await Animal.query().removeById(15));
 
     // console.log(await queryBuilder.table("animal")
     //     .where(

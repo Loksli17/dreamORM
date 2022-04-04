@@ -26,9 +26,14 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
     }
 
 
+    removeById(queryData: QueryData): Promise<any> {
+        throw new Error("Method not implemented.");
+    }
+
     remove(queryData: QueryData): Promise<any> {
         throw new Error("Method not implemented.");
     }
+
 
     createDb(): void {
         console.log("Method not implemented.");

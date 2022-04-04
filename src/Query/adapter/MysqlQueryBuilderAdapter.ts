@@ -27,6 +27,7 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
         this.queryParser   = new MysqlQueryParser();
     }
 
+
     //* end point method
     //! add different arguments this method is not simple
     public async getFieldsInfo(queryData: QueryData): Promise<Array<MysqlTableColumn>> {
@@ -93,6 +94,20 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
 
     public async remove(queryData: QueryData): Promise<any> {
         
+        let
+            queryString: string = this.queryParser.parseRemove(queryData),
+            queryResult: any;
+
+        console.log(queryString);
+
+        queryResult = await this.queryExecutor.query(queryString);
+
+        return queryResult;
+    }
+
+
+    public async removeById(queryData: QueryData): Promise<any> {
+
         let
             queryString: string = this.queryParser.parseRemove(queryData),
             queryResult: any;
