@@ -170,6 +170,7 @@ export interface HashEntityConnection {
 
 //? may I use hash-table for save set(Entity <-> Connections)
 //? may be use EntityConnectionAdapter
+//! think about Entity name case MongoDb collection's names depend on letter register
 export default class Entity {
 
     private static connections: HashEntityConnection = {};
@@ -191,6 +192,7 @@ export default class Entity {
     }
     
     public static query(): QueryBuilder {
+        //! check connection before returned QueryBuilder
         return new QueryBuilder(Entity.connections[this.name][0]).table(this.name);
     }
 }

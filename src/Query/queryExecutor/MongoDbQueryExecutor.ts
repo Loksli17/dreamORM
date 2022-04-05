@@ -1,6 +1,6 @@
-import { WithId, Db, Collection, CollectionInfo, FindCursor } from "mongodb";
-import { QueryData }                                          from "../QueryBuilder";
-import QueryExecutor                                          from "./QueryExecutor";
+import { WithId, Db, Collection, CollectionInfo, FindCursor, Document } from "mongodb";
+import { QueryData }                                                    from "../QueryBuilder";
+import QueryExecutor                                                    from "./QueryExecutor";
 
 
 
@@ -43,8 +43,9 @@ export default class MongoDbQueryExecutor implements QueryExecutor {
     }
 
     
-    public async remove(queryData: QueryData): Promise<any> {
+    public async remove(queryData: QueryData, filter: Record<string, any>): Promise<any> {
         const collection: Collection<Document> = await this.bindCollection(queryData.tableName);
-        // const result = await collection.deleteMany();
+        const result = await collection.deleteMany(filter);
+        return result;
     }
 }

@@ -32,15 +32,35 @@ class Animal extends Entity {
 }
 
 
+class test extends Entity {
+
+    @PrimaryKey()
+    id?: string;
+
+    @Prop()
+    field1?: string;
+
+    @Prop()
+    field2?: number;
+
+    @Prop()
+    field3?: number;
+
+    @Prop()
+    date?: Date;
+}
+
+
 
 let tryMongo = async () => {
 
     let mongoConnection = new Connection({
-        dbName : 'dreamOrm',
-        adapter: 'mongoDb',
-        type   : 'connection',
-        port   : 27017,
-        host   : 'localhost',
+        dbName  : 'dreamOrm',
+        adapter : 'mongoDb',
+        type    : 'connection',
+        port    : 27017,
+        host    : 'localhost',
+        entities: [test],
     });
 
     orm.pushConnection(mongoConnection);
@@ -67,7 +87,7 @@ let tryMongo = async () => {
     //     await queryBuilderMongo.table('test').sort(['field2', 'desc']).findAll()
     // );
 
-    console.log(await Animal.query().where({field: 'test16'}).remove());
+    console.log(await test.query().where(new wb().eq({field1: 'test14'})).remove());
 }
 
 

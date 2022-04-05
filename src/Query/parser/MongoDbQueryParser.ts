@@ -39,7 +39,7 @@ export class MongoDbQueryParser {
     private parseColumns(): void {
         let projection: Record<string, 1 | 0> = {};
 
-        if(!this.queryData.fields!.includes('_id')){
+        if(!this.queryData.fields!.includes('_id')) {
             projection['_id'] = 0;
         }
 
@@ -50,12 +50,14 @@ export class MongoDbQueryParser {
         this.findCursor.project(projection);
     }
 
+
+    //? refactor this code [where]
     private parseWhere(): void {
 
         const params: WhereBuilder | Record<string, any> = this.queryData.where as WhereBuilder | Record<string, any>;
         let builder: WhereBuilder;
 
-        if(params instanceof WhereBuilder){
+        if(params instanceof WhereBuilder) {
             //* WhereBuilder ..
             builder = params;
 
@@ -67,6 +69,7 @@ export class MongoDbQueryParser {
 
         } else {
             //* simple object ..
+
         }
 
     }
@@ -77,7 +80,7 @@ export class MongoDbQueryParser {
         this.queryData  = queryData;
         this.findCursor = findCursor;
 
-        if(queryData.limit != undefined){
+        if(queryData.limit != undefined) {
            this.parseLimit();
         }
 
@@ -93,7 +96,7 @@ export class MongoDbQueryParser {
             this.parseWhere();
         }
 
-        if(queryData.sort != undefined){
+        if(queryData.sort != undefined) {
             this.parseOrderBy();
         }
 
@@ -109,7 +112,7 @@ export class MongoDbQueryParser {
         this.queryData = queryData;
         this.findCursor = findCursor;
 
-        if(queryData.limit != undefined){
+        if(queryData.limit != undefined) {
            this.parseLimit();
         }
 
@@ -149,5 +152,28 @@ export class MongoDbQueryParser {
         }
 
         return result;
+    }
+
+
+    //? refactor this code [where]
+    public parseDeleteFilter(queryData: QueryData): Record<string, any>{
+
+        const params: WhereBuilder | Record<string, any> = queryData.where as WhereBuilder | Record<string, any>;
+        let builder: WhereBuilder;
+
+        if(params instanceof WhereBuilder) {
+            //* WhereBuilder ..
+            builder = params;
+
+            let query: Record<string, any> = new MongoDbWhereParser().parse(builder.data) as Record<string, any>;
+
+            return query;
+
+        } else {
+            //* simple object ..
+
+            return {};
+        }
+
     }
 }
