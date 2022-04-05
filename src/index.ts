@@ -87,7 +87,7 @@ let tryMongo = async () => {
     //     await queryBuilderMongo.table('test').sort(['field2', 'desc']).findAll()
     // );
 
-    console.log(await test.query().where(new wb().eq({field1: 'test14'})).remove());
+    console.log(await test.query().removeById('624af1a6e0e3933b6bab1c6f'));
 }
 
 

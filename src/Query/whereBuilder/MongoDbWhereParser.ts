@@ -1,6 +1,8 @@
+import { ObjectId } from "mongodb";
 import WhereBuilder, { WhereParser } from "./WhereBuilder";
 
 
+//! add parse id method
 export default class MongoDbWhereParser implements WhereParser {
 
 
@@ -72,6 +74,16 @@ export default class MongoDbWhereParser implements WhereParser {
         'bracket'   : (data: any) => this.parseBracket(data),
         'orBracket' : (data: any) => this.parseBracket(data),
         'andBracket': (data: any) => this.parseBracket(data),
+    }
+
+    private checkIdField(value: string, key: string): { value: string | number | Record<string, any>, key: string} {
+        
+        if(key != 'id') return {value: value, key: key};
+
+        return {
+            key  : '_id',
+            value: new ObjectId(value),
+        }
     }
 
     private readObject(obj: Record<string, any>, handler: (value: string | number | Record<string, any>, key: string) => Record<string, any>): Record<string, any> {
@@ -147,6 +159,13 @@ export default class MongoDbWhereParser implements WhereParser {
         const obj: Record<string, any> = {}; 
 
         return this.readObject(data, (value: string | number | Record<string, any>, key: string): Record<string, any> => {
+            
+            if(typeof value == 'string') {
+                let obj = this.checkIdField(value as string, key);
+                value = obj.value;
+                key   = obj.key
+            }
+
             obj[key] = (isNot) ? {$ne: value} : value;
             return obj;
         });

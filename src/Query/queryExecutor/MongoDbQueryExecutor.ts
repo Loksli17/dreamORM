@@ -48,4 +48,11 @@ export default class MongoDbQueryExecutor implements QueryExecutor {
         const result = await collection.deleteMany(filter);
         return result;
     }
+
+
+    public async removeOne(queryData: QueryData, filter: Record<string, any>): Promise<any> {
+        const collection: Collection<Document> = await this.bindCollection(queryData.tableName);
+        const result = await collection.deleteOne(filter);
+        return result;
+    }
 }

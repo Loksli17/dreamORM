@@ -27,7 +27,9 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
 
 
     public async removeById(queryData: QueryData): Promise<any> {
-        
+        const filter: Record<string, any> = await this.queryParser.parseDeleteFilter(queryData);
+        console.log('filter', filter);
+        return this.queryExecutor.removeOne(queryData, filter);
     }
 
     public async remove(queryData: QueryData): Promise<any> {
