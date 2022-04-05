@@ -11,16 +11,21 @@
     "mongodb": "^4.3.1",
     "mysql2": "^2.3.3",
     "pg": "^8.7.1",
-    "prisma": "^3.7.0"
+    "prisma": "^3.7.0",
+    "tst-reflect": "^0.7.4"
   },
   "devDependencies": {
-    "@types/pg": "^8.6.3"
+    "@types/pg": "^8.6.3",
+    "ts-node": "^10.7.0",
+    "tst-reflect-transformer": "^0.9.5",
+    "ttypescript": "^1.5.13"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "start:dev": "nodemon src/index.ts",
     "start:dev:modules": "nodemon src/moduleTest/index.ts",
+    "start:dev:reflect": "nodemon src/reflectTest/index.ts",
     "start:prod": "node dist/index.js"
   },
   "repository": {
