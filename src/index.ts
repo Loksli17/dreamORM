@@ -87,7 +87,7 @@ let tryMongo = async () => {
     //     await queryBuilderMongo.table('test').sort(['field2', 'desc']).findAll()
     // );
 
-    console.log(await test.query().removeById('624af1a6e0e3933b6bab1c6f'));
+    console.log(await test.query().findOneById('62455290cbb655bd09d488ee'));
 }
 
 
@@ -105,7 +105,7 @@ let tryMySQL = async () => {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
     console.log('try singleton:', DreamOrm.instance);
 
-    console.log(await Animal.query().findOne());
+    console.log(await Animal.query().findOneById(1));
 
     let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
 
@@ -178,7 +178,7 @@ let main = async () => {
 
     await tryMongo();
 
-    // await tryMySQL();
+    await tryMySQL();
 }
 
 main();

@@ -9,7 +9,7 @@ export interface QueryData {
     limit? : number;
     offset?: number;
 
-    where?: Record<string, any>;
+    where?: Record<string, any>; //! fix this type
     
     fields?: Array<string>;
     
@@ -127,8 +127,11 @@ export default class QueryBuilder {
     }
 
 
-    public findById(): Entity {
-        return new Entity();
+    public async findOneById(id: number | string): Promise<Record<string, any>> {
+        this.queryData.where = new WhereBuilder().eq({id: id});
+        const result: Record<string, any> = await this.queryBuilderAdapter.findOne(this.queryData);
+        this.reset();
+        return result;
     }
 
 
