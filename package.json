@@ -12,6 +12,7 @@
     "mysql2": "^2.3.3",
     "pg": "^8.7.1",
     "prisma": "^3.7.0",
+    "reflect-metadata": "^0.1.13",
     "tst-reflect": "^0.7.4"
   },
   "devDependencies": {
