@@ -3,8 +3,8 @@ import Connection   from './Connection/Connection';
 import QueryBuilder from './Query/QueryBuilder';
 import wb           from './Query/whereBuilder/WhereBuilder';
 
-import Entity                             from './Entity/Entity';
-import { PrimaryKey, MinLength, Integer, Min } from './Entity/PropDecorators';
+import Entity from './Entity/Entity';
+import { PrimaryKey, MinLength, Int, Min, Max, UnsignedInt } from './Entity/PropDecorators';
 
 
 /** 
@@ -21,8 +21,8 @@ const orm: DreamOrm = new DreamOrm();
 
 class Animal extends Entity {
 
-    @Integer()
     @PrimaryKey()
+    @UnsignedInt()
     id?: number;
 
     @MinLength(5)
@@ -32,20 +32,21 @@ class Animal extends Entity {
 }
 
 
+//? catch error with order of decorators
 class test extends Entity {
 
-    @Integer()
-    @PrimaryKey()
+    @PrimaryKey({autoIncrement: true})
+    @Int()
     id?: string;
 
     field1?: string;
 
     @Min(10)
     @Max(20)
-    @Integer()
+    @Int()
     field2?: number;
 
-    @Integer()
+    @Int()
     field3?: number;
 
     date?: Date;

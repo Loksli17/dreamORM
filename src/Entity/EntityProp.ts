@@ -10,6 +10,8 @@ export default interface EntityProp {
     minLength?: number;
     maxLength?: number;
 
-    isUnique?    : boolean;
-    isPrimaryKey?: boolean;
+    isUnique?       : boolean;
+    isPrimaryKey?   : boolean | {autoIncrement: boolean};
+    isNull?         : boolean;
+    isNotNull?      : boolean;
 } 

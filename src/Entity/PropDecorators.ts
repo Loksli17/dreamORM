@@ -4,7 +4,7 @@ import "reflect-metadata";
 
 
 interface HandlerParams {
-    value?: [string, any];
+    value?: [keyof EntityProp, any];
     type? : string; //! add normal type
 }
 
@@ -16,6 +16,7 @@ const associations: Record<string, (prop: any, data: any) => void> = {
 };
 
 
+//? catch error with order of decorators
 const reflectSchemaHandler = (target: Object, propertyKey: string, params?: HandlerParams) => {
 
     let 
@@ -46,7 +47,7 @@ const reflectSchemaHandler = (target: Object, propertyKey: string, params?: Hand
 
         if(params?.value == undefined) return;
 
-        associations[params.value[0]](prop, params.value[1]);
+        (prop[params.value[0]] as any) = params.value[1];
     }
 
     Reflect.defineMetadata('schema', schema, target);
@@ -56,45 +57,20 @@ const reflectSchemaHandler = (target: Object, propertyKey: string, params?: Hand
 
 const 
 
-    Integer = () => {
-        return (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'integer'})
-    },
-
-    Min = (min: number) => {
-        return (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['min', min]})
-    },
-
-    Max = (max: number) => {
-        return (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['max', max]})
-    },
+    Int         = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'integer'}),
+    UnsignedInt = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'unsigned integer'}),
 
 
-    Prop = function() {
-        return function(target: Object, propertyKey: string){
-            console.log('prop:', target);
-        }
-    },
+    Min = (min: number) => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['min', min]}),
+    Max = (max: number) => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['max', max]}),
 
-    PrimaryKey = () => {
-
-        return (target: Object, propertyKey: string) => {
-            
-            let value: number;
-
-            const getter = () => {
-                return value;
-            }
-
-            const setter = (newVal: number) => {
-
-            }
-
-            Object.defineProperty(target, propertyKey, {
-                get: getter,
-                set: setter,
-            });
-        }
-    },
+    PrimaryKey = (obj?: {autoIncrement: boolean}) => (target: Object, propertyKey: string) => reflectSchemaHandler(
+        target, propertyKey, {value: ['isPrimaryKey', obj ? obj : true]}
+    ),
+    
+    Null       = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isNull', true]}),
+    NotNull    = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isNotNull', true]}),
+    
 
     MinLength = (minLength: number) => {
 
@@ -142,19 +118,13 @@ const
         }
     },
 
-    isUnique = () => {
+    Unique = () => {
 
         return (target: Object, propertyKey: string) => {
 
         }
     },
 
-    notNull = () => {
-
-        return (target: Object, propertyKey: string) => {
-
-        }
-    },
     
     Email = () => {
 
@@ -204,21 +174,22 @@ const
 
 export {
 
-    Integer,
+    Int,
+    UnsignedInt,
     Min,
     Max,
 
-    
+
     PrimaryKey,
-    Prop,
 
     MinLength,
     MaxLength,
     MaxValue,
     MinValue,
 
-    isUnique,
-    notNull,
+    Unique,
+    NotNull,
+    Null,
     
     Email,
     Phone,
