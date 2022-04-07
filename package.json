@@ -26,7 +26,8 @@
     "build": "tsc",
     "start:dev": "nodemon src/index.ts",
     "start:dev:modules": "nodemon src/moduleTest/index.ts",
-    "start:dev:reflect": "nodemon src/reflectTest/index.ts",
+    "start:dev:reflect": "nodemon src/moduleTest/reflectTest/index.ts",
+    "start:dev:reflectMeta": "nodemon src/moduleTest/reflectMetadata/index.ts",
     "start:prod": "node dist/index.js"
   },
   "repository": {
