@@ -12,6 +12,7 @@ interface HandlerParams {
 const associations: Record<string, (prop: any, data: any) => void> = {
 
     'min': (prop: EntityProp, min: number) => { prop.min = min },
+    'max': (prop: EntityProp, max: number) => { prop.max = max },
 };
 
 
@@ -34,6 +35,8 @@ const reflectSchemaHandler = (target: Object, propertyKey: string, params?: Hand
             type: params.type,
         }
 
+        schema.props.push(prop);
+
     } else {
 
         //* .. getting existen prop 
@@ -45,8 +48,6 @@ const reflectSchemaHandler = (target: Object, propertyKey: string, params?: Hand
 
         associations[params.value[0]](prop, params.value[1]);
     }
-    
-    schema.props.push(prop);
 
     Reflect.defineMetadata('schema', schema, target);
 }
@@ -61,6 +62,10 @@ const
 
     Min = (min: number) => {
         return (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['min', min]})
+    },
+
+    Max = (max: number) => {
+        return (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['max', max]})
     },
 
 
@@ -201,7 +206,9 @@ export {
 
     Integer,
     Min,
+    Max,
 
+    
     PrimaryKey,
     Prop,
 

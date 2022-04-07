@@ -41,6 +41,7 @@ class test extends Entity {
     field1?: string;
 
     @Min(10)
+    @Max(20)
     @Integer()
     field2?: number;
 
