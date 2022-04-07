@@ -3,7 +3,8 @@ import Connection   from './Connection/Connection';
 import QueryBuilder from './Query/QueryBuilder';
 import wb           from './Query/whereBuilder/WhereBuilder';
 
-import Entity, { MinLength, PrimaryKey, Prop } from './Entity/Entity';
+import Entity                             from './Entity/Entity';
+import { PrimaryKey, MinLength, Integer } from './Entity/PropDecorators';
 
 
 /** 
@@ -20,14 +21,13 @@ const orm: DreamOrm = new DreamOrm();
 
 class Animal extends Entity {
 
+    @Integer()
     @PrimaryKey()
     id?: number;
 
-    @Prop()
     @MinLength(5)
     name?: string;
 
-    @Prop()
     type?: string;
 }
 
@@ -35,18 +35,17 @@ class Animal extends Entity {
 class test extends Entity {
 
     @PrimaryKey()
+    @Integer()
     id?: string;
 
-    @Prop()
     field1?: string;
 
-    @Prop()
+    @Integer()
     field2?: number;
 
-    @Prop()
+    @Integer()
     field3?: number;
 
-    @Prop()
     date?: Date;
 }
 
@@ -87,7 +86,7 @@ let tryMongo = async () => {
     //     await queryBuilderMongo.table('test').sort(['field2', 'desc']).findAll()
     // );
 
-    console.log(await test.query().findOneById('62455290cbb655bd09d488ee'));
+    // console.log(await test.query().findOneById('62455290cbb655bd09d488ee'));
 }
 
 
@@ -105,9 +104,9 @@ let tryMySQL = async () => {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
     console.log('try singleton:', DreamOrm.instance);
 
-    console.log(await Animal.query().findOneById(1));
+    // console.log(await Animal.query().findOneById(1));
 
-    let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
+    // let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
 
     // console.log(await queryBuilder.getTableNames());
 
@@ -121,29 +120,29 @@ let tryMySQL = async () => {
     //     .findAll()
     // );
 
-    console.log(await Animal.query()
-        .where(
-            new wb()
-                .in({id: [1, 2, 14, 56]})
-                .andIn({name: ['Vaan', 'Marcus']})
-                .orEq({id: 6})
-                .orBracket(
-                    new wb()
-                    .eq({id: 5})
-                    .orEq({id: 10})
-                    .orBracket(
-                        new wb()
-                        .eq({id: 5})
-                        .orIn({id: [6, 7, 8, 9]})
-                    )
-                )
-        )
-        .limit(3)
-        .findAll()
-    );
+    // console.log(await Animal.query()
+    //     .where(
+    //         new wb()
+    //             .in({id: [1, 2, 14, 56]})
+    //             .andIn({name: ['Vaan', 'Marcus']})
+    //             .orEq({id: 6})
+    //             .orBracket(
+    //                 new wb()
+    //                 .eq({id: 5})
+    //                 .orEq({id: 10})
+    //                 .orBracket(
+    //                     new wb()
+    //                     .eq({id: 5})
+    //                     .orIn({id: [6, 7, 8, 9]})
+    //                 )
+    //             )
+    //     )
+    //     .limit(3)
+    //     .findAll()
+    // );
 
 
-    console.log(await Animal.query().where({id: 21}).remove());
+    // console.log(await Animal.query().where({id: 21}).remove());
 
     // console.log(await queryBuilder.table("animal")
     //     .where(
