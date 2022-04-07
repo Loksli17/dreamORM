@@ -51,4 +51,9 @@ export default class Entity {
         //! check connection before returned QueryBuilder
         return new QueryBuilder(Entity.connections[this.name][0]).table(this.name);
     }
+
+    public save(): void {
+        const schema: EntitySchema = this.schema;
+        console.log('save: get schema: ', schema);
+    }
 }

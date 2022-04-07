@@ -4,30 +4,49 @@ import "reflect-metadata";
 
 
 interface HandlerParams {
-    value?: any;
-    type ?: string; //! add normal type
+    value?: [string, any];
+    type? : string; //! add normal type
 }
+
+
+const associations: Record<string, (prop: any, data: any) => void> = {
+
+    'min': (prop: EntityProp, min: number) => { prop.min = min },
+};
 
 
 const reflectSchemaHandler = (target: Object, propertyKey: string, params?: HandlerParams) => {
 
-    let schema: EntitySchema = Reflect.getOwnMetadata('schema', target);
+    let 
+        schema: EntitySchema = Reflect.getOwnMetadata('schema', target),
+        prop  : EntityProp;
 
     if(schema == undefined){
         schema = new EntitySchema();
         Reflect.defineMetadata('schema', schema, target);
     }
 
-    const prop: EntityProp = schema.props.filter(
-        (value: EntityProp) => value.name == propertyKey
-    )[0] || {
-        name: propertyKey,
-        type: params?.type,
+    if(params?.type != undefined){
+
+        //* ..creation new prop for Entity
+        prop = {
+            name: propertyKey,
+            type: params.type,
+        }
+
+    } else {
+
+        //* .. getting existen prop 
+        prop = schema.props.filter(
+            (value: EntityProp) => value.name == propertyKey
+        )[0];
+
+        if(params?.value == undefined) return;
+
+        associations[params.value[0]](prop, params.value[1]);
     }
     
     schema.props.push(prop);
-
-    console.log('schema:', schema);
 
     Reflect.defineMetadata('schema', schema, target);
 }
@@ -36,14 +55,19 @@ const reflectSchemaHandler = (target: Object, propertyKey: string, params?: Hand
 
 const 
 
+    Integer = () => {
+        return (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'integer'})
+    },
+
+    Min = (min: number) => {
+        return (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['min', min]})
+    },
+
+
     Prop = function() {
         return function(target: Object, propertyKey: string){
             console.log('prop:', target);
         }
-    },
-
-    Integer = () => {
-        return (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'integer'})
     },
 
     PrimaryKey = () => {
@@ -176,6 +200,7 @@ const
 export {
 
     Integer,
+    Min,
 
     PrimaryKey,
     Prop,

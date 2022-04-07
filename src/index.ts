@@ -4,7 +4,7 @@ import QueryBuilder from './Query/QueryBuilder';
 import wb           from './Query/whereBuilder/WhereBuilder';
 
 import Entity                             from './Entity/Entity';
-import { PrimaryKey, MinLength, Integer } from './Entity/PropDecorators';
+import { PrimaryKey, MinLength, Integer, Min } from './Entity/PropDecorators';
 
 
 /** 
@@ -34,12 +34,13 @@ class Animal extends Entity {
 
 class test extends Entity {
 
-    @PrimaryKey()
     @Integer()
+    @PrimaryKey()
     id?: string;
 
     field1?: string;
 
+    @Min(10)
     @Integer()
     field2?: number;
 
@@ -87,6 +88,10 @@ let tryMongo = async () => {
     // );
 
     // console.log(await test.query().findOneById('62455290cbb655bd09d488ee'));
+
+    let t: test = new test();
+
+    t.save();
 }
 
 
