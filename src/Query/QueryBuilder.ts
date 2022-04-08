@@ -186,16 +186,18 @@ export default class QueryBuilder {
 
 
     //? void or new database record?
-    public static insertAll(): void {
-
+    public async insert(): Promise<any> {
+        
     }
 
-    public static insertOne(): void {
 
+    public async insertOne(obj: Record<string, any> | Entity): Promise<any> {
+        let result: any = await this.queryBuilderAdapter.insertOne(this.queryData, obj);
+        return result;
     }
 
     //? void or new database record?
-    public static update(): void {
+    public update(): void {
 
     }
 }

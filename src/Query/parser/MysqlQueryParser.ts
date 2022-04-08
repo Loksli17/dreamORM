@@ -1,3 +1,4 @@
+import Entity from "../../Entity";
 import { QueryData  }   from "../QueryBuilder";
 import MysqlWhereParser from "../whereBuilder/MysqlWhereParser";
 import WhereBuilder     from "../whereBuilder/WhereBuilder";
@@ -109,6 +110,27 @@ export default class MysqlQueryParser {
         }
     }
 
+    private parseInsertObj(obj: Record<string, any> | Entity): {columns: string, values: string} {
+
+        const objectCopy: Record<string, any> = obj; //! TS forced me to do it
+
+        let 
+            columns: Array<string> = [],
+            values : Array<string> = [];
+
+        for (const key in objectCopy) {
+            if (Object.prototype.hasOwnProperty.call(objectCopy, key)) {
+                values.push(`'${objectCopy[key]}'`);
+                columns.push(key);
+            }
+        }
+
+        return {
+            columns: columns.join(','), 
+            values : values.join(','),
+        }
+    }
+
 
     public parseSelect(queryData: QueryData): string {
 
@@ -152,6 +174,19 @@ export default class MysqlQueryParser {
         this.sql = `DELETE FROM ${queryData.tableName}`;
 
         if(this.queryData.where != undefined) this.parseWhere();
+
+        const result: string = this.sql;
+        this.sql = "";
+
+        return result;
+    }
+
+    
+    public parseInsert(queryData: QueryData, obj: Record<string, any> | Entity) { 
+
+        const insertData: {columns: string, values: string} = this.parseInsertObj(obj);
+
+        this.sql = `INSERT INTO ${queryData.tableName} (${insertData.columns}) VALUES (${insertData.values})`;
 
         const result: string = this.sql;
         this.sql = "";

@@ -4,6 +4,7 @@ import MongoDbQueryExecutor   from "../queryExecutor/MongoDbQueryExecutor";
 import QueryBuilderAdapter    from "./QueryBuilderAdapter";
 import { QueryData }          from '../QueryBuilder';
 import { MongoDbQueryParser } from "../parser/MongoDbQueryParser";
+import Entity from "../../Entity/Entity";
 
 
 
@@ -25,7 +26,6 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
         this.queryParser   = new MongoDbQueryParser();
     }
 
-
     public async removeById(queryData: QueryData): Promise<any> {
         const filter: Record<string, any> = await this.queryParser.parseDeleteFilter(queryData);
         console.log('filter', filter);
@@ -41,6 +41,10 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
 
     createDb(): void {
         console.log("Method not implemented.");
+    }
+
+    insertOne(queryData: QueryData, obj: Record<string, any> | Entity): Promise<any> {
+        throw new Error("Method not implemented.");
     }
 
 

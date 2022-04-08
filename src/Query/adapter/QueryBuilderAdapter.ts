@@ -6,6 +6,7 @@ import MysqlQueryExecutor   from "../queryExecutor/MysqlQueryExecutor";
 import MongoDbQueryExecutor from "../queryExecutor/MongoDbQueryExecutor";
 import { QueryData }        from '../QueryBuilder';
 import WhereBuilder         from "../whereBuilder/WhereBuilder";
+import Entity               from "../../Entity/Entity";
 
 
 
@@ -42,5 +43,7 @@ export default interface QueryBuilderAdapter {
     remove(queryData: QueryData): Promise<any> //! think about returned type
 
     removeById(queryData: QueryData): Promise<any> //! think about returned type
+
+    insertOne(queryData: QueryData, obj: Record<string, any> | Entity): Promise<any> //! think about returned type
 
 }

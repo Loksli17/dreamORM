@@ -1,3 +1,4 @@
+import Entity              from '../../Entity/Entity';
 import MysqlQueryParser    from '../parser/MysqlQueryParser';
 import { QueryData }       from '../QueryBuilder';
 import MysqlQueryExecutor  from '../queryExecutor/MysqlQueryExecutor';
@@ -89,6 +90,19 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
      */
     public createDb(): void {
 
+    }
+
+    public async insertOne(queryData: QueryData, obj: Record<string, any> | Entity): Promise<any> {
+        
+        let
+            queryString: string = this.queryParser.parseInsert(queryData, obj),
+            queryResult: any;
+
+        console.log(queryString);
+
+        queryResult = await this.queryExecutor.query(queryString);
+
+        return queryResult;
     }
 
 
