@@ -53,6 +53,9 @@ const
     Int         = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'integer'}),
     UnsignedInt = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'unsigned integer'}),
 
+    Date     = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'date'}),
+    DateTime = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'date time'}),
+
     Min = (min: number) => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['min', min]}),
     Max = (max: number) => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['max', max]}),
 
@@ -107,6 +110,9 @@ export {
 
     Int,
     UnsignedInt,
+    
+    Date,
+    DateTime,
 
     PrimaryKey,
 

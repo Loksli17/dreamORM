@@ -4,7 +4,7 @@ import QueryBuilder from './Query/QueryBuilder';
 import wb           from './Query/whereBuilder/WhereBuilder';
 
 import Entity from './Entity/Entity';
-import { PrimaryKey, MinLength, Int, Min, Max, UnsignedInt } from './Entity/PropDecorators';
+import { PrimaryKey, Date, Int, Min, Max, UnsignedInt } from './Entity/PropDecorators';
 
 
 /** 
@@ -25,7 +25,6 @@ class Animal extends Entity {
     @UnsignedInt()
     id?: number;
 
-    @MinLength(5)
     name?: string;
 
     type?: string;
@@ -33,6 +32,7 @@ class Animal extends Entity {
 
 
 //? catch error with order of decorators
+//? issue: if we wanna add @NonType decorator without @Type decorator we have error 
 class test extends Entity {
 
     @PrimaryKey({autoIncrement: true})
@@ -49,6 +49,7 @@ class test extends Entity {
     @Int()
     field3?: number;
 
+    @Date()
     date?: Date;
 }
 
