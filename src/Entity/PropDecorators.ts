@@ -9,13 +9,6 @@ interface HandlerParams {
 }
 
 
-const associations: Record<string, (prop: any, data: any) => void> = {
-
-    'min': (prop: EntityProp, min: number) => { prop.min = min },
-    'max': (prop: EntityProp, max: number) => { prop.max = max },
-};
-
-
 //? catch error with order of decorators
 const reflectSchemaHandler = (target: Object, propertyKey: string, params?: HandlerParams) => {
 
@@ -60,7 +53,6 @@ const
     Int         = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'integer'}),
     UnsignedInt = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'unsigned integer'}),
 
-
     Min = (min: number) => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['min', min]}),
     Max = (max: number) => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['max', max]}),
 
@@ -68,77 +60,16 @@ const
         target, propertyKey, {value: ['isPrimaryKey', obj ? obj : true]}
     ),
     
-    Null       = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isNull', true]}),
-    NotNull    = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isNotNull', true]}),
-    
+    Null    = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isNull', true]}),
+    NotNull = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isNotNull', true]}),
+    Unique  = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isUnique', true]}),
 
-    MinLength = (minLength: number) => {
+    MinLength = (minLength: number) => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['minLength', minLength]}),
+    MaxLength = (maxLength: number) => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['maxLength', maxLength]}),
 
-        return (target: Object, propertyKey: string) => {
-            
-            let value: string;
+    Email = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isEmail', true]}),
+    Phone = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isEmail', true]}),
 
-            const getter = () => {
-                return value;
-            }
-
-            const setter = (newVal: string) => {
-                if(newVal.length < minLength) {
-                    Object.defineProperty(target, 'errors', {
-                        value: `Value of ${propertyKey} is less then ${minLength}`,
-                    })
-                }
-            }
-
-            Object.defineProperty(target, propertyKey, {
-                get: getter,
-                set: setter,
-            });
-        }
-    },
-
-    MaxLength = (maxLength: number) => {
-
-        return (target: Object, propertyKey: string) => {
-
-        }
-    },
-
-    MaxValue = (maxValue: number) => {
-
-        return (target: Object, propertyKey: string) => {
-
-        }
-    },
-
-    MinValue = (maxValue: number) => {
-
-        return (target: Object, propertyKey: string) => {
-
-        }
-    },
-
-    Unique = () => {
-
-        return (target: Object, propertyKey: string) => {
-
-        }
-    },
-
-    
-    Email = () => {
-
-        return (target: Object, propertyKey: string) => {
-
-        }
-    },
-
-    Phone = () => {
-
-        return (target: Object, propertyKey: string) => {
-
-        }
-    },
     
     DbDate = () => {
         return (target: Object, propertyKey: string) => {
@@ -176,23 +107,22 @@ export {
 
     Int,
     UnsignedInt,
-    Min,
-    Max,
-
 
     PrimaryKey,
 
-    MinLength,
-    MaxLength,
-    MaxValue,
-    MinValue,
+    Min,
+    Max,
 
     Unique,
     NotNull,
     Null,
+
+    MinLength,
+    MaxLength,
     
     Email,
     Phone,
+    
     DbDate,
 
     ManyToMany,
