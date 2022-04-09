@@ -2,7 +2,9 @@ import Connection       from "../Connection/Connection";
 import QueryBuilder     from "../Query/QueryBuilder";
 import DecoratorFactory from "../utils/DecoratorFactory";
 import EntitySchema     from "./EntitySchema";
+import Validation       from "./Validation";
 import "reflect-metadata";
+
 
 
 export interface HashEntityConnection {
@@ -32,13 +34,9 @@ export default class Entity {
 
 
     protected get schema(): EntitySchema {
-
         let schema: EntitySchema;
-
         let target: Object = Object.getPrototypeOf(this);
-
         schema = Reflect.getOwnMetadata('schema', target)
-  
         return schema;
     }
     
@@ -47,13 +45,21 @@ export default class Entity {
 
     }
     
+
     public static query(): QueryBuilder {
         //! check connection before returned QueryBuilder
-        return new QueryBuilder(Entity.connections[this.name][0]).table(this.name);
+        const entity: Entity = new this();
+        return new QueryBuilder(Entity.connections[this.name][0], entity.schema).table(this.name);
     }
 
+
     public save(): void {
+
+        if(this.schema) {
+            const validation: Validation = new Validation();
+            validation.execute(this.schema);
+        }
+
         const schema: EntitySchema = this.schema;
-        console.log('save: get schema: ', schema);
     }
 }

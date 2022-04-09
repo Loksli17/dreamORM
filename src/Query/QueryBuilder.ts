@@ -1,7 +1,10 @@
 import Connection                                          from "./../Connection/Connection";
-import Entity                                              from "../Entity";
+import Entity                                              from "../Entity/Entity";
 import QueryBuilderAdapter, { QueryBuilderAdapterFactory } from "./adapter/QueryBuilderAdapter";
 import WhereBuilder                                        from "./whereBuilder/WhereBuilder";
+import EntitySchema                                        from "../Entity/EntitySchema";
+import Validation                                          from "../Entity/Validation";
+
 
 
 export interface QueryData {
@@ -22,8 +25,6 @@ export interface QueryData {
 type whereRecord =  string | number | boolean;
 
 
-
-
 //! add queryData clear
 export default class QueryBuilder {
 
@@ -31,16 +32,17 @@ export default class QueryBuilder {
     private queryBuilderAdapter: QueryBuilderAdapter;
     private connection         : Connection;
     private queryData          : QueryData = {};
+    private entitySchema       : EntitySchema | null;
 
     private reset(): void {
         this.queryData = {};
     }
     
 
-
-    public constructor(connection: Connection) {
-        this.connection = connection;
+    public constructor(connection: Connection, entitySchema: EntitySchema | null = null) {
+        this.connection          = connection;
         this.queryBuilderAdapter = QueryBuilderAdapterFactory.create(connection.adapter as 'mysql' | 'mongoDb', this.connection.queryExecutor); //! fun for now
+        this.entitySchema        = entitySchema;
     }
 
 
@@ -192,9 +194,16 @@ export default class QueryBuilder {
 
 
     public async insertOne(obj: Record<string, any> | Entity): Promise<any> {
+
+        if(this.entitySchema) {
+            const validation: Validation = new Validation();
+            validation.execute(this.entitySchema);
+        }
+        
         let result: any = await this.queryBuilderAdapter.insertOne(this.queryData, obj);
         return result;
     }
+
 
     //? void or new database record?
     public update(): void {

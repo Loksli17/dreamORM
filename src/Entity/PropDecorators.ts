@@ -71,9 +71,9 @@ const
     MaxLength = (maxLength: number) => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['maxLength', maxLength]}),
 
     Email = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isEmail', true]}),
-    Phone = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isEmail', true]}),
+    Phone = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isPhone', true]}),
 
-    
+
     DbDate = () => {
         return (target: Object, propertyKey: string) => {
 

@@ -112,6 +112,8 @@ let tryMySQL = async () => {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
     console.log('try singleton:', DreamOrm.instance);
 
+    await Animal.query().insertOne({name: 'name', type: 'type'});
+
     // console.log(await Animal.query().findOneById(1));
 
     // let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
