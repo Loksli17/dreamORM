@@ -1,0 +1,19 @@
+@startuml Sequence Diagram
+
+participant Connection
+participant EntryPoint
+participant Entity
+participant QueryBuilder
+participant Secure
+
+Connection -> Secure : Проверка подключения
+Connection -> EntryPoint : Создание подключения\nк БД
+EntryPoint -> Entity : Инициализация моделей\nсущностей
+Entity -> QueryBuilder : Создание запросов
+QueryBuilder -> Secure : Проверка запросов
+Secure --> EntryPoint : Возвращение результата
+QueryBuilder --> Entity : Данные запроса
+Entity --> EntryPoint : Данные из таблицы
+EntryPoint --> Connection : Разрыв соединения
+
+@enduml
