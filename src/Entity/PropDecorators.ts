@@ -9,8 +9,9 @@ interface HandlerParams {
 }
 
 
+
+
 //? catch error with order of decorators
-//! issue: I have problems with this sctructure, props form TEXT family cannot get params (parser combinator?)
 const reflectSchemaHandler = (target: Object, propertyKey: string, params?: HandlerParams) => {
 
     let 
@@ -48,13 +49,30 @@ const reflectSchemaHandler = (target: Object, propertyKey: string, params?: Hand
 }
 
 
+const combineReflectSchemaHandler = (target: Object, propertyKey: string, params: Array<HandlerParams>) => {
+    params.forEach((params: HandlerParams) => {
+        reflectSchemaHandler(target, propertyKey, params);
+    });
+}
+
 
 const 
 
     Int         = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'integer'}),
     UnsignedInt = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'unsigned integer'}),
 
-    Text = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'text'}),
+    Text = (data?: {min?: number, max?: number}) => (target: Object, propertyKey: string) => {
+
+        let params: Array<HandlerParams> = [];
+
+        params.push({type: 'text'});
+
+        if(data && data.min) params.push({value: ['min', data.min]});
+        if(data && data.max) params.push({value: ['max', data.max]});
+
+        return combineReflectSchemaHandler(target, propertyKey, params);
+    },
+
 
     Date     = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'date'}),
     DateTime = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'date time'}),

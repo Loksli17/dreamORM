@@ -27,8 +27,8 @@ class Animal extends Entity {
 
     @Text()
     name?: string;
-    
-    @Text()
+
+    @Text({min: 4, max: 30})
     type?: string;
 }
 
@@ -41,6 +41,7 @@ class test extends Entity {
     @Int()
     id?: string;
 
+    @Text()
     field1?: string;
 
     @Min(10)
