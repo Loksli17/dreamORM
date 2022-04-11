@@ -197,7 +197,7 @@ export default class QueryBuilder {
 
         if(this.entitySchema) {
             const validation: Validation = new Validation();
-            validation.execute(this.entitySchema);
+            validation.execute(this.entitySchema, obj);
         }
         
         let result: any = await this.queryBuilderAdapter.insertOne(this.queryData, obj);

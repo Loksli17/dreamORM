@@ -57,20 +57,13 @@ export default class Entity {
 
         if(this.schema) {
             const validation: Validation = new Validation();
-            validation.execute(this.schema);
+            validation.execute(this.schema, this);
         }
 
         const schema: EntitySchema = this.schema;
     }
 
     public validate(): Array<ValidationError> {
-
-        let 
-            validation: Validation             = new Validation(), 
-            errors    : Array<ValidationError> = [];
-
-        validation.execute(this.schema);
-
-        return errors;
+        return new Validation().execute(this.schema, this);
     }
 }
