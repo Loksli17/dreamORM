@@ -4,7 +4,7 @@ import QueryBuilder from './Query/QueryBuilder';
 import wb           from './Query/whereBuilder/WhereBuilder';
 
 import Entity from './Entity/Entity';
-import { PrimaryKey, Date, Int, Min, Max, UnsignedInt } from './Entity/PropDecorators';
+import { PrimaryKey, Date, Int, Min, Max, UnsignedInt, Text } from './Entity/PropDecorators';
 
 
 /** 
@@ -25,8 +25,10 @@ class Animal extends Entity {
     @UnsignedInt()
     id?: number;
 
+    @Text()
     name?: string;
-
+    
+    @Text()
     type?: string;
 }
 
@@ -118,7 +120,7 @@ let tryMySQL = async () => {
     animal.type = "Boyyyy";
 
     console.log('validation result: ', animal.validate());
-    
+
     // await Animal.query().insertOne(animal);
 
     // console.log(await Animal.query().findOneById(1));

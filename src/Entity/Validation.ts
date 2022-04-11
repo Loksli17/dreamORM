@@ -13,10 +13,16 @@ interface EntityPropData extends EntityProp {
 }
 
 
+//! think about prop without decorator 
 export default class Validation {
 
     private schema      : EntitySchema | undefined;
-    private validateData: Array<EntityPropData>     = [];
+    private validateData: Array<EntityPropData> = [];
+
+
+    private typeCheck(propData: EntityPropData) {
+        console.log(propData);
+    }
 
 
     public execute(entitySchema: EntitySchema, obj: Record<string, any> | Entity): Array<ValidationError> {
@@ -24,13 +30,17 @@ export default class Validation {
         this.schema = entitySchema;
         let result: Array<ValidationError> = [];
 
+        //? add checking of props array in schema, if schema don't have prop from obj show warn? 
+
         entitySchema.props.forEach((prop: EntityProp) => {
             let dataProp: EntityPropData = Object.assign({}, prop);
             dataProp.data = (obj as Record<string, any>)[prop['name']];
             this.validateData.push(dataProp);
         });
-        
-        console.log(this.validateData);
+
+        this.validateData.forEach((propData: EntityPropData) => {
+            this.typeCheck(propData);
+        });
 
         return result;
     }

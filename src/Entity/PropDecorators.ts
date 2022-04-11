@@ -10,6 +10,7 @@ interface HandlerParams {
 
 
 //? catch error with order of decorators
+//! issue: I have problems with this sctructure, props form TEXT family cannot get params (parser combinator?)
 const reflectSchemaHandler = (target: Object, propertyKey: string, params?: HandlerParams) => {
 
     let 
@@ -52,6 +53,8 @@ const
 
     Int         = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'integer'}),
     UnsignedInt = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'unsigned integer'}),
+
+    Text = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'text'}),
 
     Date     = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'date'}),
     DateTime = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'date time'}),
@@ -110,6 +113,8 @@ export {
 
     Int,
     UnsignedInt,
+
+    Text,
     
     Date,
     DateTime,
