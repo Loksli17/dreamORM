@@ -1,4 +1,5 @@
 import Entity       from "../Entity/Entity";
+import QueryBuilder from "../Query/QueryBuilder";
 import EntityProp   from "./EntityProp";
 import EntitySchema from "./EntitySchema";
 
@@ -24,13 +25,31 @@ export default class Validation {
     private associations: Record<string, (propData: EntityPropData) => void> = {
         'minLength': (propData: EntityPropData) => this.minLengthCheck(propData),
         'maxLength': (propData: EntityPropData) => this.maxLengthCheck(propData),
-        'min'      : (propData: EntityPropData) => this.minCheck(propData),
-        'max'      : (propData: EntityPropData) => this.maxCheck(propData),
+
+        'min': (propData: EntityPropData) => this.minCheck(propData),
+        'max': (propData: EntityPropData) => this.maxCheck(propData),
+
+        "isUnique": (propData: EntityPropData) => this.uniqueCheck(propData),
     }
 
 
     private typeCheck(propData: EntityPropData) {
-        console.log(propData);
+        
+    }
+
+    private uniqueCheck(propData: EntityPropData) {
+
+        let primaryKeyProp: EntityProp | undefined;
+
+        this.schema?.props.forEach((prop: EntityProp) => {
+            if (prop.isPrimaryKey) primaryKeyProp = prop;
+        });
+
+        if(primaryKeyProp == undefined) {
+            throw new Error('Using of unique is unimpossible without PrimaryKey!');
+        }
+
+        // const queryBuilder: QueryBuilder = new QueryBuilder();
     }
 
 
