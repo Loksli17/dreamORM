@@ -1,4 +1,4 @@
-import Entity from "../../Entity";
+import Entity           from "../../Entity/Entity";
 import { QueryData  }   from "../QueryBuilder";
 import MysqlWhereParser from "../whereBuilder/MysqlWhereParser";
 import WhereBuilder     from "../whereBuilder/WhereBuilder";
@@ -112,15 +112,15 @@ export default class MysqlQueryParser {
 
     private parseInsertObj(obj: Record<string, any> | Entity): {columns: string, values: string} {
 
-        const objectCopy: Record<string, any> = obj; //! TS forced me to do it
-
         let 
             columns: Array<string> = [],
             values : Array<string> = [];
 
-        for (const key in objectCopy) {
-            if (Object.prototype.hasOwnProperty.call(objectCopy, key)) {
-                values.push(`'${objectCopy[key]}'`);
+        let key: keyof typeof obj;
+
+        for (key in obj) {
+            if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                values.push(`'${obj[key]}'`);
                 columns.push(key);
             }
         }

@@ -92,9 +92,10 @@ let tryMongo = async () => {
 
     // console.log(await test.query().findOneById('62455290cbb655bd09d488ee'));
 
+
     let t: test = new test();
 
-    t.save();
+    // t.save();
 }
 
 
@@ -112,7 +113,13 @@ let tryMySQL = async () => {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
     console.log('try singleton:', DreamOrm.instance);
 
-    await Animal.query().insertOne({name: 'name', type: 'type'});
+    const animal: Animal = new Animal()
+    animal.name = "object";
+    animal.type = "Boyyyy";
+
+    console.log('validation result: ', animal.validate());
+    
+    // await Animal.query().insertOne(animal);
 
     // console.log(await Animal.query().findOneById(1));
 
@@ -124,10 +131,11 @@ let tryMySQL = async () => {
 
     // console.log(await queryBuilder.table('animal').where({id: 2}).findOne());
 
-    // console.log(await queryBuilder.table('article')
-    //     .where(new wb().less({id: 7}).andBetween({date: ['2021-01-19', '2021-01-20']}))
-    //     .fields(['id', 'date', 'title'])
-    //     .findAll()
+    // console.log(
+    //     await queryBuilder.table('article')
+    //         .where(new wb().less({id: 7}).andBetween({date: ['2021-01-19', '2021-01-20']}))
+    //         .fields(['id', 'date', 'title'])
+    //         .findAll()
     // );
 
     // console.log(await Animal.query()

@@ -2,7 +2,7 @@ import Connection       from "../Connection/Connection";
 import QueryBuilder     from "../Query/QueryBuilder";
 import DecoratorFactory from "../utils/DecoratorFactory";
 import EntitySchema     from "./EntitySchema";
-import Validation       from "./Validation";
+import Validation, { ValidationError }       from "./Validation";
 import "reflect-metadata";
 
 
@@ -61,5 +61,16 @@ export default class Entity {
         }
 
         const schema: EntitySchema = this.schema;
+    }
+
+    public validate(): Array<ValidationError> {
+
+        let 
+            validation: Validation             = new Validation(), 
+            errors    : Array<ValidationError> = [];
+
+        validation.execute(this.schema);
+
+        return errors;
     }
 }
