@@ -14,8 +14,6 @@ import { PrimaryKey, Date, Int, Min, Max, UnsignedInt, Text } from './Entity/Pro
  * * 3. Alexander can start working on translation and Andrei can start working on Entities and Validation
  * ? 4. difficult queries
  */
-
-
 const orm: DreamOrm = new DreamOrm();
 
 
@@ -117,7 +115,7 @@ let tryMySQL = async () => {
     console.log('try singleton:', DreamOrm.instance);
 
     const animal: Animal = new Animal()
-    animal.name = "object";
+    animal.name = "object Opaaaaa pap papapap papapa";
     animal.type = "Boy";
 
     console.log('validation result: ', animal.validate());
