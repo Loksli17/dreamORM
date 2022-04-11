@@ -66,9 +66,9 @@ const
         let params: Array<HandlerParams> = [];
 
         params.push({type: 'text'});
-
-        if(data && data.min) params.push({value: ['min', data.min]});
-        if(data && data.max) params.push({value: ['max', data.max]});
+        
+        params.push({value: ['minLength', (data && data.min) ? data.min : -1]});
+        params.push({value: ['maxLength', (data && data.max) ? data.max : -1]});
 
         return combineReflectSchemaHandler(target, propertyKey, params);
     },

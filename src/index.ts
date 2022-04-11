@@ -28,7 +28,7 @@ class Animal extends Entity {
     @Text()
     name?: string;
 
-    @Text({min: 4, max: 30})
+    @Text({min: 4, max: 10})
     type?: string;
 }
 
@@ -118,7 +118,7 @@ let tryMySQL = async () => {
 
     const animal: Animal = new Animal()
     animal.name = "object";
-    animal.type = "Boyyyy";
+    animal.type = "Boy";
 
     console.log('validation result: ', animal.validate());
 

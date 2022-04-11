@@ -2,7 +2,6 @@ import Entity              from '../../Entity/Entity';
 import MysqlQueryParser    from '../parser/MysqlQueryParser';
 import { QueryData }       from '../QueryBuilder';
 import MysqlQueryExecutor  from '../queryExecutor/MysqlQueryExecutor';
-import WhereBuilder from '../whereBuilder/WhereBuilder';
 import QueryBuilderAdapter from './QueryBuilderAdapter';
 
 
