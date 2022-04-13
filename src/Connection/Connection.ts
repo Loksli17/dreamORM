@@ -62,16 +62,7 @@ export default class Connection implements ConnectionAttributes {
             type    : this.type_,
         });
 
-        this.entities_ = params.entities ? params.entities : [];
-
-        // //? to different place
-        // if(params.entities){
-        //     params.entities.forEach((entityClass: typeof Entity) => {
-        //         if(!Entity.hasEntity(entityClass.name)) Entity.addEntity(entityClass.name);
-        //         Entity.pushConnection(entityClass.name, this);
-        //     });
-        // }
-        
+        this.entities_ = params.entities ? params.entities : [];        
     }
 
 

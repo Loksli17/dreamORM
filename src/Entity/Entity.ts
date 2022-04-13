@@ -20,20 +20,6 @@ export interface HashEntityConnection {
 //! think about Entity name case MongoDb collection's names depend on letter register
 export default class Entity {
 
-    // private static connections: HashEntityConnection = {};
-
-    // public static pushConnection(entityName: string, connection: Connection): void {
-    //     Entity.connections[entityName].push(connection);
-    // }
-
-    // public static addEntity(entityName: string) {
-    //     Entity.connections[entityName] = [];
-    // }
-    
-    // public static hasEntity(entityName: string): boolean {
-    //     return Entity.connections[entityName] == undefined ? false : true;
-    // }
-
 
     protected get schema(): EntitySchema {
         let schema: EntitySchema;
