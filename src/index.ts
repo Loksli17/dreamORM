@@ -122,23 +122,23 @@ let tryMySQL = async () => {
         password: '1234',
         adapter : 'mysql',
         type    : 'pool',
-        entities: [Animal],
+        entities: [Animal, Author],
     });
 
     orm.pushConnection(mysqlConnection);
 
-    const animal: Animal = new Animal()
-    animal.name = "object Opaaaaa pap papapap papapa";
-    animal.type = "Boy";
+    // const animal: Animal = new Animal()
+    // animal.name = "object Opaaaaa pap papapap papapa";
+    // animal.type = "Boy";
 
-    console.log('validation result: ', animal.validate());
+    // console.log('validation result: ', animal.validate());
 
     const author: Author = new Author();
     
-    author.name = "Vova";
-    author.style = ""; 
+    author.name = "Vova Misura";
+    author.style = "Conan Doil"; 
 
-    // console.log('validation result: ', author.validate());
+    console.log('validation result: ', await author.save());
 
     // await Animal.query().insertOne(animal);
 

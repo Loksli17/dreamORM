@@ -1,6 +1,7 @@
 import Connection from "../Connection/Connection";
 import Entity       from "../Entity/Entity";
 import QueryBuilder from "../Query/QueryBuilder";
+import WhereBuilder from "../Query/whereBuilder/WhereBuilder";
 import EntityProp   from "./EntityProp";
 import EntitySchema from "./EntitySchema";
 
@@ -44,11 +45,12 @@ export default class Validation {
         
     }
 
-    private uniqueCheck(propData: EntityPropData) {
 
-        let primaryKeyProp: EntityProp | undefined;
+    private async uniqueCheck(propData: EntityPropData) {
 
-        this.schema?.props.forEach((prop: EntityProp) => {
+        let primaryKeyProp: EntityPropData | undefined;
+
+        this.validateData.forEach((prop: EntityProp) => {
             if (prop.isPrimaryKey) primaryKeyProp = prop;
         });
 
@@ -56,11 +58,26 @@ export default class Validation {
             throw new Error('Using of unique is unimpossible without PrimaryKey!');
         }
 
-        const queryBuilder: QueryBuilder = new QueryBuilder(this.connection);
+        const queryBuilder: QueryBuilder = new QueryBuilder(this.connection).table(this.schema?.name!);
+        let whereBuilder: WhereBuilder = new WhereBuilder();
+
+        const obj: Record<string, any> = {};
+        obj[propData.name] = propData.data;
+        whereBuilder = whereBuilder.eq(obj);
+
+        if(primaryKeyProp.data != undefined) {
+            const objPrimary: Record<string, any> = {};
+            objPrimary[primaryKeyProp.name];
+            whereBuilder.notAndEq(objPrimary);
+        }
+
+        if((await queryBuilder.where(whereBuilder).findOne()) != undefined) {
+            this.errors.push({field: propData.name, message: `${this.schema?.name!} with ${propData.name} equals ${propData.data} already has been created!`});
+        }
     }
 
 
-    private maxCheck(propData: EntityPropData) {
+    private async maxCheck(propData: EntityPropData) {
 
         if(typeof propData.data != 'number') {
             throw new Error('max is created for only number type, Sorry =((');
@@ -79,7 +96,7 @@ export default class Validation {
 
     }
 
-    private minCheck(propData: EntityPropData) {
+    private async minCheck(propData: EntityPropData) {
 
         if(typeof propData.data != 'number') {
             throw new Error('maxLength is created for only string type, Sorry =((');
@@ -98,7 +115,7 @@ export default class Validation {
     }
 
 
-    private minLengthCheck(propData: EntityPropData) {
+    private async minLengthCheck(propData: EntityPropData) {
 
         if(typeof propData.data != 'string') {
             throw new Error('maxLength is created for only string type, Sorry =((');
@@ -116,7 +133,7 @@ export default class Validation {
         }
     }
 
-    private maxLengthCheck(propData: EntityPropData) {
+    private async maxLengthCheck(propData: EntityPropData) {
 
         if(typeof propData.data != 'string') {
             throw new Error('maxLength is created for only string type, Sorry =((');
@@ -158,7 +175,7 @@ export default class Validation {
     }
 
 
-    public execute(entitySchema: EntitySchema, obj: Record<string, any> | Entity): Array<ValidationError> {
+    public async execute(entitySchema: EntitySchema, obj: Record<string, any> | Entity): Promise<Array<ValidationError>> {
         
         this.schema = entitySchema;
 
@@ -170,18 +187,20 @@ export default class Validation {
             this.validateData.push(dataProp);
         });
 
-        this.validateData.forEach((propData: EntityPropData) => {
+        for(let i: number = 0; i < this.validateData.length; i++){
+            
+            const propData: EntityPropData = this.validateData[i];
+
             this.typeCheck(propData);
             
             let key: keyof EntityPropData;
 
             for (key in propData) {
                 if (Object.prototype.hasOwnProperty.call(propData, key)) {
-                    if(this.associations[key]) this.associations[key](propData);
+                    if(this.associations[key]) (await this.associations[key](propData));
                 }
             }
-            
-        });
+        }
 
         return this.errors;
     }

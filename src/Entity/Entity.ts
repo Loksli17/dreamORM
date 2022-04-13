@@ -50,20 +50,19 @@ export default class Entity {
 
         if(this.schema) {
             const validation: Validation = new Validation(orm.getConnectionByEntity(this.schema.name));
-            const errors: Array<ValidationError> = validation.execute(this.schema, this);
+            const errors: Array<ValidationError> = await validation.execute(this.schema, this);
             if(errors.length) return errors;
         }
 
-        const schema: EntitySchema = this.schema;
-        return new QueryBuilder(orm.getConnectionByEntity(this.constructor.name)).table(this.schema.name).insertOne(this);
+        return await new QueryBuilder(orm.getConnectionByEntity(this.constructor.name)).table(this.schema.name).insertOne(this);
     }
 
 
-    public validate(): Array<ValidationError> {
+    public async validate(): Promise<Array<ValidationError>> {
 
         if(!this.schema) throw new Error('Validation is impossible without any data about Entity!');
 
         const orm: DreamOrm = new DreamOrm();
-        return new Validation(orm.getConnectionByEntity(this.constructor.name)).execute(this.schema, this);
+        return await new Validation(orm.getConnectionByEntity(this.constructor.name)).execute(this.schema, this);
     }
 }
