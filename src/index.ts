@@ -136,7 +136,7 @@ let tryMySQL = async () => {
     const author: Author = new Author();
     
     author.name = "Vova Misura";
-    author.style = null; 
+    author.style = ""; 
 
     console.log('validation result: ', await author.save());
 
