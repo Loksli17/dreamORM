@@ -7,11 +7,11 @@ import DreamOrm                        from "../main";
 import "reflect-metadata";
 
 
-
-
 export interface HashEntityConnection {
     [index: string]: Array<Connection>;
 }
+
+
 
 
 
@@ -44,16 +44,20 @@ export default class Entity {
     }
 
 
-    public save(): void {
+    public async save(): Promise<any> {
+
+        const orm: DreamOrm = new DreamOrm();
 
         if(this.schema) {
-            const orm: DreamOrm = new DreamOrm();
-            const validation: Validation = new Validation(orm.getConnectionByEntity(this.constructor.name));
-            validation.execute(this.schema, this);
+            const validation: Validation = new Validation(orm.getConnectionByEntity(this.schema.name));
+            const errors: Array<ValidationError> = validation.execute(this.schema, this);
+            if(errors.length) return errors;
         }
 
         const schema: EntitySchema = this.schema;
+        return new QueryBuilder(orm.getConnectionByEntity(this.constructor.name)).table(this.schema.name).insertOne(this);
     }
+
 
     public validate(): Array<ValidationError> {
 

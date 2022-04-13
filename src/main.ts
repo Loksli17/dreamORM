@@ -29,7 +29,7 @@ class DreamOrm {
         } else {
             DreamOrm.instance = this;
         }
-        
+
     }
 
     //? think about same connections
@@ -44,7 +44,6 @@ class DreamOrm {
     }
 
     public getConnectionByEntity(entityClassName: string): Connection {
-        console.log(entityClassName, this.hashConnections);
         return this.hashConnections[entityClassName][0];
     }
 
