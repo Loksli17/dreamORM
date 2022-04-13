@@ -17,7 +17,7 @@ export interface ConnectionAttributes {
     host?    : string;
     type?    : 'connection' | 'pool' | 'cluster';
     adapter  : 'mysql' | 'postgre' | 'mongoDb';
-    entities?: Array<typeof Entity>; 
+    entities?: Array<typeof Entity>;
 }
 
 
@@ -25,14 +25,17 @@ export interface ConnectionAttributes {
 //? class for connection item? and Big class for connection module (think about patterns) 
 export default class Connection implements ConnectionAttributes {
 
+    // private static countConnections: number = 0;
+    
     //! fix this props and create default props in ConnectionAdapters !!!!
-    private dbName_  : string; 
-    private password_: string                            = "";
-    private user_    : string                            = "root";
-    private port_    : number                            = 3306;
-    private host_    : string                            = "127.0.0.1";
-    private type_    : 'connection' | 'pool' | 'cluster' = 'connection';
-    private adapter_ : 'mysql' | 'postgre' | 'mongoDb'; 
+    private dbName_   : string; 
+    private password_ : string                            = "";
+    private user_     : string                            = "root";
+    private port_     : number                            = 3306;
+    private host_     : string                            = "127.0.0.1";
+    private type_     : 'connection' | 'pool' | 'cluster' = 'connection';
+    private adapter_  : 'mysql' | 'postgre' | 'mongoDb';
+    private entities_ : Array<typeof Entity>;
 
     private adapterConnection: AdapterConnection;
 
@@ -59,16 +62,22 @@ export default class Connection implements ConnectionAttributes {
             type    : this.type_,
         });
 
-        //? to different place
-        if(params.entities){
-            params.entities.forEach((entityClass: typeof Entity) => {
-                if(!Entity.hasEntity(entityClass.name)) Entity.addEntity(entityClass.name);
-                Entity.pushConnection(entityClass.name, this);
-            });
-        }
+        this.entities_ = params.entities ? params.entities : [];
+
+        // //? to different place
+        // if(params.entities){
+        //     params.entities.forEach((entityClass: typeof Entity) => {
+        //         if(!Entity.hasEntity(entityClass.name)) Entity.addEntity(entityClass.name);
+        //         Entity.pushConnection(entityClass.name, this);
+        //     });
+        // }
         
     }
 
+
+    public get entities(): Array<typeof Entity> { 
+        return this.entities_;
+    }
 
     public get queryExecutor(): QueryExecutor {
         return this.adapterConnection.queryExecutor;

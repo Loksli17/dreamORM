@@ -1,9 +1,11 @@
-import Connection       from "../Connection/Connection";
-import QueryBuilder     from "../Query/QueryBuilder";
-import DecoratorFactory from "../utils/DecoratorFactory";
-import EntitySchema     from "./EntitySchema";
-import Validation, { ValidationError }       from "./Validation";
+import Connection                      from "../Connection/Connection";
+import QueryBuilder                    from "../Query/QueryBuilder";
+import DecoratorFactory                from "../utils/DecoratorFactory";
+import EntitySchema                    from "./EntitySchema";
+import Validation, { ValidationError } from "./Validation";
+import DreamOrm                        from "../main";
 import "reflect-metadata";
+
 
 
 
@@ -18,19 +20,19 @@ export interface HashEntityConnection {
 //! think about Entity name case MongoDb collection's names depend on letter register
 export default class Entity {
 
-    private static connections: HashEntityConnection = {};
+    // private static connections: HashEntityConnection = {};
 
-    public static pushConnection(entityName: string, connection: Connection): void {
-        Entity.connections[entityName].push(connection);
-    }
+    // public static pushConnection(entityName: string, connection: Connection): void {
+    //     Entity.connections[entityName].push(connection);
+    // }
 
-    public static addEntity(entityName: string) {
-        Entity.connections[entityName] = [];
-    }
+    // public static addEntity(entityName: string) {
+    //     Entity.connections[entityName] = [];
+    // }
     
-    public static hasEntity(entityName: string): boolean {
-        return Entity.connections[entityName] == undefined ? false : true;
-    }
+    // public static hasEntity(entityName: string): boolean {
+    //     return Entity.connections[entityName] == undefined ? false : true;
+    // }
 
 
     protected get schema(): EntitySchema {
@@ -47,9 +49,12 @@ export default class Entity {
     
 
     public static query(): QueryBuilder {
+
+        let orm: DreamOrm = new DreamOrm();
+
         //! check connection before returned QueryBuilder
         const entity: Entity = new this();
-        return new QueryBuilder(Entity.connections[this.name][0], entity.schema).table(this.name);
+        return new QueryBuilder(orm.getConnectionByEntity(this.name), entity.schema).table(this.name);
     }
 
 
