@@ -37,12 +37,29 @@ export default class Validation {
         'min': (propData: EntityPropData) => this.minCheck(propData),
         'max': (propData: EntityPropData) => this.maxCheck(propData),
 
+        "isNotNull": (propData: EntityPropData) => this.notNullCheck(propData),
+
         "isUnique": (propData: EntityPropData) => this.uniqueCheck(propData),
     }
 
 
     private typeCheck(propData: EntityPropData) {
         
+    }
+
+
+    private async notNullCheck(propData: EntityPropData){
+
+        if(propData.isNotNull == undefined) {
+            throw new Error('Not null is undefined. Why?');
+        };
+
+        if(propData.data === null) {
+            this.errors.push({
+                field  : propData.name, 
+                message: `${propData.name} cannot be null!`,
+            });
+        }
     }
 
 
@@ -72,7 +89,10 @@ export default class Validation {
         }
 
         if((await queryBuilder.where(whereBuilder).findOne()) != undefined) {
-            this.errors.push({field: propData.name, message: `${this.schema?.name!} with ${propData.name} equals ${propData.data} already has been created!`});
+            this.errors.push({
+                field  : propData.name, 
+                message: `${this.schema?.name!} with ${propData.name} equals ${propData.data} already has been created!`
+            });
         }
     }
 

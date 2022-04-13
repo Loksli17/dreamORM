@@ -4,7 +4,7 @@ import QueryBuilder from './Query/QueryBuilder';
 import wb           from './Query/whereBuilder/WhereBuilder';
 
 import Entity from './Entity/Entity';
-import { PrimaryKey, Date, Int, Min, Max, UnsignedInt, Text, Unique } from './Entity/PropDecorators';
+import { PrimaryKey, Date, Int, Min, Max, UnsignedInt, Text, Unique, NotNull } from './Entity/PropDecorators';
 
 
 /** 
@@ -136,7 +136,7 @@ let tryMySQL = async () => {
     const author: Author = new Author();
     
     author.name = "Vova Misura";
-    author.style = "Conan Doil"; 
+    author.style = null; 
 
     console.log('validation result: ', await author.save());
 
