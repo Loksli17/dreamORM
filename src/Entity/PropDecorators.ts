@@ -19,7 +19,9 @@ const reflectSchemaHandler = (target: Object, propertyKey: string, params?: Hand
         prop  : EntityProp;
 
     if(schema == undefined){
-        schema = new EntitySchema();
+        schema      = new EntitySchema();
+        schema.name = target.constructor.name;
+        
         Reflect.defineMetadata('schema', schema, target);
     }
 
