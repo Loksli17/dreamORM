@@ -84,7 +84,7 @@ let tryMongo = async () => {
 
     orm.pushConnection(mongoConnection);
 
-    console.log('try singleton:', DreamOrm.instance);
+    // console.log('try singleton:', DreamOrm.instance);
 
     let queryBuilderMongo: QueryBuilder = new QueryBuilder(mongoConnection);
 
@@ -126,8 +126,6 @@ let tryMySQL = async () => {
     });
 
     orm.pushConnection(mysqlConnection);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-    console.log('try singleton:', DreamOrm.instance);
 
     const animal: Animal = new Animal()
     animal.name = "object Opaaaaa pap papapap papapa";
@@ -135,13 +133,12 @@ let tryMySQL = async () => {
 
     console.log('validation result: ', animal.validate());
 
-
     const author: Author = new Author();
     
     author.name = "Vova";
     author.style = ""; 
 
-    console.log('validation result: ', author.validate());
+    // console.log('validation result: ', author.validate());
 
     // await Animal.query().insertOne(animal);
 

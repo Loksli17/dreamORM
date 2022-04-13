@@ -36,7 +36,7 @@ export default class Entity {
 
     public static query(): QueryBuilder {
 
-        let orm: DreamOrm = new DreamOrm();
+        const orm: DreamOrm = new DreamOrm();
 
         //! check connection before returned QueryBuilder
         const entity: Entity = new this();
@@ -47,7 +47,8 @@ export default class Entity {
     public save(): void {
 
         if(this.schema) {
-            const validation: Validation = new Validation();
+            const orm: DreamOrm = new DreamOrm();
+            const validation: Validation = new Validation(orm.getConnectionByEntity(this.constructor.name));
             validation.execute(this.schema, this);
         }
 
@@ -55,6 +56,10 @@ export default class Entity {
     }
 
     public validate(): Array<ValidationError> {
-        return new Validation().execute(this.schema, this);
+
+        if(!this.schema) throw new Error('Validation is impossible without any data about Entity!');
+
+        const orm: DreamOrm = new DreamOrm();
+        return new Validation(orm.getConnectionByEntity(this.constructor.name)).execute(this.schema, this);
     }
 }

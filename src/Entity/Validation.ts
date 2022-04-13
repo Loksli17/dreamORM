@@ -1,3 +1,4 @@
+import Connection from "../Connection/Connection";
 import Entity       from "../Entity/Entity";
 import QueryBuilder from "../Query/QueryBuilder";
 import EntityProp   from "./EntityProp";
@@ -21,6 +22,12 @@ export default class Validation {
     private schema      : EntitySchema | undefined;
     private validateData: Array<EntityPropData>     = [];
     private errors      : Array<ValidationError>    = [];
+    private connection  : Connection;
+
+
+    constructor(connection: Connection){
+        this.connection = connection;
+    }
 
     private associations: Record<string, (propData: EntityPropData) => void> = {
         'minLength': (propData: EntityPropData) => this.minLengthCheck(propData),
@@ -49,7 +56,7 @@ export default class Validation {
             throw new Error('Using of unique is unimpossible without PrimaryKey!');
         }
 
-        // const queryBuilder: QueryBuilder = new QueryBuilder();
+        const queryBuilder: QueryBuilder = new QueryBuilder(this.connection);
     }
 
 

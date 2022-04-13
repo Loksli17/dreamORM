@@ -196,7 +196,7 @@ export default class QueryBuilder {
     public async insertOne(obj: Record<string, any> | Entity): Promise<any> {
 
         if(this.entitySchema) {
-            const validation: Validation = new Validation();
+            const validation: Validation = new Validation(this.connection);
             validation.execute(this.entitySchema, obj);
         }
         
