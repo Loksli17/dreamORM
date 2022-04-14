@@ -54,7 +54,7 @@ export default class Validation {
             throw new Error('Not null is undefined. Why?');
         };
 
-        if(propData.data === null) {
+        if(propData.data == undefined) {
             this.errors.push({
                 field  : propData.name, 
                 message: `${propData.name} cannot be null!`,
@@ -137,13 +137,15 @@ export default class Validation {
 
     private async minLengthCheck(propData: EntityPropData) {
 
-        if(typeof propData.data != 'string') {
+        if(propData.data != undefined && typeof propData.data != 'string') {
             throw new Error('maxLength is created for only string type, Sorry =((');
         }
 
         if(propData.minLength == undefined) {
             throw new Error('minLength is undefined. Why?');
         };
+
+        if(propData.data == undefined) return;
         
         if(propData.minLength > propData.data.length) {
             this.errors.push({
@@ -155,13 +157,15 @@ export default class Validation {
 
     private async maxLengthCheck(propData: EntityPropData) {
 
-        if(typeof propData.data != 'string') {
+        if(propData.data != undefined && typeof propData.data != 'string') {
             throw new Error('maxLength is created for only string type, Sorry =((');
         }
 
         if(propData.maxLength == undefined) {
             throw new Error('maxLength is undefined. Why?');
         };
+
+        if(propData.data == undefined) return;
 
         if(propData.maxLength == -1) {
             
