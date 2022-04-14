@@ -40,11 +40,34 @@ export default class Validation {
         "isNotNull": (propData: EntityPropData) => this.notNullCheck(propData),
 
         "isUnique": (propData: EntityPropData) => this.uniqueCheck(propData),
+
+        "isEmail": (propData: EntityPropData) => this.emailCheck(propData),
     }
 
 
     private typeCheck(propData: EntityPropData) {
         
+    }
+
+
+    private async emailCheck(propData: EntityPropData){
+        
+        if(propData.isNotNull == undefined) {
+            throw new Error('Not null is undefined. Why?');
+        };
+
+        const reg: RegExp = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+        
+        let regRes: RegExpMatchArray = propData.data.match(reg);
+
+        console.log(regRes);
+
+        if(regRes == null) {
+            this.errors.push({
+                field  : propData.name, 
+                message: `${propData.name} is not correct email!`,
+            });
+        }
     }
 
 

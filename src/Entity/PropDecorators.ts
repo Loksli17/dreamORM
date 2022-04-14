@@ -62,6 +62,8 @@ const
 
     Int         = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'integer'}),
     UnsignedInt = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'unsigned integer'}),
+    Float       = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'float'}),
+    Boolean     = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {type: 'boolean'}),
 
     Text = (data?: {min?: number, max?: number}) => (target: Object, propertyKey: string) => {
 
@@ -133,6 +135,8 @@ export {
 
     Int,
     UnsignedInt,
+    Boolean,
+    Float,
 
     Text,
     

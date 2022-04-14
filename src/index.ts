@@ -4,7 +4,7 @@ import QueryBuilder from './Query/QueryBuilder';
 import wb           from './Query/whereBuilder/WhereBuilder';
 
 import Entity from './Entity/Entity';
-import { PrimaryKey, Date, Int, Min, Max, UnsignedInt, Text, Unique, NotNull } from './Entity/PropDecorators';
+import { PrimaryKey, Date, Int, Min, Max, UnsignedInt, Text, Unique, NotNull, Email, Boolean, Float, Phone } from './Entity/PropDecorators';
 
 
 /** 
@@ -43,6 +43,35 @@ class Author extends Entity {
 
     @Text({min: 4, max: 10})
     style?: string;
+}
+
+
+class Data extends Entity {
+
+    @PrimaryKey()
+    @UnsignedInt()
+    id?: number;
+
+    @Unique()
+    @NotNull()
+    @Text({min: 1, max: 255})
+    title?: string;
+
+    @Email()
+    @NotNull()
+    @Text({min: 8, max: 30})
+    email?: string;
+
+    @Phone()
+    @NotNull()
+    @Text({min: 18, max: 18})
+    phone?: string;
+
+    @Boolean()
+    isKek?: boolean;
+
+    @Float()
+    number?: number;
 }
 
 
@@ -117,15 +146,32 @@ let tryMongo = async () => {
 
 let tryMySQL = async () => {
 
+    // let mysqlConnection: Connection = new Connection({
+    //     dbName  : 'vueLearn',
+    //     password: '1234',
+    //     adapter : 'mysql',
+    //     type    : 'pool',
+    //     entities: [Animal, Author],
+    // });
+
     let mysqlConnection: Connection = new Connection({
-        dbName  : 'vueLearn',
+        dbName  : 'orm',
         password: '1234',
         adapter : 'mysql',
         type    : 'pool',
-        entities: [Animal, Author],
+        entities: [Data],
     });
 
     orm.pushConnection(mysqlConnection);
+
+    const data: Data = new Data();
+
+    data.title = "titl2";
+    data.phone = "+7 (924) 118-83-57";
+    data.email = "keail.com";
+    data.isKek = false;
+
+    console.log(await data.save());
 
     // const animal: Animal = new Animal()
     // animal.name = "object Opaaaaa pap papapap papapa";
@@ -133,12 +179,12 @@ let tryMySQL = async () => {
 
     // console.log('validation result: ', animal.validate());
 
-    const author: Author = new Author();
+    // const author: Author = new Author();
     
-    author.name = "Vova Misura";
-    author.style = ""; 
+    // author.name = "Vova Misura";
+    // author.style = ""; 
 
-    console.log('validation result: ', await author.save());
+    // console.log('validation result: ', await author.save());
 
     // await Animal.query().insertOne(animal);
 
