@@ -120,7 +120,7 @@ export default class MysqlQueryParser {
 
         for (key in obj) {
             if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                values.push(`'${obj[key]}'`);
+                values.push((typeof obj[key] == 'string') ? `'${obj[key]}'` : obj[key]);
                 columns.push(key);
             }
         }
