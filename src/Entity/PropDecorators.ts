@@ -95,9 +95,8 @@ const
     MinLength = (minLength: number) => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['minLength', minLength]}),
     MaxLength = (maxLength: number) => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['maxLength', maxLength]}),
 
-    Email = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isEmail', true]}),
-    Phone = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isPhone', true]}),
-
+    Email = ()                                => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isEmail', true]}),
+    Phone = (data?: {first: string} | RegExp) => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isPhone', data]}),
 
     DbDate = () => {
         return (target: Object, propertyKey: string) => {

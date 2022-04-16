@@ -16,5 +16,5 @@ export default interface EntityProp {
     isNotNull?   : boolean;
 
     isEmail?: boolean;
-    isPhone?: boolean;
+    isPhone?: {first: string} | RegExp;
 } 

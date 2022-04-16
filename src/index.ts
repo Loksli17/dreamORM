@@ -62,7 +62,7 @@ class Data extends Entity {
     @Text({min: 8, max: 30})
     email?: string;
 
-    @Phone()
+    @Phone(new RegExp('[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$', 'g'))
     @NotNull()
     @Text({min: 18, max: 18})
     phone?: string;
@@ -166,9 +166,9 @@ let tryMySQL = async () => {
 
     const data: Data = new Data();
 
-    data.title = "titl2";
-    data.phone = "+7 (924) 118-83-57";
-    data.email = "keail.com";
+    data.title = "titl4";
+    data.phone = "18-83-57";
+    data.email = "kek@ail.com";
     data.isKek = false;
 
     console.log(await data.save());

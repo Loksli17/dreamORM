@@ -1,4 +1,4 @@
-import Connection from "../Connection/Connection";
+import Connection   from "../Connection/Connection";
 import Entity       from "../Entity/Entity";
 import QueryBuilder from "../Query/QueryBuilder";
 import WhereBuilder from "../Query/whereBuilder/WhereBuilder";
@@ -31,6 +31,7 @@ export default class Validation {
     }
 
     private associations: Record<string, (propData: EntityPropData) => void> = {
+        
         'minLength': (propData: EntityPropData) => this.minLengthCheck(propData),
         'maxLength': (propData: EntityPropData) => this.maxLengthCheck(propData),
 
@@ -42,6 +43,7 @@ export default class Validation {
         "isUnique": (propData: EntityPropData) => this.uniqueCheck(propData),
 
         "isEmail": (propData: EntityPropData) => this.emailCheck(propData),
+        "isPhone": (propData: EntityPropData) => this.phoneCheck(propData),
     }
 
 
@@ -50,17 +52,49 @@ export default class Validation {
     }
 
 
-    private async emailCheck(propData: EntityPropData){
-        
-        if(propData.isNotNull == undefined) {
+    private async phoneCheck(propData: EntityPropData) {
+
+        if(propData.isPhone == undefined) {
             throw new Error('Not null is undefined. Why?');
         };
+        
+        let regExp: RegExp;
 
-        const reg: RegExp = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+        if(propData.isPhone instanceof RegExp){
+            regExp = propData.isPhone;
+        } else {
+            let regExpString: string = '[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$';
+
+            if(propData.isPhone.first != undefined) {
+
+                if(propData.isPhone!.first[0] != "+") {
+                    regExpString = `${propData.isPhone!.first}\\s*` + regExpString;
+                } else {
+                    regExpString = `\\` + `${propData.isPhone!.first}\\s*` + regExpString;
+                }  
+            }
+
+            regExp = new RegExp(regExpString, 'g');
+        }
+
+
+        if(propData.data.match(regExp) == null) {
+            this.errors.push({
+                field  : propData.name, 
+                message: `${propData.name} is not correct phone!`,
+            });
+        }
+    }
+
+    private async emailCheck(propData: EntityPropData) {
+        
+        if(propData.isEmail == undefined) {
+            throw new Error('Email is undefined. Why?');
+        };
+
+        const reg: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         
         let regRes: RegExpMatchArray = propData.data.match(reg);
-
-        console.log(regRes);
 
         if(regRes == null) {
             this.errors.push({
@@ -71,7 +105,7 @@ export default class Validation {
     }
 
 
-    private async notNullCheck(propData: EntityPropData){
+    private async notNullCheck(propData: EntityPropData) {
 
         if(propData.isNotNull == undefined) {
             throw new Error('Not null is undefined. Why?');
