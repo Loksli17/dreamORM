@@ -44,6 +44,7 @@ class DreamOrm {
     }
 
     public getConnectionByEntity(entityClassName: string): Connection {
+        console.log(this.hashConnections[entityClassName], entityClassName)
         return this.hashConnections[entityClassName][0];
     }
 

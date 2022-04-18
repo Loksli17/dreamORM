@@ -46,6 +46,7 @@ class Author extends Entity {
 }
 
 
+//! for presentation
 class Data extends Entity {
 
     @PrimaryKey()
@@ -73,6 +74,7 @@ class Data extends Entity {
     @Float()
     number?: number;
 }
+//! for presentation
 
 
 //? catch error with order of decorators
@@ -102,6 +104,7 @@ class test extends Entity {
 
 let tryMongo = async () => {
 
+    //! for presentation
     let mongoConnection = new Connection({
         dbName  : 'dreamOrm',
         adapter : 'mongoDb',
@@ -113,19 +116,17 @@ let tryMongo = async () => {
 
     orm.pushConnection(mongoConnection);
 
-    // console.log('try singleton:', DreamOrm.instance);
-
     let queryBuilderMongo: QueryBuilder = new QueryBuilder(mongoConnection);
 
-    // console.log(await queryBuilderMongo.table('test').getFieldsInfo());
+    console.log(await queryBuilderMongo.table('test').getFieldsInfo());
 
-    // console.log(await queryBuilderMongo.table("test")
-    //     .where(
-    //         new wb()
-    //             .more({field2: 1234})
-    //     )
-    //     .findAll()
-    // );
+    console.log(await queryBuilderMongo.table("test")
+        .where(
+            new wb().more({field2: 321})
+        )
+        .findAll()
+    );
+    //! for presentation
 
     // console.log(
     //     await queryBuilderMongo.table('test').where(new wb().eq({field1: 'test1'})).findOne()
@@ -146,24 +147,33 @@ let tryMongo = async () => {
 
 let tryMySQL = async () => {
 
-    // let mysqlConnection: Connection = new Connection({
-    //     dbName  : 'vueLearn',
-    //     password: '1234',
-    //     adapter : 'mysql',
-    //     type    : 'pool',
-    //     entities: [Animal, Author],
-    // });
-
+    //! for presentation
     let mysqlConnection: Connection = new Connection({
-        dbName  : 'orm',
+        dbName  : 'vueLearn',
         password: '1234',
         adapter : 'mysql',
         type    : 'pool',
-        entities: [Data],
+        entities: [Animal, Author],
     });
+
+    let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
+
+    console.log(await queryBuilder.getTableNames());
+
+    console.log(await Animal.query().getFieldsInfo());
+    //! for presentation
+
+    // let mysqlConnection: Connection = new Connection({
+    //     dbName  : 'orm',
+    //     password: '1234',
+    //     adapter : 'mysql',
+    //     type    : 'pool',
+    //     entities: [Data],
+    // });
 
     orm.pushConnection(mysqlConnection);
 
+    //! for presentation
     const data: Data = new Data();
 
     data.title = "titl4";
@@ -171,7 +181,8 @@ let tryMySQL = async () => {
     data.email = "kek@ail.com";
     data.isKek = false;
 
-    console.log(await data.save());
+    // console.log(await data.save()); //убрать коммент
+    //! for presentation
 
     // const animal: Animal = new Animal()
     // animal.name = "object Opaaaaa pap papapap papapa";
@@ -190,41 +201,36 @@ let tryMySQL = async () => {
 
     // console.log(await Animal.query().findOneById(1));
 
-    // let queryBuilder: QueryBuilder = new QueryBuilder(mysqlConnection);
-
-    // console.log(await queryBuilder.getTableNames());
-
-    // console.log(await Animal.query().getFieldsInfo());
 
     // console.log(await queryBuilder.table('animal').where({id: 2}).findOne());
 
-    // console.log(
-    //     await queryBuilder.table('article')
-    //         .where(new wb().less({id: 7}).andBetween({date: ['2021-01-19', '2021-01-20']}))
-    //         .fields(['id', 'date', 'title'])
-    //         .findAll()
-    // );
+    console.log(
+        await queryBuilder.table('article')
+            .where(new wb().less({id: 7}).andBetween({date: ['2021-01-19', '2021-01-20']}))
+            .fields(['id', 'date', 'title'])
+            .findAll()
+    );
 
-    // console.log(await Animal.query()
-    //     .where(
-    //         new wb()
-    //             .in({id: [1, 2, 14, 56]})
-    //             .andIn({name: ['Vaan', 'Marcus']})
-    //             .orEq({id: 6})
-    //             .orBracket(
-    //                 new wb()
-    //                 .eq({id: 5})
-    //                 .orEq({id: 10})
-    //                 .orBracket(
-    //                     new wb()
-    //                     .eq({id: 5})
-    //                     .orIn({id: [6, 7, 8, 9]})
-    //                 )
-    //             )
-    //     )
-    //     .limit(3)
-    //     .findAll()
-    // );
+    console.log(await Animal.query()
+        .where(
+            new wb()
+                .in({id: [1, 2, 14, 56]})
+                .andIn({name: ['Vaan', 'Marcus']})
+                .orEq({id: 6})
+                .orBracket(
+                    new wb()
+                    .eq({id: 5})
+                    .orEq({id: 10})
+                    .orBracket(
+                        new wb()
+                        .eq({id: 5})
+                        .orIn({id: [6, 7, 8, 9]})
+                    )
+                )
+        )
+        .limit(3)
+        .findAll()
+    );
 
 
     // console.log(await Animal.query().where({id: 21}).remove());
