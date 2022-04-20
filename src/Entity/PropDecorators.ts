@@ -89,7 +89,7 @@ const
     ),
     
     Null    = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isNull', true]}),
-    NotNull = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isNotNull', true]}),
+    NotNull = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isNotNull', true]}), //! check
     Unique  = () => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['isUnique', true]}),
 
     MinLength = (minLength: number) => (target: Object, propertyKey: string) => reflectSchemaHandler(target, propertyKey, {value: ['minLength', minLength]}),

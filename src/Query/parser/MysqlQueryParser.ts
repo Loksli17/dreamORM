@@ -1,4 +1,6 @@
 import Entity           from "../../Entity/Entity";
+import EntityProp       from "../../Entity/EntityProp";
+import EntitySchema     from "../../Entity/EntitySchema";
 import { QueryData  }   from "../QueryBuilder";
 import MysqlWhereParser from "../whereBuilder/MysqlWhereParser";
 import WhereBuilder     from "../whereBuilder/WhereBuilder";
@@ -165,6 +167,20 @@ export default class MysqlQueryParser {
         });
 
         return result;
+    }
+
+
+    public parseEntity(classname: typeof Entity): string {
+
+        let 
+            schema: EntitySchema = new classname().schema,
+            sql   : string       = "CREATE TABLE ";
+
+        schema.props.forEach((prop: EntityProp) => {
+            console.log(prop);
+        });
+
+        return sql;
     }
 
     

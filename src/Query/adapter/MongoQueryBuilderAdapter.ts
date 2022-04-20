@@ -4,7 +4,7 @@ import MongoDbQueryExecutor   from "../queryExecutor/MongoDbQueryExecutor";
 import QueryBuilderAdapter    from "./QueryBuilderAdapter";
 import { QueryData }          from '../QueryBuilder';
 import { MongoDbQueryParser } from "../parser/MongoDbQueryParser";
-import Entity from "../../Entity/Entity";
+import Entity                 from "../../Entity/Entity";
 
 
 
@@ -39,6 +39,10 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
     }
 
 
+    public async createTableFromEntity(classname: typeof Entity): Promise<any> {
+        
+    }
+
     createDb(): void {
         console.log("Method not implemented.");
     }
@@ -46,7 +50,6 @@ export default class MongoQueryBuilderAdapter implements QueryBuilderAdapter {
     insertOne(queryData: QueryData, obj: Record<string, any> | Entity): Promise<any> {
         throw new Error("Method not implemented.");
     }
-
 
 
     //* end point method

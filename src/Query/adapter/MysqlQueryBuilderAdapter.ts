@@ -28,6 +28,15 @@ export default class MysqlQueryBuilderAdapter implements QueryBuilderAdapter {
     }
 
 
+    public async createTableFromEntity(classname: typeof Entity): Promise<any> {
+        
+        const
+            queryString: string = this.queryParser.parseEntity(classname);
+
+        console.log(queryString);
+    }
+
+
     //* end point method
     //! add different arguments this method is not simple
     public async getFieldsInfo(queryData: QueryData): Promise<Array<MysqlTableColumn>> {

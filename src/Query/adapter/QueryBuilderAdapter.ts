@@ -32,6 +32,8 @@ export default interface QueryBuilderAdapter {
 
     getTableNames(): Promise<Array<string>>
 
+    createTableFromEntity(classname: typeof Entity): Promise<any> // ! think about returned type
+
 
     //* find family
     findAll(queryData: QueryData): Promise<Array<Record<string, any>>> // ! returned type will be another, you know. i will refactor this later
@@ -45,5 +47,4 @@ export default interface QueryBuilderAdapter {
     removeById(queryData: QueryData): Promise<any> //! think about returned type
 
     insertOne(queryData: QueryData, obj: Record<string, any> | Entity): Promise<any> //! think about returned type
-
 }

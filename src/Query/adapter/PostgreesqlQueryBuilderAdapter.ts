@@ -2,6 +2,7 @@ import { Pool }            from 'pg';
 import { QueryData } from '../QueryBuilder';
 import WhereChain from '../whereBuilder/WhereBuilder';
 import QueryBuilderAdapter from './QueryBuilderAdapter';
+import Entity from '../../Entity';
 
 
 export default class PostgreesqlQueryBuilderAdapter implements QueryBuilderAdapter {
@@ -11,6 +12,22 @@ export default class PostgreesqlQueryBuilderAdapter implements QueryBuilderAdapt
 
     constructor(pool: Pool) {
         this.pool = pool;
+    }
+
+    findOne(queryData: QueryData): Promise<Record<string, any>> {
+        throw new Error('Method not implemented.');
+    }
+
+    remove(queryData: QueryData): Promise<any> {
+        throw new Error('Method not implemented.');
+    }
+
+    removeById(queryData: QueryData): Promise<any> {
+        throw new Error('Method not implemented.');
+    }
+    
+    insertOne(queryData: QueryData, obj: Record<string, any> | Entity): Promise<any> {
+        throw new Error('Method not implemented.');
     }
 
     getFieldsInfo(queryData: QueryData): Promise<Record<string, any>[]> {
@@ -46,7 +63,7 @@ export default class PostgreesqlQueryBuilderAdapter implements QueryBuilderAdapt
     }
 
     
-    public createTable() {
+    public async createTableFromEntity(classname: typeof Entity): Promise<any> {
         
     }
 }

@@ -11,7 +11,7 @@ export async function mongoRun() {
         const db = client.db("dreamOrm");
         console.log("connected");
 
-        const test = db.collection("test");
+        const test = await db.collection("test").findOne({title: 'titl4'});
 
         // const cursor = test.aggregate([
         //     {

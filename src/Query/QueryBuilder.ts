@@ -25,7 +25,7 @@ export interface QueryData {
 type whereRecord =  string | number | boolean;
 
 
-//! add queryData clear
+//! create new QueryBuilder for Entity
 export default class QueryBuilder {
 
 
@@ -58,8 +58,8 @@ export default class QueryBuilder {
     }
 
 
-    public createTable(): any {
-
+    public async createTableFromEntity(classname: typeof Entity): Promise<any> {
+        return await this.queryBuilderAdapter.createTableFromEntity(classname);
     }
 
 

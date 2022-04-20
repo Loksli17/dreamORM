@@ -21,7 +21,8 @@ export interface HashEntityConnection {
 export default class Entity {
 
 
-    protected get schema(): EntitySchema {
+    //? avoid public of this
+    public get schema(): EntitySchema {
         let schema: EntitySchema;
         let target: Object = Object.getPrototypeOf(this);
         schema = Reflect.getOwnMetadata('schema', target)

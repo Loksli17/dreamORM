@@ -20,11 +20,12 @@ class DreamOrm {
     private connections    : Array<Connection>    = [];
     private hashConnections: HashEntityConnection = {};  
 
-    public constructor(connections: Array<Connection> = []){
+    public constructor(connections: Array<Connection> = []) {
+
         this.connections = connections;
         
         if(DreamOrm.instance){
-            this.connections = DreamOrm.instance.connections;
+            this.connections     = DreamOrm.instance.connections;
             this.hashConnections = DreamOrm.instance.hashConnections;
         } else {
             DreamOrm.instance = this;
@@ -44,7 +45,6 @@ class DreamOrm {
     }
 
     public getConnectionByEntity(entityClassName: string): Connection {
-        console.log(this.hashConnections[entityClassName], entityClassName)
         return this.hashConnections[entityClassName][0];
     }
 
